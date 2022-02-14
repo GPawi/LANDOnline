@@ -1,7 +1,6 @@
 octave
-octave-image
-io
-statistics
-dataframe
-struct
-parallel
+octave-io
+octave-statistics
+octave-dataframe
+octave-struct
+octave-parallel
