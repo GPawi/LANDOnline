@@ -26,11 +26,8 @@ install.packages('rstan')
 install.packages('sets')
 install.packages('tidyverse')
 install.packages('tseries')
-
 library('devtools')
-
 install_version('clam', version='2.3.9', repos= "https://cloud.r-project.org")
 install_version('rbacon', version='2.5.2', repos= "https://cloud.r-project.org")
-
 remotes::install_github("earthsystemdiagnostics/hamstr)
 remotes::install_github("earthsystemdiagnostics/hamstrbacon")
