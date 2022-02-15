@@ -1,6 +1,6 @@
 LANDO: Linked age-depth modeling
 ========
-
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GPawi/LANDOnline/main?labpath=LANDO.ipynb)
 [![DOI](https://zenodo.org/badge/432999664.svg)](https://zenodo.org/badge/latestdoi/432999664)
 
 <!-- LOGO -->

@@ -22,6 +22,7 @@ dependencies:
   - dask==2021.10.0
   - distributed==2021.10.0
   - pyarrow
+  - ipyfilechooser
   - pip
   - pip:
       - IPython==7.26.0
