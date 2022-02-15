@@ -24,6 +24,7 @@ dependencies:
   - pyarrow
   - ipyfilechooser
   - pip
+  - jupyterlab-sos
   - pip:
       - IPython==7.26.0
       - sos==0.22.5
