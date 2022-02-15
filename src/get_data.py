@@ -15,9 +15,6 @@ import getpass
 import xlrd
 xlrd.xlsx.ensure_elementtree_imported(False, None)
 xlrd.xlsx.Element_has_iter = True
-from IPython import get_ipython #maybe has to go
-from tkinter import Tk #maybe has to go
-from tkinter.filedialog import askopenfilename #maybe has to go
 from ipyfilechooser import FileChooser
 from psycopg2.extras import NumericRange
 from sqlalchemy.exc import IntegrityError
