@@ -1,1 +1,2 @@
 python3 -m sos_notebook.install
+cp -R src/kernel.py /srv/conda/envs/notebook/lib/python3.7/site-packages/sos_notebook/kernel.py
