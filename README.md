@@ -42,31 +42,18 @@ MATLAB[^1] | 2020b
 <!-- USAGE OF LANDO -->
 ## _Run LANDO_
 
-Open your `Anaconda Powershell Prompt` or `Terminal`(and start conda). Then change to the directory of the LANDO-main repository. Activate your environment and lunch Jupyter Notebook. In our working example, we use a **Windows** machine, the `Anaconda Powershell Prompt` and the LANDO-main folder on another drive: 
-
-~~~
-> pushd E:/LANDO-main
-> conda activate LANDO
-> jupyter notebook
-~~~
-
-Launch **LANDO** by clicking on LANDO.ipynb.
-
-There are four ways to retrieve age determination data: 
+There are two ways in LANDOnline to retrieve age determination data: 
 
 Input | Code  
 :---- | :---- 
 Data for one single core from file | `dates = gd.AgeFromFileOneCore()` 
 Data for multiple cores from file | `dates = gd.AgeFromFileMultiCore()`  
-Data for one single core from a database | `dates = gd.AgeFromDBOneCore()`  
-Data for multiple cores from a database | `dates = gd.AgeFromDBMultiCore()`
 
-And two ways to retrieve proxy data:
+And one ways to retrieve proxy data:
 
 Input | Code  
 :---- | :---- 
 Data from file | `proxy = gd.ProxyFromFile()` 
-Data from database | `proxy = gd.ProxyFromDB()` 
 
 There are different parameters that can be adjusted for each modeling software in LANDO
 
@@ -106,7 +93,7 @@ If you want to know more about the implemented functions, please use the `help()
 > returns:
     Main output plot from LANDO
 
-You can close the notebook using `File` --> `Close and halt`. On the main page click on `Quit` and close the tab. Enter `exit` in the `Anaconda Powershell Prompt` or `Terminal` to stop conda. In case of hidden running processes, use `Alt`+`F4` (**Windows**) or `command`+`Q` (**macOS**).
+You can close the notebook using `File` --> `Shutdown` and then `File` --> `Logout`.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
