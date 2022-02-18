@@ -24,6 +24,8 @@ dependencies:
   - distributed==2021.10.0
   - pyarrow
   - ipyfilechooser
+  - ipysheet
+  - ipywidgets
   - pip
   - jupyterlab-sos
   - pip:
