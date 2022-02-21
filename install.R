@@ -1,30 +1,30 @@
-install.packages("arrow", repos= "https://cloud.r-project.org")
-install.packages("Bchron", repos= "https://cloud.r-project.org")
-install.packages("changepoint", repos= "https://cloud.r-project.org")
-install.packages("DescTools", repos= "https://cloud.r-project.org")
-install.packages("devtools", repos= "https://cloud.r-project.org")
-install.packages("doParallel", repos= "https://cloud.r-project.org")
-install.packages("doRNG", repos= "https://cloud.r-project.org")
-install.packages("doSNOW", repos= "https://cloud.r-project.org")
-install.packages("dplyr", repos= "https://cloud.r-project.org")
-install.packages("ff", repos= "https://cloud.r-project.org")
-install.packages("ffbase", repos= "https://cloud.r-project.org")
-install.packages("foreach", repos= "https://cloud.r-project.org")
-install.packages("forecast", repos= "https://cloud.r-project.org")
-install.packages("FuzzyNumbers", repos= "https://cloud.r-project.org")
-install.packages("IntCal", repos= "https://cloud.r-project.org")
-install.packages("knitr", repos= "https://cloud.r-project.org")
-install.packages("lubridate", repos= "https://cloud.r-project.org")
-install.packages("maptools", repos= "https://cloud.r-project.org")
-install.packages("Metrics", repos= "https://cloud.r-project.org")
-install.packages("nloptr", repos= "https://cloud.r-project.org")
-install.packages("R.devices", repos= "https://cloud.r-project.org")
-install.packages("raster", repos= "https://cloud.r-project.org")
-install.packages("remotes", repos= "https://cloud.r-project.org")
-install.packages("rstan", repos= "https://cloud.r-project.org")
-install.packages("sets", repos= "https://cloud.r-project.org")
-install.packages("tseries", repos= "https://cloud.r-project.org")
-install.packages("tidyverse", repos= "https://cloud.r-project.org")
+install.packages(c("arrow",
+"Bchron",
+"changepoint",
+"DescTools",
+"devtools",
+"doParallel", 
+"doRNG", 
+"doSNOW", 
+"dplyr", 
+"ff", 
+"ffbase",
+"foreach",
+"forecast", 
+"FuzzyNumbers",
+"IntCal",
+"knitr",
+"lubridate",
+"maptools",
+"Metrics",
+"nloptr",
+"R.devices", 
+"raster", 
+"remotes",
+"rstan", 
+"sets", 
+"tseries", 
+"tidyverse"), repos= "https://cloud.r-project.org")
 library("devtools")
 install_github("earthsystemdiagnostics/hamstr", ref="master", args = "--preclean")
 install_github("earthsystemdiagnostics/hamstrbacon", ref="main")
