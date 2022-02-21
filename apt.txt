@@ -10,3 +10,4 @@ libproj-dev
 proj-data
 proj-bin
 libgeos-dev
+libudunits2-dev
