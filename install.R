@@ -24,7 +24,7 @@ install.packages(c("Bchron",
 "rstan", 
 "sets", 
 "tseries", 
-"tidyverse"), repos= "https://cloud.r-project.org")# when I know everythin is working, quiet = TRUE) 
+"tidyverse"), repos= "https://cloud.r-project.org")
 library("devtools")
 install_github("earthsystemdiagnostics/hamstr", ref="master", args = "--preclean")
 install_github("earthsystemdiagnostics/hamstrbacon", ref="main")
