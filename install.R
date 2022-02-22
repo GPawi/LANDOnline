@@ -25,7 +25,7 @@ install.packages(c("arrow",
 "rstan", 
 "sets", 
 "tseries", 
-"tidyverse"), repos= "https://cloud.r-project.org")
+"tidyverse"), repos= "https://cloud.r-project.org", quiet = TRUE)
 library("devtools")
 install_github("earthsystemdiagnostics/hamstr", ref="master", args = "--preclean")
 install_github("earthsystemdiagnostics/hamstrbacon", ref="main")
