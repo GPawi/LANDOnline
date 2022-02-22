@@ -25,6 +25,7 @@ dependencies:
   - dask==2021.10.0
   - distributed==2021.10.0
   - pyarrow
+  - r-arrow
   - ipyfilechooser
   - ipysheet
   - ipywidgets
