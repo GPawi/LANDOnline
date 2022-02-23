@@ -37,8 +37,8 @@ hamstr_parallel <- function(...) {
 ## Parallel add - Initialize cluster
 no_cores <- detectCores(logical = TRUE)
 if ((no_cores/4) < length(CoreIDs)) {
-  cl <- makeCluster((no_cores/4), outfile = "", autoStop = TRUE)
-  } else {cl <- makeCluster(length(CoreIDs), outfile = "", autoStop = TRUE)} 
+  cl <- makeCluster((no_cores/4), outfile = "", autoStop = TRUE, type="FORK")
+  } else {cl <- makeCluster(length(CoreIDs), outfile = "", autoStop = TRUE, type="FORK")} 
 registerDoSNOW(cl)
 seed <- 210330
 
