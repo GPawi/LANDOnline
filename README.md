@@ -1,6 +1,6 @@
 LANDO: Linked age-depth modeling
 ========
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GPawi/LANDOnline/main?labpath=LANDO.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GPawi/LANDOnline/main?labpath=LANDOnline.ipynb)
 [![DOI](https://zenodo.org/badge/432999664.svg)](https://zenodo.org/badge/latestdoi/432999664)
 
 <!-- LOGO -->
@@ -33,7 +33,7 @@ We used the following programming languages versions to develop **LANDO**:
 Programming language | Version  
 :---- | ----: 
 R | 4.1.2  
-Python | 3.9 
+Python | 3.7 
 Octave | 6.4.0 
 MATLAB[^1] | 2020b  
 
