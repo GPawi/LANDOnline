@@ -1,4 +1,3 @@
-octave
 octave-io
 octave-statistics
 octave-dataframe
