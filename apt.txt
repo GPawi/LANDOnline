@@ -1,6 +1,0 @@
-octave=6.4.0
-octave-io
-octave-statistics
-octave-dataframe
-octave-struct
-octave-parallel
