@@ -6,38 +6,41 @@ dependencies:
   - gdal
   - proj
   - octave
-  - matplotlib==3.7.1
-  - numpy==1.24.2
-  - pandas==1.5.3
-  - seaborn==0.12.2
-  - sos-python==0.18.4
-  - sos-r==0.19.6
-  - octave_kernel==0.35.1
-  - jupyter_client==6.1.7
-  - jupyter_core==5.2.0
-  - jupyter_server==1.13.5
-  - nbclient==0.7.0
-  - nbconvert==7.2.9
-  - nbformat==5.7.3
-  - notebook==6.5.3
-  - psycopg2==2.8.6
-  - scipy==1.10.1
-  - sqlalchemy==2.0.5.post1
-  - dask==2021.7.1
-  - distributed==2021.7.1
-  - sos-octave
-  - pyarrow==2.0.0
-  - ipyfilechooser==0.6.0
-  - ipysheet==0.7.0
-  - ipywidgets==7.6.5
-  - openpyxl==3.1.1
+  - matplotlib
+  - numpy
+  - pandas
+  - seaborn
+  - jupyter_client
+  - jupyter_core
+  - jupyter_server
+  - nbclient
+  - nbconvert
+  - nbformat
+  - notebook
+  - psycopg2
+  - scipy
+  - sqlalchemy
+  - dask
+  - distributed
+  - ipyfilechooser
+  - ipysheet
+  - openpyxl
+  - jupyterlab-sos
+  - mamba
   - pip
-  - jupyterlab-sos==0.9.0
+  - mamba:
+      - pyarrow
   - pip:
-      - IPython==7.26.0
-      - sos==0.22.5
-      - sos-notebook==0.22.6
-      - sos-matlab==0.18.5
+      - sos==0.24.0
+      - sos-python==0.20.0
+      - sos-notebook==0.24.0
+      - sos-r==0.20.0
+      - sos-matlab==0.20.0
       - joblib==0.17.0
-      - xlrd==2.0.1
-      - ipykernel==6.0.3
+      - xlrd==1.2.0
+      - ipykernel==6.15.0
+      - ipywidgets==8.0.2
+      - ipython==8.4.0
+      - octave_kernel
+
+  

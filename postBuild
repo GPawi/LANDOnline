@@ -1,4 +1,4 @@
-python3 -m sos_notebook.install
+python -m sos_notebook.install
 cp -R src/kernel.py /srv/conda/envs/notebook/lib/python3.7/site-packages/sos_notebook/kernel.py
 Rscript -e 'Sys.setenv(LIBARROW_MINIMAL = FALSE);Sys.setenv(ARROW_R_DEV = TRUE);install.packages("arrow", type = "source", repos= "https://cloud.r-project.org")'
 octave --eval "pkg install -forge io"
