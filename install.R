@@ -26,7 +26,7 @@ install.packages(c("Bchron",
 "tseries", 
 "tidyverse"), repos= "https://cloud.r-project.org")
 library("devtools")
-install_github("earthsystemdiagnostics/hamstr", ref="master", args = "--preclean")
+install_github("earthsystemdiagnostics/hamstr", ref="master")
 install_github("earthsystemdiagnostics/hamstrbacon", ref="main")
 install_version("clam", version="2.3.9", repos= "https://cloud.r-project.org")
 install_version("rbacon", version="2.5.2", repos= "https://cloud.r-project.org")

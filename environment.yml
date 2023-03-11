@@ -27,6 +27,7 @@ dependencies:
   - jupyterlab-sos
   - pip
   - pyarrow
+  - r-terra
   - pip:
       - sos==0.24.0
       - sos-python==0.20.0
