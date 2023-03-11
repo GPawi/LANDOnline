@@ -5,4 +5,4 @@ libfreetype6-dev
 libpng-dev
 libtiff5-dev
 libjpeg-dev
-octave
+liboctave-dev

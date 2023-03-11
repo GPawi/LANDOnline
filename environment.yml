@@ -5,6 +5,7 @@ dependencies:
   - cmake
   - gdal
   - proj
+  - octave
   - matplotlib
   - numpy
   - pandas
@@ -27,6 +28,7 @@ dependencies:
   - jupyterlab-sos
   - pip
   - pyarrow
+  - r-arrow
   - r-terra
   - pip:
       - sos==0.24.0
