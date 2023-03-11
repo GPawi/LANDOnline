@@ -1,29 +1,6 @@
-list.of.packages <- c("Bchron",
-"changepoint",
-"devtools",
-"doParallel", 
-"doRNG", 
-"doSNOW", 
-"dplyr", 
-"ff", 
-"foreach",
-"forecast", 
-"IntCal",
-"nloptr",
-"R.devices",
-"Rcpp", 
-"remotes", 
-"sets",
-"tidyverse")
-
-new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-if(length(new.packages)) {
-    install.packages(new.packages, repos = "https://cloud.r-project.org")
-    }
-
+install.packages("Bchron", repos = "https://cloud.r-project.org")
 library("devtools")
 Sys.setenv(DOWNLOAD_STATIC_LIBV8 = 1)
-install.packages("rstan")
 install_github("edwindj/ffbase", subdir="pkg")
 install_github("earthsystemdiagnostics/hamstr", ref="master")
 install_github("earthsystemdiagnostics/hamstrbacon", ref="main")

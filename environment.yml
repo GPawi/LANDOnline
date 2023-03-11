@@ -34,6 +34,23 @@ dependencies:
   - pyarrow
   - r-arrow
   - r-terra
+  - r-changepoint
+  - r-doparallel
+  - r-dorng
+  - r-dosnow
+  - r-dply
+  - r-ff
+  - r-foreach
+  - r-forecast
+  - r-intcal
+  - r-nloptr
+  - r-r.devices
+  - r-rcpp
+  - r-remotes
+  - r-sets
+  - r-tidyverse
+  - r-raster
+  - r-stan
   - pip:
       - sos==0.24.0
       - sos-python==0.20.0
