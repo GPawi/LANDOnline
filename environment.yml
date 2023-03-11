@@ -6,6 +6,10 @@ dependencies:
   - gdal
   - proj
   - octave
+  - gnuplot
+  - octave_kernel
+  - texinfo
+  - cxx-compiler
   - matplotlib
   - numpy
   - pandas
@@ -41,6 +45,5 @@ dependencies:
       - ipykernel==6.15.0
       - ipywidgets==8.0.2
       - ipython==8.4.0
-      - octave_kernel
       - jupyter_contrib_core
   

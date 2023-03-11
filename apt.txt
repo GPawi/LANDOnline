@@ -5,4 +5,7 @@ libfreetype6-dev
 libpng-dev
 libtiff5-dev
 libjpeg-dev
+# according to plasmabio/template-octave
+libglu1
+libtbb2
 liboctave-dev
