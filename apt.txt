@@ -10,5 +10,6 @@ libglu1
 libtbb2
 liboctave-dev
 # for rstan accoding to their wiki
+r-base
+r-base-dev
 libcurl4-openssl-dev 
-r-cran-rstan
