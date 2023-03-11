@@ -45,6 +45,7 @@ dependencies:
   - r-intcal
   - r-nloptr
   - r-r.devices
+  - r-plyr
   - r-rcpp
   - r-remotes
   - r-sets
