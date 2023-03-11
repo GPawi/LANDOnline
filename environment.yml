@@ -38,7 +38,7 @@ dependencies:
   - r-doparallel
   - r-dorng
   - r-dosnow
-  - r-dply
+  - r-dplyr
   - r-ff
   - r-foreach
   - r-forecast
@@ -50,7 +50,6 @@ dependencies:
   - r-sets
   - r-tidyverse
   - r-raster
-  - r-stan
   - pip:
       - sos==0.24.0
       - sos-python==0.20.0
