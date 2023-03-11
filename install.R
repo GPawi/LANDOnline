@@ -14,7 +14,7 @@ install.packages(c("Bchron",
 "Rcpp", 
 "remotes", 
 "sets",
-"tidyverse"), repos= "https://cloud.r-project.org")
+"tidyverse"))
 library("devtools")
 Sys.setenv(DOWNLOAD_STATIC_LIBV8 = 1)
 install.packages("rstan")
