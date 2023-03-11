@@ -24,6 +24,8 @@ install.packages(c("Bchron",
 "tseries", 
 "tidyverse"), repos= "https://cloud.r-project.org")
 library("devtools")
+Sys.setenv(DOWNLOAD_STATIC_LIBV8 = 1)
+install.packages("rstan")
 install_github("edwindj/ffbase", subdir="pkg")
 install_github("earthsystemdiagnostics/hamstr", ref="master")
 install_github("earthsystemdiagnostics/hamstrbacon", ref="main")
