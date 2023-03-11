@@ -1,4 +1,4 @@
-install.packages(c("Bchron",
+list.of.packages <- c("Bchron",
 "changepoint",
 "devtools",
 "doParallel", 
@@ -14,7 +14,13 @@ install.packages(c("Bchron",
 "Rcpp", 
 "remotes", 
 "sets",
-"tidyverse"))
+"tidyverse")
+
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) {
+    install.packages(new.packages, repos = "https://cloud.r-project.org")
+    }
+
 library("devtools")
 Sys.setenv(DOWNLOAD_STATIC_LIBV8 = 1)
 install.packages("rstan")
