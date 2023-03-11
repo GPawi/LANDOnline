@@ -51,6 +51,7 @@ dependencies:
   - r-sets
   - r-tidyverse
   - r-raster
+  - r-rstan
   - r-usethis
   - pip:
       - sos==0.24.0

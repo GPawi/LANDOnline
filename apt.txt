@@ -14,3 +14,5 @@ r-base
 r-base-dev
 libcurl4-openssl-dev 
 htop
+# according to rocker-binder
+libgsl0-dev
