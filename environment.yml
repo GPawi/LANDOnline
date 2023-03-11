@@ -50,6 +50,7 @@ dependencies:
   - r-sets
   - r-tidyverse
   - r-raster
+  - r-usethis
   - pip:
       - sos==0.24.0
       - sos-python==0.20.0
