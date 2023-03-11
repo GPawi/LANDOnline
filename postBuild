@@ -1,5 +1,0 @@
-octave --eval "pkg install -forge io"
-octave --eval "pkg install -forge statistics"
-octave --eval "pkg install -forge dataframe"
-octave --eval "pkg install -forge struct"
-octave --eval "pkg install -forge parallel"
