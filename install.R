@@ -1,6 +1,6 @@
 install.packages("Bchron", repos = "https://cloud.r-project.org")
 library("devtools")
-Sys.setenv(DOWNLOAD_STATIC_LIBV8 = 1)
+#Sys.setenv(DOWNLOAD_STATIC_LIBV8 = 1)
 install.packages("rstan", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
 install_github("edwindj/ffbase", subdir="pkg")
 install_github("earthsystemdiagnostics/hamstr", ref="master")
