@@ -13,8 +13,7 @@ install.packages(c("Bchron",
 "R.devices",
 "Rcpp", 
 "remotes", 
-"sets", 
-"stats",
+"sets",
 "tidyverse"), repos= "https://cloud.r-project.org")
 library("devtools")
 Sys.setenv(DOWNLOAD_STATIC_LIBV8 = 1)
