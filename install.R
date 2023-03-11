@@ -7,7 +7,6 @@ install.packages(c("Bchron",
 "doSNOW", 
 "dplyr", 
 "ff", 
-"ffbase",
 "foreach",
 "forecast", 
 "FuzzyNumbers",
@@ -20,12 +19,12 @@ install.packages(c("Bchron",
 "R.devices",
 "Rcpp", 
 "raster", 
-"remotes",
-"rstan", 
+"remotes", 
 "sets", 
 "tseries", 
 "tidyverse"), repos= "https://cloud.r-project.org")
 library("devtools")
+install_github("edwindj/ffbase", subdir="pkg")
 install_github("earthsystemdiagnostics/hamstr", ref="master")
 install_github("earthsystemdiagnostics/hamstrbacon", ref="main")
 install_version("clam", version="2.3.9", repos= "https://cloud.r-project.org")
