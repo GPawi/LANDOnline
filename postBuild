@@ -1,3 +1,3 @@
 python -m sos_notebook.install
-conda activate LANDO
+R library("rstan")
 Rscript install.R
