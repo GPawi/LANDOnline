@@ -1,2 +1,3 @@
 python -m sos_notebook.install
+conda activate LANDO
 Rscript install.R
