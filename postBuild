@@ -1,3 +1,4 @@
 python -m sos_notebook.install
+cd ${HOME}
 octave --no-gui --eval "pkg install -local -forge io statistics struct parallel statistics"
 #Rscript install.R
