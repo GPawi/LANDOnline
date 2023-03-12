@@ -1,3 +1,4 @@
 python -m sos_notebook.install
-octave -q install_octave.m
+octave
+pkg list
 #Rscript install.R
