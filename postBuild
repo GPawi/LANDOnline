@@ -1,7 +1,7 @@
 python -m sos_notebook.install
-octave pkg install -forge io
-octave pkg install -forge statistics
-octave pkg install -forge dataframe
-octave pkg install -forge struct
-octave pkg install -forge parallel
+octave --no-gui --eval "pkg install -forge io"
+octave --no-gui --eval "pkg install -forge statistics"
+octave --no-gui --eval "pkg install -forge dataframe"
+octave --no-gui --eval "pkg install -forge struct"
+octave --no-gui --eval "pkg install -forge parallel"
 #Rscript install.R
