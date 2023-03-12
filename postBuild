@@ -1,3 +1,4 @@
 python -m sos_notebook.install
-conda activate /srv/conda/envs/LANDO
+conda init bash
+conda activate LANDO
 Rscript install.R
