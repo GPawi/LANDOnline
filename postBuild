@@ -1,3 +1,7 @@
 python -m sos_notebook.install
-octave -q install_octave.m
+octave pkg install -forge io
+octave pkg install -forge statistics
+octave pkg install -forge dataframe
+octave pkg install -forge struct
+octave pkg install -forge parallel
 #Rscript install.R
