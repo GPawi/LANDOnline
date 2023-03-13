@@ -1,0 +1,215 @@
+# doc-cache created by Octave 6.4.0
+# name: cache
+# type: cell
+# rows: 3
+# columns: 6
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+cloglog
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 166
+ -- cloglog (X)
+     Return the complementary log-log function of X.
+
+     The complementary log-log function is defined as
+
+          cloglog (x) = - log (- log (X))
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 47
+Return the complementary log-log function of X.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+crosstab
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 266
+ -- T = crosstab (X, Y)
+     Create a cross-tabulation (contingency table) T from data vectors.
+
+     The inputs X, Y must be vectors of equal length with a data type of
+     numeric, logical, or char.
+
+     Currently, only 1- and 2-dimensional tables are supported.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 66
+Create a cross-tabulation (contingency table) T from data vectors.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+logit
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 163
+ -- logit (P)
+     Compute the logit for each value of P
+
+     The logit is defined as
+
+          logit (P) = log (P / (1-P))
+
+     See also: probit, logistic_cdf.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 37
+Compute the logit for each value of P
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+ppplot
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 872
+ -- [P, Y] = ppplot (X, DIST, PARAMS)
+     Perform a PP-plot (probability plot).
+
+     If F is the CDF of the distribution DIST with parameters PARAMS and
+     X a sample vector of length N, the PP-plot graphs ordinate Y(I) = F
+     (I-th largest element of X) versus abscissa P(I) = (I - 0.5)/N.  If
+     the sample comes from F, the pairs will approximately follow a
+     straight line.
+
+     The default for DIST is the standard normal distribution.
+
+     The optional argument PARAMS contains a list of parameters of DIST.
+
+     For example, for a probability plot of the uniform distribution on
+     [2,4] and X, use
+
+          ppplot (x, "uniform", 2, 4)
+
+     DIST can be any string for which a function DIST_CDF that
+     calculates the CDF of distribution DIST exists.
+
+     If no output is requested then the data are plotted immediately.
+
+     See also: qqplot.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 37
+Perform a PP-plot (probability plot).
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+probit
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 139
+ -- probit (P)
+     Return the probit (the quantile of the standard normal
+     distribution) for each element of P.
+
+     See also: logit.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return the probit (the quantile of the standard normal distribution) for
+each...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+qqplot
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1139
+ -- [Q, S] = qqplot (X)
+ -- [Q, S] = qqplot (X, Y)
+ -- [Q, S] = qqplot (X, DIST)
+ -- [Q, S] = qqplot (X, Y, PARAMS)
+ -- qqplot (...)
+     Perform a QQ-plot (quantile plot).
+
+     If F is the CDF of the distribution DIST with parameters PARAMS and
+     G its inverse, and X a sample vector of length N, the QQ-plot
+     graphs ordinate S(I) = I-th largest element of x versus abscissa
+     Q(If) = G((I - 0.5)/N).
+
+     If the sample comes from F, except for a transformation of location
+     and scale, the pairs will approximately follow a straight line.
+
+     If the second argument is a vector Y the empirical CDF of Y is used
+     as DIST.
+
+     The default for DIST is the standard normal distribution.  The
+     optional argument PARAMS contains a list of parameters of DIST.
+     For example, for a quantile plot of the uniform distribution on
+     [2,4] and X, use
+
+          qqplot (x, "unif", 2, 4)
+
+     DIST can be any string for which a function DISTINV or DIST_INV
+     exists that calculates the inverse CDF of distribution DIST.
+
+     If no output arguments are given, the data are plotted directly.
+
+     See also: ppplot.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 34
+Perform a QQ-plot (quantile plot).
+
+
+
+
+

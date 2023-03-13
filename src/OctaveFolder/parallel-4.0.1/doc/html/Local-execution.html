@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- General documentation for the parallel package for Octave.
+
+Copyright (C) Olaf Till <i7tiol@t-online.de>
+
+You can redistribute this documentation and/or modify it under the terms
+of the GNU General Public License as published by the Free Software
+Foundation; either version 3 of the License, or (at your option) any
+later version.
+
+This documentation is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this documentation; if not, see <http://www.gnu.org/licenses/>. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Local execution (parallel_doc)</title>
+
+<meta name="description" content="Local execution (parallel_doc)">
+<meta name="keywords" content="Local execution (parallel_doc)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Function-index.html#Function-index" rel="index" title="Function index">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="parcellfun.html#parcellfun" rel="next" title="parcellfun">
+<link href="Installation.html#Installation" rel="prev" title="Installation">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Local-execution"></a>
+<div class="header">
+<p>
+Next: <a href="Cluster-execution.html#Cluster-execution" accesskey="n" rel="next">Cluster execution</a>, Previous: <a href="Installation.html#Installation" accesskey="p" rel="prev">Installation</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="Function-index.html#Function-index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Functions-for-local-parallel-execution"></a>
+<h2 class="chapter">2 Functions for local parallel execution</h2>
+<a name="index-local-execution"></a>
+
+<p>Explicit local parallel execution, with the intent to exploit more than
+one local processor(-core), is performed by calling a user-defined
+function in parallel with several different arguments. This is done in
+parallel <em>processes</em>. Note that there is no way to pass global
+variables to or from these processes.
+</p>
+<p>The interface of the functions for local parallel execution is similar
+to Octaves <code>cellfun</code> and <code>parcellfun</code> functions.
+</p>
+<p>Note that some operations in Octave, particularly some matrix
+operations, may already be performed in parallel threads. This may limit
+the advantage yielded by explicit local parallel execution. Also, RAM
+access can be a bottleneck which limits computation speed of multicore
+computing.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="parcellfun.html#parcellfun" accesskey="1">parcellfun</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Function parcellfun.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="pararrayfun.html#pararrayfun" accesskey="2">pararrayfun</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Function pararrayfun.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="parcellfun_005fset_005fnproc.html#parcellfun_005fset_005fnproc" accesskey="3">parcellfun_set_nproc</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Function parcellfun_set_nproc::
+</td></tr>
+</table>
+
+
+
+
+
+</body>
+</html>

@@ -1,4 +1,5 @@
 python -m sos_notebook.install
 mkdir -p .local/share/octave/api-v57/packages
 cp -a /usr/share/octave/packages/. /home/jovyan/.local/share/octave/api-v57/packages/
-#Rscript install.R
+cp -a /home/jovyan/src/OctaveFolder/. /home/jovyan/.local/share/octave/api-v57/packages/
+Rscript install.R

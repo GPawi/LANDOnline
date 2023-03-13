@@ -1,0 +1,2490 @@
+# doc-cache created by Octave 6.4.0
+# name: cache
+# type: cell
+# rows: 3
+# columns: 82
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+betacdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 160
+ -- betacdf (X, A, B)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the Beta distribution with parameters A and B.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+betainv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 155
+ -- betainv (X, A, B)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the Beta distribution with parameters A and B.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+betapdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 156
+ -- betapdf (X, A, B)
+     For each element of X, compute the probability density function
+     (PDF) at X of the Beta distribution with parameters A and B.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+betarnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 656
+ -- betarnd (A, B)
+ -- betarnd (A, B, R)
+ -- betarnd (A, B, R, C, ...)
+ -- betarnd (A, B, [SZ])
+     Return a matrix of random samples from the Beta distribution with
+     parameters A and B.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the common
+     size of A and B.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the Beta distribution with
+parameters ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+binocdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 243
+ -- binocdf (X, N, P)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the binomial distribution with parameters N and P,
+     where N is the number of trials and P is the probability of
+     success.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+binoinv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 238
+ -- binoinv (X, N, P)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the binomial distribution with parameters N and P,
+     where N is the number of trials and P is the probability of
+     success.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+binopdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 239
+ -- binopdf (X, N, P)
+     For each element of X, compute the probability density function
+     (PDF) at X of the binomial distribution with parameters N and P,
+     where N is the number of trials and P is the probability of
+     success.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+binornd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 734
+ -- binornd (N, P)
+ -- binornd (N, P, R)
+ -- binornd (N, P, R, C, ...)
+ -- binornd (N, P, [SZ])
+     Return a matrix of random samples from the binomial distribution
+     with parameters N and P, where N is the number of trials and P is
+     the probability of success.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the common
+     size of N and P.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the binomial distribution with
+paramet...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 10
+cauchy_cdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 285
+ -- cauchy_cdf (X)
+ -- cauchy_cdf (X, LOCATION, SCALE)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the Cauchy distribution with location parameter
+     LOCATION and scale parameter SCALE.
+
+     Default values are LOCATION = 0, SCALE = 1.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 10
+cauchy_inv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 280
+ -- cauchy_inv (X)
+ -- cauchy_inv (X, LOCATION, SCALE)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the Cauchy distribution with location parameter
+     LOCATION and scale parameter SCALE.
+
+     Default values are LOCATION = 0, SCALE = 1.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 10
+cauchy_pdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 285
+ -- cauchy_pdf (X)
+ -- cauchy_pdf (X, LOCATION, SCALE)
+     For each element of X, compute the probability density function
+     (PDF) at X of the Cauchy distribution with location parameter
+     LOCATION and scale parameter SCALE > 0.
+
+     Default values are LOCATION = 0, SCALE = 1.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 10
+cauchy_rnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 736
+ -- cauchy_rnd (LOCATION, SCALE)
+ -- cauchy_rnd (LOCATION, SCALE, R)
+ -- cauchy_rnd (LOCATION, SCALE, R, C, ...)
+ -- cauchy_rnd (LOCATION, SCALE, [SZ])
+     Return a matrix of random samples from the Cauchy distribution with
+     parameters LOCATION and SCALE.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the common
+     size of LOCATION and SCALE.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the Cauchy distribution with
+parameter...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+chi2cdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 170
+ -- chi2cdf (X, N)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the chi-square distribution with N degrees of
+     freedom.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+chi2inv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 160
+ -- chi2inv (X, N)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the chi-square distribution with N degrees of freedom.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+chi2pdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 166
+ -- chi2pdf (X, N)
+     For each element of X, compute the probability density function
+     (PDF) at X of the chi-square distribution with N degrees of
+     freedom.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+chi2rnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 639
+ -- chi2rnd (N)
+ -- chi2rnd (N, R)
+ -- chi2rnd (N, R, C, ...)
+ -- chi2rnd (N, [SZ])
+     Return a matrix of random samples from the chi-square distribution
+     with N degrees of freedom.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the size
+     of N.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the chi-square distribution with
+N deg...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+expcdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 215
+ -- expcdf (X, LAMBDA)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the exponential distribution with mean LAMBDA.
+
+     The arguments can be of common size or scalars.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+expinv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 156
+ -- expinv (X, LAMBDA)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the exponential distribution with mean LAMBDA.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+exppdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 157
+ -- exppdf (X, LAMBDA)
+     For each element of X, compute the probability density function
+     (PDF) at X of the exponential distribution with mean LAMBDA.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+exprnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 652
+ -- exprnd (LAMBDA)
+ -- exprnd (LAMBDA, R)
+ -- exprnd (LAMBDA, R, C, ...)
+ -- exprnd (LAMBDA, [SZ])
+     Return a matrix of random samples from the exponential distribution
+     with mean LAMBDA.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the size
+     of LAMBDA.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the exponential distribution with
+mean...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 4
+fcdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 162
+ -- fcdf (X, M, N)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the F distribution with M and N degrees of freedom.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 4
+finv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 157
+ -- finv (X, M, N)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the F distribution with M and N degrees of freedom.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 4
+fpdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 158
+ -- fpdf (X, M, N)
+     For each element of X, compute the probability density function
+     (PDF) at X of the F distribution with M and N degrees of freedom.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 4
+frnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 649
+ -- frnd (M, N)
+ -- frnd (M, N, R)
+ -- frnd (M, N, R, C, ...)
+ -- frnd (M, N, [SZ])
+     Return a matrix of random samples from the F distribution with M
+     and N degrees of freedom.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the common
+     size of M and N.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the F distribution with M and N
+degree...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+gamcdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 176
+ -- gamcdf (X, A, B)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the Gamma distribution with shape parameter A and
+     scale B.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+gaminv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 171
+ -- gaminv (X, A, B)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the Gamma distribution with shape parameter A and
+     scale B.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+gampdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 171
+ -- gampdf (X, A, B)
+     For each element of X, return the probability density function
+     (PDF) at X of the Gamma distribution with shape parameter A and
+     scale B.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, return the probability density function (PDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+gamrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 664
+ -- gamrnd (A, B)
+ -- gamrnd (A, B, R)
+ -- gamrnd (A, B, R, C, ...)
+ -- gamrnd (A, B, [SZ])
+     Return a matrix of random samples from the Gamma distribution with
+     shape parameter A and scale B.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the common
+     size of A and B.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the Gamma distribution with shape
+para...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+geocdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 292
+ -- geocdf (X, P)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the geometric distribution with parameter P.
+
+     The geometric distribution models the number of failures (X) of a
+     Bernoulli trial with probability P before the first success.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+geoinv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 287
+ -- geoinv (X, P)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the geometric distribution with parameter P.
+
+     The geometric distribution models the number of failures (X) of a
+     Bernoulli trial with probability P before the first success.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+geopdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 288
+ -- geopdf (X, P)
+     For each element of X, compute the probability density function
+     (PDF) at X of the geometric distribution with parameter P.
+
+     The geometric distribution models the number of failures (X) of a
+     Bernoulli trial with probability P before the first success.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+geornd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 763
+ -- geornd (P)
+ -- geornd (P, R)
+ -- geornd (P, R, C, ...)
+ -- geornd (P, [SZ])
+     Return a matrix of random samples from the geometric distribution
+     with parameter P.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the size
+     of P.
+
+     The geometric distribution models the number of failures (X) of a
+     Bernoulli trial with probability P before the first success.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the geometric distribution with
+parame...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+hygecdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 455
+ -- hygecdf (X, T, M, N)
+     Compute the cumulative distribution function (CDF) at X of the
+     hypergeometric distribution with parameters T, M, and N.
+
+     This is the probability of obtaining not more than X marked items
+     when randomly drawing a sample of size N without replacement from a
+     population of total size T containing M marked items.
+
+     The parameters T, M, and N must be positive integers with M and N
+     not greater than T.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute the cumulative distribution function (CDF) at X of the
+hypergeometric...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+hygeinv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 464
+ -- hygeinv (X, T, M, N)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the hypergeometric distribution with parameters T, M,
+     and N.
+
+     This is the probability of obtaining X marked items when randomly
+     drawing a sample of size N without replacement from a population of
+     total size T containing M marked items.
+
+     The parameters T, M, and N must be positive integers with M and N
+     not greater than T.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+hygepdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 437
+ -- hygepdf (X, T, M, N)
+     Compute the probability density function (PDF) at X of the
+     hypergeometric distribution with parameters T, M, and N.
+
+     This is the probability of obtaining X marked items when randomly
+     drawing a sample of size N without replacement from a population of
+     total size T containing M marked items.
+
+     The parameters T, M, and N must be positive integers with M and N
+     not greater than T.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute the probability density function (PDF) at X of the
+hypergeometric dis...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+hygernd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 783
+ -- hygernd (T, M, N)
+ -- hygernd (T, M, N, R)
+ -- hygernd (T, M, N, R, C, ...)
+ -- hygernd (T, M, N, [SZ])
+     Return a matrix of random samples from the hypergeometric
+     distribution with parameters T, M, and N.
+
+     The parameters T, M, and N must be positive integers with M and N
+     not greater than T.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the common
+     size of T, M, and N.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the hypergeometric distribution
+with p...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 22
+kolmogorov_smirnov_cdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 416
+ -- kolmogorov_smirnov_cdf (X, TOL)
+     Return the cumulative distribution function (CDF) at X of the
+     Kolmogorov-Smirnov distribution.
+
+     This is defined as
+
+                   Inf
+          Q(x) =   SUM    (-1)^k exp (-2 k^2 x^2)
+                 k = -Inf
+
+     for X > 0.
+
+     The optional parameter TOL specifies the precision up to which the
+     series should be evaluated; the default is TOL = 'eps'.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return the cumulative distribution function (CDF) at X of the
+Kolmogorov-Smir...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 11
+laplace_cdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 137
+ -- laplace_cdf (X)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the Laplace distribution.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 11
+laplace_inv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 132
+ -- laplace_inv (X)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the Laplace distribution.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 11
+laplace_pdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 133
+ -- laplace_pdf (X)
+     For each element of X, compute the probability density function
+     (PDF) at X of the Laplace distribution.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 11
+laplace_rnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 509
+ -- laplace_rnd (R)
+ -- laplace_rnd (R, C, ...)
+ -- laplace_rnd ([SZ])
+     Return a matrix of random samples from the Laplace distribution.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 64
+Return a matrix of random samples from the Laplace distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 12
+logistic_cdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 139
+ -- logistic_cdf (X)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the logistic distribution.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 12
+logistic_inv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 134
+ -- logistic_inv (X)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the logistic distribution.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 12
+logistic_pdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 104
+ -- logistic_pdf (X)
+     For each element of X, compute the PDF at X of the logistic
+     distribution.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 73
+For each element of X, compute the PDF at X of the logistic
+distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 12
+logistic_rnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 513
+ -- logistic_rnd (R)
+ -- logistic_rnd (R, C, ...)
+ -- logistic_rnd ([SZ])
+     Return a matrix of random samples from the logistic distribution.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 65
+Return a matrix of random samples from the logistic distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+logncdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 380
+ -- logncdf (X)
+ -- logncdf (X, MU, SIGMA)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the lognormal distribution with parameters MU and
+     SIGMA.
+
+     If a random variable follows this distribution, its logarithm is
+     normally distributed with mean MU and standard deviation SIGMA.
+
+     Default values are MU = 0, SIGMA = 1.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+logninv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 375
+ -- logninv (X)
+ -- logninv (X, MU, SIGMA)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the lognormal distribution with parameters MU and
+     SIGMA.
+
+     If a random variable follows this distribution, its logarithm is
+     normally distributed with mean MU and standard deviation SIGMA.
+
+     Default values are MU = 0, SIGMA = 1.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+lognpdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 376
+ -- lognpdf (X)
+ -- lognpdf (X, MU, SIGMA)
+     For each element of X, compute the probability density function
+     (PDF) at X of the lognormal distribution with parameters MU and
+     SIGMA.
+
+     If a random variable follows this distribution, its logarithm is
+     normally distributed with mean MU and standard deviation SIGMA.
+
+     Default values are MU = 0, SIGMA = 1.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+lognrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 691
+ -- lognrnd (MU, SIGMA)
+ -- lognrnd (MU, SIGMA, R)
+ -- lognrnd (MU, SIGMA, R, C, ...)
+ -- lognrnd (MU, SIGMA, [SZ])
+     Return a matrix of random samples from the lognormal distribution
+     with parameters MU and SIGMA.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the common
+     size of MU and SIGMA.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the lognormal distribution with
+parame...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+nbincdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 446
+ -- nbincdf (X, N, P)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the negative binomial distribution with parameters N
+     and P.
+
+     When N is integer this is the Pascal distribution.  When N is
+     extended to real numbers this is the Polya distribution.
+
+     The number of failures in a Bernoulli experiment with success
+     probability P before the N-th success follows this distribution.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+nbininv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 441
+ -- nbininv (X, N, P)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the negative binomial distribution with parameters N
+     and P.
+
+     When N is integer this is the Pascal distribution.  When N is
+     extended to real numbers this is the Polya distribution.
+
+     The number of failures in a Bernoulli experiment with success
+     probability P before the N-th success follows this distribution.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+nbinpdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 442
+ -- nbinpdf (X, N, P)
+     For each element of X, compute the probability density function
+     (PDF) at X of the negative binomial distribution with parameters N
+     and P.
+
+     When N is integer this is the Pascal distribution.  When N is
+     extended to real numbers this is the Polya distribution.
+
+     The number of failures in a Bernoulli experiment with success
+     probability P before the N-th success follows this distribution.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+nbinrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 669
+ -- nbinrnd (N, P)
+ -- nbinrnd (N, P, R)
+ -- nbinrnd (N, P, R, C, ...)
+ -- nbinrnd (N, P, [SZ])
+     Return a matrix of random samples from the negative binomial
+     distribution with parameters N and P.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the common
+     size of N and P.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the negative binomial
+distribution wit...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+normcdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 250
+ -- normcdf (X)
+ -- normcdf (X, MU, SIGMA)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the normal distribution with mean MU and standard
+     deviation SIGMA.
+
+     Default values are MU = 0, SIGMA = 1.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+norminv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 245
+ -- norminv (X)
+ -- norminv (X, MU, SIGMA)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the normal distribution with mean MU and standard
+     deviation SIGMA.
+
+     Default values are MU = 0, SIGMA = 1.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+normpdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 246
+ -- normpdf (X)
+ -- normpdf (X, MU, SIGMA)
+     For each element of X, compute the probability density function
+     (PDF) at X of the normal distribution with mean MU and standard
+     deviation SIGMA.
+
+     Default values are MU = 0, SIGMA = 1.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+normrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 712
+ -- normrnd (MU, SIGMA)
+ -- normrnd (MU, SIGMA, R)
+ -- normrnd (MU, SIGMA, R, C, ...)
+ -- normrnd (MU, SIGMA, [SZ])
+     Return a matrix of random samples from the normal distribution with
+     parameters mean MU and standard deviation SIGMA.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the common
+     size of MU and SIGMA.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the normal distribution with
+parameter...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+poisscdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 164
+ -- poisscdf (X, LAMBDA)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the Poisson distribution with parameter LAMBDA.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+poissinv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 159
+ -- poissinv (X, LAMBDA)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the Poisson distribution with parameter LAMBDA.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+poisspdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 160
+ -- poisspdf (X, LAMBDA)
+     For each element of X, compute the probability density function
+     (PDF) at X of the Poisson distribution with parameter LAMBDA.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+poissrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 661
+ -- poissrnd (LAMBDA)
+ -- poissrnd (LAMBDA, R)
+ -- poissrnd (LAMBDA, R, C, ...)
+ -- poissrnd (LAMBDA, [SZ])
+     Return a matrix of random samples from the Poisson distribution
+     with parameter LAMBDA.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the size
+     of LAMBDA.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the Poisson distribution with
+paramete...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 13
+stdnormal_cdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 187
+ -- stdnormal_cdf (X)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the standard normal distribution (mean = 0, standard
+     deviation = 1).
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 13
+stdnormal_inv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 182
+ -- stdnormal_inv (X)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the standard normal distribution (mean = 0, standard
+     deviation = 1).
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 13
+stdnormal_pdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 183
+ -- stdnormal_pdf (X)
+     For each element of X, compute the probability density function
+     (PDF) at X of the standard normal distribution (mean = 0, standard
+     deviation = 1).
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 13
+stdnormal_rnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 563
+ -- stdnormal_rnd (R)
+ -- stdnormal_rnd (R, C, ...)
+ -- stdnormal_rnd ([SZ])
+     Return a matrix of random samples from the standard normal
+     distribution (mean = 0, standard deviation = 1).
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the standard normal distribution
+(mean...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 4
+tcdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 168
+ -- tcdf (X, N)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the t (Student) distribution with N degrees of
+     freedom.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 4
+tinv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 272
+ -- tinv (X, N)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the t (Student) distribution with N degrees of
+     freedom.
+
+     This function is analogous to looking in a table for the t-value of
+     a single-tailed distribution.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 4
+tpdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 164
+ -- tpdf (X, N)
+     For each element of X, compute the probability density function
+     (PDF) at X of the T (Student) distribution with N degrees of
+     freedom.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 4
+trnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 628
+ -- trnd (N)
+ -- trnd (N, R)
+ -- trnd (N, R, C, ...)
+ -- trnd (N, [SZ])
+     Return a matrix of random samples from the t (Student) distribution
+     with N degrees of freedom.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the size
+     of N.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the t (Student) distribution with
+N de...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+unidcdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 208
+ -- unidcdf (X, N)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of a discrete uniform distribution which assumes the
+     integer values 1-N with equal probability.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+unidinv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 205
+ -- unidinv (X, N)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the discrete uniform distribution which assumes the
+     integer values 1-N with equal probability.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+unidpdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 367
+ -- unidpdf (X, N)
+     For each element of X, compute the probability density function
+     (PDF) at X of a discrete uniform distribution which assumes the
+     integer values 1-N with equal probability.
+
+     Warning: The underlying implementation uses the double class and
+     will only be accurate for N < 'flintmax' (2^{53} on IEEE 754
+     compatible systems).
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+unidrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 738
+ -- unidrnd (N)
+ -- unidrnd (N, R)
+ -- unidrnd (N, R, C, ...)
+ -- unidrnd (N, [SZ])
+     Return a matrix of random samples from the discrete uniform
+     distribution which assumes the integer values 1-N with equal
+     probability.
+
+     N may be a scalar or a multi-dimensional array.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the size
+     of N.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the discrete uniform distribution
+whic...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+unifcdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 217
+ -- unifcdf (X)
+ -- unifcdf (X, A, B)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the uniform distribution on the interval [A, B].
+
+     Default values are A = 0, B = 1.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+unifinv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 212
+ -- unifinv (X)
+ -- unifinv (X, A, B)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the uniform distribution on the interval [A, B].
+
+     Default values are A = 0, B = 1.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+unifpdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 213
+ -- unifpdf (X)
+ -- unifpdf (X, A, B)
+     For each element of X, compute the probability density function
+     (PDF) at X of the uniform distribution on the interval [A, B].
+
+     Default values are A = 0, B = 1.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+unifrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 645
+ -- unifrnd (A, B)
+ -- unifrnd (A, B, R)
+ -- unifrnd (A, B, R, C, ...)
+ -- unifrnd (A, B, [SZ])
+     Return a matrix of random samples from the uniform distribution on
+     [A, B].
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the common
+     size of A and B.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 74
+Return a matrix of random samples from the uniform distribution on [A,
+B].
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+wblcdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 346
+ -- wblcdf (X)
+ -- wblcdf (X, SCALE)
+ -- wblcdf (X, SCALE, SHAPE)
+     Compute the cumulative distribution function (CDF) at X of the
+     Weibull distribution with scale parameter SCALE and shape parameter
+     SHAPE.
+
+     This is defined as
+
+          1 - exp (-(x/scale)^shape)
+
+     for X >= 0.
+
+     Default values are SCALE = 1, SHAPE = 1.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute the cumulative distribution function (CDF) at X of the Weibull
+distri...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+wblinv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 255
+ -- wblinv (X)
+ -- wblinv (X, SCALE)
+ -- wblinv (X, SCALE, SHAPE)
+     Compute the quantile (the inverse of the CDF) at X of the Weibull
+     distribution with scale parameter SCALE and shape parameter SHAPE.
+
+     Default values are SCALE = 1, SHAPE = 1.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute the quantile (the inverse of the CDF) at X of the Weibull
+distributio...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+wblpdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 370
+ -- wblpdf (X)
+ -- wblpdf (X, SCALE)
+ -- wblpdf (X, SCALE, SHAPE)
+     Compute the probability density function (PDF) at X of the Weibull
+     distribution with scale parameter SCALE and shape parameter SHAPE.
+
+     This is given by
+
+          shape * scale^(-shape) * x^(shape-1) * exp (-(x/scale)^shape)
+
+     for X >= 0.
+
+     Default values are SCALE = 1, SHAPE = 1.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute the probability density function (PDF) at X of the Weibull
+distributi...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+wblrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 703
+ -- wblrnd (SCALE, SHAPE)
+ -- wblrnd (SCALE, SHAPE, R)
+ -- wblrnd (SCALE, SHAPE, R, C, ...)
+ -- wblrnd (SCALE, SHAPE, [SZ])
+     Return a matrix of random samples from the Weibull distribution
+     with parameters SCALE and SHAPE.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the common
+     size of SCALE and SHAPE.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the Weibull distribution with
+paramete...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+wienrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 444
+ -- wienrnd (T, D, N)
+     Return a simulated realization of the D-dimensional Wiener Process
+     on the interval [0, T].
+
+     If D is omitted, D = 1 is used.  The first column of the return
+     matrix contains time, the remaining columns contain the Wiener
+     process.
+
+     The optional parameter N defines the number of summands used for
+     simulating the process over an interval of length 1.  If N is
+     omitted, N = 1000 is used.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a simulated realization of the D-dimensional Wiener Process on
+the int...
+
+
+
+
+

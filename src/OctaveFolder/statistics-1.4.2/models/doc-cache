@@ -1,0 +1,71 @@
+# doc-cache created by Octave 6.4.0
+# name: cache
+# type: cell
+# rows: 3
+# columns: 1
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 19
+logistic_regression
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1665
+ -- [THETA, BETA, DEV, DL, D2L, P] = logistic_regression (Y, X, PRINT,
+          THETA, BETA)
+     Perform ordinal logistic regression.
+
+     Suppose Y takes values in K ordered categories, and let 'gamma_i
+     (X)' be the cumulative probability that Y falls in one of the first
+     I categories given the covariate X.  Then
+
+          [theta, beta] = logistic_regression (y, x)
+
+     fits the model
+
+          logit (gamma_i (x)) = theta_i - beta' * x,   i = 1 ... k-1
+
+     The number of ordinal categories, K, is taken to be the number of
+     distinct values of 'round (Y)'.  If K equals 2, Y is binary and the
+     model is ordinary logistic regression.  The matrix X is assumed to
+     have full column rank.
+
+     Given Y only, 'theta = logistic_regression (y)' fits the model with
+     baseline logit odds only.
+
+     The full form is
+
+          [theta, beta, dev, dl, d2l, gamma]
+             = logistic_regression (y, x, print, theta, beta)
+
+     in which all output arguments and all input arguments except Y are
+     optional.
+
+     Setting PRINT to 1 requests summary information about the fitted
+     model to be displayed.  Setting PRINT to 2 requests information
+     about convergence at each iteration.  Other values request no
+     information to be displayed.  The input arguments THETA and BETA
+     give initial estimates for THETA and BETA.
+
+     The returned value DEV holds minus twice the log-likelihood.
+
+     The returned values DL and D2L are the vector of first and the
+     matrix of second derivatives of the log-likelihood with respect to
+     THETA and BETA.
+
+     P holds estimates for the conditional distribution of Y given X.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 36
+Perform ordinal logistic regression.
+
+
+
+
+

@@ -1,0 +1,6918 @@
+# doc-cache created by Octave 6.4.0
+# name: cache
+# type: cell
+# rows: 3
+# columns: 138
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 20
+anderson_darling_cdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2183
+ -- Function File: P = anderson_darling_cdf (A, N)
+
+     Return the CDF for the given Anderson-Darling coefficient A
+     computed from N values sampled from a distribution.  For a vector
+     of random variables X of length N, compute the CDF of the values
+     from the distribution from which they are drawn.  You can uses
+     these values to compute A as follows:
+
+          A = -N - sum( (2*i-1) .* (log(X) + log(1 - X(N:-1:1,:))) )/N;
+
+     From the value A, 'anderson_darling_cdf' returns the probability
+     that A could be returned from a set of samples.
+
+     The algorithm given in [1] claims to be an approximation for the
+     Anderson-Darling CDF accurate to 6 decimal points.
+
+     Demonstrate using:
+
+          n = 300; reps = 10000;
+          z = randn(n, reps);
+          x = sort ((1 + erf (z/sqrt (2)))/2);
+          i = [1:n]' * ones (1, size (x, 2));
+          A = -n - sum ((2*i-1) .* (log (x) + log (1 - x (n:-1:1, :))))/n;
+          p = anderson_darling_cdf (A, n);
+          hist (100 * p, [1:100] - 0.5);
+
+     You will see that the histogram is basically flat, which is to say
+     that the probabilities returned by the Anderson-Darling CDF are
+     distributed uniformly.
+
+     You can easily determine the extreme values of P:
+
+          [junk, idx] = sort (p);
+
+     The histograms of various P aren't very informative:
+
+          histfit (z (:, idx (1)), linspace (-3, 3, 15));
+          histfit (z (:, idx (end/2)), linspace (-3, 3, 15));
+          histfit (z (:, idx (end)), linspace (-3, 3, 15));
+
+     More telling is the qqplot:
+
+          qqplot (z (:, idx (1))); hold on; plot ([-3, 3], [-3, 3], ';;'); hold off;
+          qqplot (z (:, idx (end/2))); hold on; plot ([-3, 3], [-3, 3], ';;'); hold off;
+          qqplot (z (:, idx (end))); hold on; plot ([-3, 3], [-3, 3], ';;'); hold off;
+
+     Try a similarly analysis for Z uniform:
+
+          z = rand (n, reps); x = sort(z);
+
+     and for Z exponential:
+
+          z = rande (n, reps); x = sort (1 - exp (-z));
+
+     [1] Marsaglia, G; Marsaglia JCW; (2004) "Evaluating the Anderson
+     Darling distribution", Journal of Statistical Software, 9(2).
+
+     See also: anderson_darling_test.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return the CDF for the given Anderson-Darling coefficient A computed
+from N v...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 21
+anderson_darling_test
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1833
+ -- Function File: [Q, ASQ, INFO] = = anderson_darling_test (X,
+          DISTRIBUTION)
+
+     Test the hypothesis that X is selected from the given distribution
+     using the Anderson-Darling test.  If the returned Q is small,
+     reject the hypothesis at the Q*100% level.
+
+     The Anderson-Darling A^2 statistic is calculated as follows:
+
+                        n
+          A^2_n = -n - SUM (2i-1)/n log(z_i (1 - z_{n-i+1}))
+                       i=1
+
+     where z_i is the ordered position of the X's in the CDF of the
+     distribution.  Unlike the Kolmogorov-Smirnov statistic, the
+     Anderson-Darling statistic is sensitive to the tails of the
+     distribution.
+
+     The DISTRIBUTION argument must be a either "uniform", "normal", or
+     "exponential".
+
+     For "normal"' and "exponential" distributions, estimate the
+     distribution parameters from the data, convert the values to CDF
+     values, and compare the result to tabluated critical values.  This
+     includes an correction for small N which works well enough for N >=
+     8, but less so from smaller N.  The returned 'info.Asq_corrected'
+     contains the adjusted statistic.
+
+     For "uniform", assume the values are uniformly distributed in
+     (0,1), compute A^2 and return the corresponding p-value from
+     '1-anderson_darling_cdf(A^2,n)'.
+
+     If you are selecting from a known distribution, convert your values
+     into CDF values for the distribution and use "uniform".  Do not use
+     "uniform" if the distribution parameters are estimated from the
+     data itself, as this sharply biases the A^2 statistic toward
+     smaller values.
+
+     [1] Stephens, MA; (1986), "Tests based on EDF statistics", in
+     D'Agostino, RB; Stephens, MA; (eds.)  Goodness-of-fit Techinques.
+     New York: Dekker.
+
+     See also: anderson_darling_cdf.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Test the hypothesis that X is selected from the given distribution using
+the ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+anovan
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1469
+ -- Function File: [PVAL, F, DF_B, DF_E] = anovan (DATA, GRPS)
+ -- Function File: [PVAL, F, DF_B, DF_E] = anovan (DATA, GRPS, 'param1',
+          VALUE1)
+     Perform a multi-way analysis of variance (ANOVA). The goal is to
+     test whether the population means of data taken from K different
+     groups are all equal.
+
+     Data is a single vector DATA with groups specified by a
+     corresponding matrix of group labels GRPS, where GRPS has the same
+     number of rows as DATA.  For example, if DATA = [1.1;1.2]; GRPS=
+     [1,2,1; 1,5,2]; then data point 1.1 was measured under conditions
+     1,2,1 and data point 1.2 was measured under conditions 1,5,2.  Note
+     that groups do not need to be sequentially numbered.
+
+     By default, a 'linear' model is used, computing the N main effects
+     with no interactions.  this may be modified by param 'model'
+
+     p= anovan(data,groups, 'model', modeltype) - modeltype = 'linear':
+     compute N main effects - modeltype = 'interaction': compute N
+     effects and N*(N-1) two-factor interactions - modeltype = 'full':
+     compute interactions at all levels
+
+     Under the null of constant means, the statistic F follows an F
+     distribution with DF_B and DF_E degrees of freedom.
+
+     The p-value (1 minus the CDF of this distribution at F) is returned
+     in PVAL.
+
+     If no output argument is given, the standard one-way ANOVA table is
+     printed.
+
+     BUG: DFE is incorrect for modeltypes != full
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 49
+Perform a multi-way analysis of variance (ANOVA).
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+bbscdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 213
+ -- bbscdf (X, SHAPE, SCALE, LOCATION)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the Birnbaum-Saunders distribution with parameters
+     LOCATION, SCALE and SHAPE.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+bbsinv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 209
+ -- bbsinv (X, SHAPE, SCALE, LOCATION)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the Birnbaum-Saunders distribution with parameters
+     LOCATION, SCALE, and SHAPE.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+bbspdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 209
+ -- bbspdf (X, SHAPE, SCALE, LOCATION)
+     For each element of X, compute the probability density function
+     (PDF) at X of the Birnbaum-Saunders distribution with parameters
+     LOCATION, SCALE and SHAPE.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+bbsrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 773
+ -- bbsrnd (SHAPE, SCALE, LOCATION)
+ -- bbsrnd (SHAPE, SCALE, LOCATION, R)
+ -- bbsrnd (SHAPE, SCALE, LOCATION, R, C, ...)
+ -- bbsrnd (SHAPE, SCALE, LOCATION, [SZ])
+     Return a matrix of random samples from the Birnbaum-Saunders
+     distribution with parameters LOCATION, SCALE and SHAPE.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the common
+     size of LOCATION, SCALE and SHAPE.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the Birnbaum-Saunders
+distribution wit...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+betastat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1036
+ -- Function File: [M, V] = betastat (A, B)
+     Compute mean and variance of the beta distribution.
+
+     Arguments
+     ---------
+
+        * A is the first parameter of the beta distribution.  A must be
+          positive
+
+        * B is the second parameter of the beta distribution.  B must be
+          positive
+     A and B must be of common size or one of them must be scalar
+
+     Return values
+     -------------
+
+        * M is the mean of the beta distribution
+
+        * V is the variance of the beta distribution
+
+     Examples
+     --------
+
+          a = 1:6;
+          b = 1:0.2:2;
+          [m, v] = betastat (a, b)
+
+          [m, v] = betastat (a, 1.5)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  McGraw-Hill, New York, second edition,
+          1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 51
+Compute mean and variance of the beta distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+binostat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1100
+ -- Function File: [M, V] = binostat (N, P)
+     Compute mean and variance of the binomial distribution.
+
+     Arguments
+     ---------
+
+        * N is the first parameter of the binomial distribution.  The
+          elements of N must be natural numbers
+
+        * P is the second parameter of the binomial distribution.  The
+          elements of P must be probabilities
+     N and P must be of common size or one of them must be scalar
+
+     Return values
+     -------------
+
+        * M is the mean of the binomial distribution
+
+        * V is the variance of the binomial distribution
+
+     Examples
+     --------
+
+          n = 1:6;
+          p = 0:0.2:1;
+          [m, v] = binostat (n, p)
+
+          [m, v] = binostat (n, 0.5)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  McGraw-Hill, New York, second edition,
+          1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 55
+Compute mean and variance of the binomial distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+binotest
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1168
+ -- Function File: [H, PVAL, CI] = binotest (POS,N,P0)
+ -- Function File: [H, PVAL, CI] = binotest (POS,N,P0,NAME,VALUE)
+     Test for probability P of a binomial sample
+
+     Perform a test of the null hypothesis P == P0 for a sample of size
+     N with POS positive results
+
+     Name-Value pair arguments can be used to set various options.
+     "alpha" can be used to specify the significance level of the test
+     (the default value is 0.05).  The option "tail", can be used to
+     select the desired alternative hypotheses.  If the value is "both"
+     (default) the null is tested against the two-sided alternative 'P
+     != P0'.  The value of PVAL is determined by adding the
+     probabilities of all event less or equally likely than the observed
+     number POS of positive events.  If the value of "tail" is "right"
+     the one-sided alternative 'P > P0' is considered.  Similarly for
+     "left", the one-sided alternative 'P < P0' is considered.
+
+     If H is 0 the null hypothesis is accepted, if it is 1 the null
+     hypothesis is rejected.  The p-value of the test is returned in
+     PVAL.  A 100(1-alpha)% confidence interval is returned in CI.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 43
+Test for probability P of a binomial sample
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+boxplot
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2436
+ -- Function File: S = boxplot (DATA, NOTCHED, SYMBOL, VERTICAL,
+          MAXWHISKER, ...)
+ -- Function File: S = boxplot (DATA, GROUP)
+ -- Function File: [... H]= boxplot (...)
+
+     Produce a box plot.
+
+     The box plot is a graphical display that simultaneously describes
+     several important features of a data set, such as center, spread,
+     departure from symmetry, and identification of observations that
+     lie unusually far from the bulk of the data.
+
+     DATA is a matrix with one column for each data set, or data is a
+     cell vector with one cell for each data set.
+
+     NOTCHED = 1 produces a notched-box plot.  Notches represent a
+     robust estimate of the uncertainty about the median.
+
+     NOTCHED = 0 (default) produces a rectangular box plot.
+
+     NOTCHED in (0,1) produces a notch of the specified depth.  notched
+     values outside (0,1) are amusing if not exactly practical.
+
+     SYMBOL sets the symbol for the outlier values, default symbol for
+     points that lie outside 3 times the interquartile range is 'o',
+     default symbol for points between 1.5 and 3 times the interquartile
+     range is '+'.
+
+     SYMBOL = '.'  points between 1.5 and 3 times the IQR is marked with
+     '.'  and points outside 3 times IQR with 'o'.
+
+     SYMBOL = ['x','*'] points between 1.5 and 3 times the IQR is marked
+     with 'x' and points outside 3 times IQR with '*'.
+
+     VERTICAL = 0 makes the boxes horizontal, by default VERTICAL = 1.
+
+     MAXWHISKER defines the length of the whiskers as a function of the
+     IQR (default = 1.5).  If MAXWHISKER = 0 then 'boxplot' displays all
+     data values outside the box using the plotting symbol for points
+     that lie outside 3 times the IQR.
+
+     Supplemental arguments are concatenated and passed to plot.
+
+     The returned matrix S has one column for each data set as follows:
+
+     1       Minimum
+     2       1st quartile
+     3       2nd quartile (median)
+     4       3rd quartile
+     5       Maximum
+     6       Lower confidence limit for median
+     7       Upper confidence limit for median
+
+     The returned structure H has handles to the plot elements, allowing
+     customization of the visualization using set/get functions.
+
+     Example
+
+          title ("Grade 3 heights");
+          axis ([0,3]);
+          set(gca (), "xtick", [1 2], "xticklabel", {"girls", "boys"});
+          boxplot ({randn(10,1)*5+140, randn(13,1)*8+135});
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 19
+Produce a box plot.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+burrcdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 197
+ -- burrcdf (X, C, K)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the Burr distribution with scale parameter ALPHA and
+     shape parameters C and K.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+burrinv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 199
+ -- burrinv (X, ALPHA, C, K)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the Burr distribution with scale parameter ALPHA and
+     shape parameters C and K.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+burrpdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 200
+ -- burrpdf (X, ALPHA, C, K)
+     For each element of X, compute the probability density function
+     (PDF) at X of the Burr distribution with scale parameter ALPHA and
+     shape parameters C and K.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+burrrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 742
+ -- burrrnd (ALPHA, C, K)
+ -- burrrnd (ALPHA, C, K, R)
+ -- burrrnd (ALPHA, C, K, R, C, ...)
+ -- burrrnd (ALPHA, C, K, [SZ])
+     Return a matrix of random samples from the generalized Pareto
+     distribution with scale parameter ALPHA and shape parameters C and
+     K.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the common
+     size of ALPHA, C and K.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the generalized Pareto
+distribution wi...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 9
+canoncorr
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 859
+ -- Function File: [A B R U V] = canoncorr (X, Y)
+     Canonical correlation analysis
+
+     Given X (size K*M) and Y (K*N), returns projection matrices of
+     canonical coefficients A (size M*D, where D is the smallest of M,
+     N, D) and B (size M*D); the canonical correlations R (1*D, arranged
+     in decreasing order); the canonical variables U, V (both K*D, with
+     orthonormal columns); and STATS, a structure containing results
+     from Bartlett's chi-square and Rao's F tests of significance.
+
+     References:
+     William H. Press (2011), Canonical Correlation Clarified by
+     Singular Value Decomposition,
+     http://numerical.recipes/whp/notes/CanonCorrBySVD.pdf
+     Philip B. Ender, Multivariate Analysis: Canonical Correlation
+     Analysis,
+     http://www.philender.com/courses/multivariate/notes2/can1.html
+
+     See also: princomp.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 30
+Canonical correlation analysis
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+caseread
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 262
+ -- Function File: NAMES = caseread (FILENAME)
+     Read case names from an ascii file.
+
+     Essentially, this reads all lines from a file as text and returns
+     them in a string matrix.
+
+     See also: casewrite, tblread, tblwrite, csv2cell, cell2csv, fopen.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 35
+Read case names from an ascii file.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 9
+casewrite
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 254
+ -- Function File: casewrite (STRMAT, FILENAME)
+     Write case names to an ascii file.
+
+     Essentially, this writes all lines from STRMAT to FILENAME (after
+     deblanking them).
+
+     See also: caseread, tblread, tblwrite, csv2cell, cell2csv, fopen.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 34
+Write case names to an ascii file.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 3
+cdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2118
+ -- Function File: RETVAL = cdf (NAME, X, ...)
+     Return cumulative density function of NAME function for value X.
+     This is a wrapper around various NAMEcdf and NAME_cdf functions.
+     See the individual functions help to learn the signification of the
+     arguments after X.  Supported functions and corresponding number of
+     additional arguments are:
+
+       function               alternative                      args
+     -------------------------------------------------------------------------
+       "beta"                 "beta"                           2
+       "bino"                 "binomial"                       2
+       "cauchy"                                                2
+       "chi2"                 "chisquare"                      1
+       "discrete"                                              2
+       "exp"                  "exponential"                    1
+       "f"                                                     2
+       "gam"                  "gamma"                          2
+       "geo"                  "geometric"                      1
+       "gev"                  "generalized extreme value"      3
+       "hyge"                 "hypergeometric"                 3
+       "kolmogorov_smirnov"                                    1
+       "laplace"                                               0
+       "logistic"                                              0
+       "logn"                 "lognormal"                      2
+       "norm"                 "normal"                         2
+       "poiss"                "poisson"                        1
+       "rayl"                 "rayleigh"                       1
+       "t"                                                     1
+       "unif"                 "uniform"                        2
+       "wbl"                  "weibull"                        2
+
+     See also: betacdf, binocdf, cauchy_cdf, chi2cdf, discrete_cdf,
+     expcdf, fcdf, gamcdf, geocdf, gevcdf, hygecdf,
+     kolmogorov_smirnov_cdf, laplace_cdf, logistic_cdf, logncdf,
+     normcdf, poisscdf, raylcdf, tcdf, unifcdf, wblcdf.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 64
+Return cumulative density function of NAME function for value X.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+chi2stat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 842
+ -- Function File: [M, V] = chi2stat (N)
+     Compute mean and variance of the chi-square distribution.
+
+     Arguments
+     ---------
+
+        * N is the parameter of the chi-square distribution.  The
+          elements of N must be positive
+
+     Return values
+     -------------
+
+        * M is the mean of the chi-square distribution
+
+        * V is the variance of the chi-square distribution
+
+     Example
+     -------
+
+          n = 1:6;
+          [m, v] = chi2stat (n)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  McGraw-Hill, New York, second edition,
+          1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 57
+Compute mean and variance of the chi-square distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 11
+cl_multinom
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2968
+ -- Function File: CL = cl_multinom (X, N, B, CALCULATION_TYPE ) -
+          Confidence level of multinomial portions
+     Returns confidence level of multinomial parameters estimated p = x
+     / sum(x) with predefined confidence interval B.  Finite population
+     is also considered.
+
+     This function calculates the level of confidence at which the
+     samples represent the true distribution given that there is a
+     predefined tolerance (confidence interval).  This is the upside
+     down case of the typical excercises at which we want to get the
+     confidence interval given the confidence level (and the estimated
+     parameters of the underlying distribution).  But once we accept
+     (lets say at elections) that we have a standard predefined maximal
+     acceptable error rate (e.g.  B=0.02 ) in the estimation and we just
+     want to know that how sure we can be that the measured proportions
+     are the same as in the entire population (ie.  the expected value
+     and mean of the samples are roghly the same) we need to use this
+     function.
+
+     Arguments
+     ---------
+
+        * X : int vector : sample frequencies bins
+        * N : int : Population size that was sampled by x.  If N<sum(x),
+          infinite number assumed
+        * B : real, vector : confidence interval if vector, it should be
+          the size of x containing confence interval for each cells if
+          scalar, each cell will have the same value of b unless it is
+          zero or -1 if value is 0, b=.02 is assumed which is standard
+          choice at elections otherwise it is calculated in a way that
+          one sample in a cell alteration defines the confidence
+          interval
+        * CALCULATION_TYPE : string : (Optional), described below
+          "bromaghin" (default) - do not change it unless you have a
+          good reason to do so "cochran" "agresti_cull" this is not
+          exactly the solution at reference given below but an
+          adjustment of the solutions above
+
+     Returns
+     -------
+
+     Confidence level.
+
+     Example
+     -------
+
+     CL = cl_multinom( [27;43;19;11], 10000, 0.05 ) returns 0.69
+     confidence level.
+
+     References
+     ----------
+
+     "bromaghin" calculation type (default) is based on is based on the
+     article Jeffrey F. Bromaghin, "Sample Size Determination for
+     Interval Estimation of Multinomial Probabilities", The American
+     Statistician vol 47, 1993, pp 203-206.
+
+     "cochran" calculation type is based on article Robert T. Tortora,
+     "A Note on Sample Size Estimation for Multinomial Populations", The
+     American Statistician, , Vol 32.  1978, pp 100-102.
+
+     "agresti_cull" calculation type is based on article in which
+     Quesenberry Hurst and Goodman result is combined A. Agresti and
+     B.A. Coull, "Approximate is better than \"exact\" for interval
+     estimation of binomial portions", The American Statistician, Vol.
+     52, 1998, pp 119-126
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Returns confidence level of multinomial parameters estimated p = x /
+sum(x) w...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+cmdscale
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2704
+ -- Function File: Y = cmdscale (D)
+ -- Function File: [Y, E ] = cmdscale (D)
+     Classical multidimensional scaling of a matrix.
+
+     Takes an N by N distance (or difference, similarity, or
+     dissimilarity) matrix D.  Returns Y, a matrix of N points with
+     coordinates in P dimensional space which approximate those
+     distances (or differences, similarities, or dissimilarities).  Also
+     returns the eigenvalues E of 'B = -1/2 * J * (D.^2) * J', where 'J
+     = eye(N) - ones(N,N)/N'.  P, the number of columns of Y, is equal
+     to the number of positive real eigenvalues of B.
+
+     D can be a full or sparse matrix or a vector of length 'N*(N-1)/2'
+     containing the upper triangular elements (like the output of the
+     'pdist' function).  It must be symmetric with non-negative entries
+     whose values are further restricted by the type of matrix being
+     represented:
+
+     * If D is either a distance, dissimilarity, or difference matrix,
+     then it must have zero entries along the main diagonal.  In this
+     case the points Y equal or approximate the distances given by D.
+
+     * If D is a similarity matrix, the elements must all be less than
+     or equal to one, with ones along the the main diagonal.  In this
+     case the points Y equal or approximate the distances given by 'D =
+     sqrt(ones(N,N)-D)'.
+
+     D is a Euclidean matrix if and only if B is positive semi-definite.
+     When this is the case, then Y is an exact representation of the
+     distances given in D.  If D is non-Euclidean, Y only approximates
+     the distance given in D.  The approximation used by 'cmdscale'
+     minimizes the statistical loss function known as STRAIN.
+
+     The returned Y is an N by P matrix showing possible coordinates of
+     the points in P dimensional space ('P < N').  The columns are
+     correspond to the positive eigenvalues of B in descending order.  A
+     translation, rotation, or reflection of the coordinates given by Y
+     will satisfy the same distance matrix up to the limits of machine
+     precision.
+
+     For any 'K <= P', if the largest K positive eigenvalues of B are
+     significantly greater in absolute magnitude than its other
+     eigenvalues, the first K columns of Y provide a K-dimensional
+     reduction of Y which approximates the distances given by D.  The
+     optional return E can be used to consider various values of K, or
+     to evaluate the accuracy of specific dimension reductions (e.g., 'K
+     = 2').
+
+     Reference: Ingwer Borg and Patrick J.F. Groenen (2005), Modern
+     Multidimensional Scaling, Second Edition, Springer, ISBN:
+     978-0-387-25150-9 (Print) 978-0-387-28981-6 (Online)
+
+     See also: pdist.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 47
+Classical multidimensional scaling of a matrix.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+combnk
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 91
+ -- Function File: C = combnk (DATA, K)
+     Return all combinations of K elements in DATA.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 46
+Return all combinations of K elements in DATA.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 9
+copulacdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2183
+ -- Function File: P = copulacdf (FAMILY, X, THETA)
+ -- Function File: copulacdf ('t', X, THETA, NU)
+     Compute the cumulative distribution function of a copula family.
+
+     Arguments
+     ---------
+
+        * FAMILY is the copula family name.  Currently, FAMILY can be
+          ''Gaussian'' for the Gaussian family, ''t'' for the Student's
+          t family, ''Clayton'' for the Clayton family, ''Gumbel'' for
+          the Gumbel-Hougaard family, ''Frank'' for the Frank family,
+          ''AMH'' for the Ali-Mikhail-Haq family, or ''FGM'' for the
+          Farlie-Gumbel-Morgenstern family.
+
+        * X is the support where each row corresponds to an observation.
+
+        * THETA is the parameter of the copula.  For the Gaussian and
+          Student's t copula, THETA must be a correlation matrix.  For
+          bivariate copulas THETA can also be a correlation coefficient.
+          For the Clayton family, the Gumbel-Hougaard family, the Frank
+          family, and the Ali-Mikhail-Haq family, THETA must be a vector
+          with the same number of elements as observations in X or be
+          scalar.  For the Farlie-Gumbel-Morgenstern family, THETA must
+          be a matrix of coefficients for the Farlie-Gumbel-Morgenstern
+          polynomial where each row corresponds to one set of
+          coefficients for an observation in X.  A single row is
+          expanded.  The coefficients are in binary order.
+
+        * NU is the degrees of freedom for the Student's t family.  NU
+          must be a vector with the same number of elements as
+          observations in X or be scalar.
+
+     Return values
+     -------------
+
+        * P is the cumulative distribution of the copula at each row of
+          X and corresponding parameter THETA.
+
+     Examples
+     --------
+
+          x = [0.2:0.2:0.6; 0.2:0.2:0.6];
+          theta = [1; 2];
+          p = copulacdf ("Clayton", x, theta)
+
+          x = [0.2:0.2:0.6; 0.2:0.1:0.4];
+          theta = [0.2, 0.1, 0.1, 0.05];
+          p = copulacdf ("FGM", x, theta)
+
+     References
+     ----------
+
+       1. Roger B. Nelsen.  'An Introduction to Copulas'.  Springer, New
+          York, second edition, 2006.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 64
+Compute the cumulative distribution function of a copula family.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 9
+copulapdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1494
+ -- Function File: P = copulapdf (FAMILY, X, THETA)
+     Compute the probability density function of a copula family.
+
+     Arguments
+     ---------
+
+        * FAMILY is the copula family name.  Currently, FAMILY can be
+          ''Clayton'' for the Clayton family, ''Gumbel'' for the
+          Gumbel-Hougaard family, ''Frank'' for the Frank family, or
+          ''AMH'' for the Ali-Mikhail-Haq family.
+
+        * X is the support where each row corresponds to an observation.
+
+        * THETA is the parameter of the copula.  The elements of THETA
+          must be greater than or equal to '-1' for the Clayton family,
+          greater than or equal to '1' for the Gumbel-Hougaard family,
+          arbitrary for the Frank family, and greater than or equal to
+          '-1' and lower than '1' for the Ali-Mikhail-Haq family.
+          Moreover, THETA must be non-negative for dimensions greater
+          than '2'.  THETA must be a column vector with the same number
+          of rows as X or be scalar.
+
+     Return values
+     -------------
+
+        * P is the probability density of the copula at each row of X
+          and corresponding parameter THETA.
+
+     Examples
+     --------
+
+          x = [0.2:0.2:0.6; 0.2:0.2:0.6];
+          theta = [1; 2];
+          p = copulapdf ("Clayton", x, theta)
+
+          p = copulapdf ("Gumbel", x, 2)
+
+     References
+     ----------
+
+       1. Roger B. Nelsen.  'An Introduction to Copulas'.  Springer, New
+          York, second edition, 2006.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 60
+Compute the probability density function of a copula family.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 9
+copularnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1886
+ -- Function File: X = copularnd (FAMILY, THETA, N)
+ -- Function File: copularnd (FAMILY, THETA, N, D)
+ -- Function File: copularnd ('t', THETA, NU, N)
+     Generate random samples from a copula family.
+
+     Arguments
+     ---------
+
+        * FAMILY is the copula family name.  Currently, FAMILY can be
+          ''Gaussian'' for the Gaussian family, ''t'' for the Student's
+          t family, or ''Clayton'' for the Clayton family.
+
+        * THETA is the parameter of the copula.  For the Gaussian and
+          Student's t copula, THETA must be a correlation matrix.  For
+          bivariate copulas THETA can also be a correlation coefficient.
+          For the Clayton family, THETA must be a vector with the same
+          number of elements as samples to be generated or be scalar.
+
+        * NU is the degrees of freedom for the Student's t family.  NU
+          must be a vector with the same number of elements as samples
+          to be generated or be scalar.
+
+        * N is the number of rows of the matrix to be generated.  N must
+          be a non-negative integer and corresponds to the number of
+          samples to be generated.
+
+        * D is the number of columns of the matrix to be generated.  D
+          must be a positive integer and corresponds to the dimension of
+          the copula.
+
+     Return values
+     -------------
+
+        * X is a matrix of random samples from the copula with N samples
+          of distribution dimension D.
+
+     Examples
+     --------
+
+          theta = 0.5;
+          x = copularnd ("Gaussian", theta);
+
+          theta = 0.5;
+          nu = 2;
+          x = copularnd ("t", theta, nu);
+
+          theta = 0.5;
+          n = 2;
+          x = copularnd ("Clayton", theta, n);
+
+     References
+     ----------
+
+       1. Roger B. Nelsen.  'An Introduction to Copulas'.  Springer, New
+          York, second edition, 2006.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 45
+Generate random samples from a copula family.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+crossval
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2102
+ -- Function File: RESULTS = crossval (F, X, Y[, PARAMS])
+     Perform cross validation on given data.
+
+     F should be a function that takes 4 inputs XTRAIN, YTRAIN, XTEST,
+     YTEST, fits a model based on XTRAIN, YTRAIN, applies the fitted
+     model to XTEST, and returns a goodness of fit measure based on
+     comparing the predicted and actual YTEST.  'crossval' returns an
+     array containing the values returned by F for every
+     cross-validation fold or resampling applied to the given data.
+
+     X should be an N by M matrix of predictor values
+
+     Y should be an N by 1 vector of predicand values
+
+     PARAMS may include parameter-value pairs as follows:
+
+     "KFold"
+          Divide set into K equal-size subsets, using each one
+          successively for validation.
+
+     "HoldOut"
+          Divide set into two subsets, training and validation.  If the
+          value K is a fraction, that is the fraction of values put in
+          the validation subset (by default K=0.1); if it is a positive
+          integer, that is the number of values in the validation
+          subset.
+
+     "LeaveOut"
+          Leave-one-out partition (each element is placed in its own
+          subset).  The value is ignored.
+
+     "Partition"
+          The value should be a CVPARTITION object.
+
+     "Given"
+          The value should be an N by 1 vector specifying in which
+          partition to put each element.
+
+     "stratify"
+          The value should be an N by 1 vector containing class
+          designations for the elements, in which case the "KFold" and
+          "HoldOut" partitionings attempt to ensure each partition
+          represents the classes proportionately.
+
+     "mcreps"
+          The value should be a positive integer specifying the number
+          of times to resample based on different partitionings.
+          Currently only works with the partition type "HoldOut".
+
+     Only one of "KFold", "HoldOut", "LeaveOut", "Given", "Partition"
+     should be specified.  If none is specified, the default is "KFold"
+     with K = 10.
+
+     See also: cvpartition.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 39
+Perform cross validation on given data.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 4
+dcov
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 373
+ -- Function File: [DCOR, DCOV, DVARX, DVARY] = dcov (X, Y, INDEX=1)
+     Distance correlation, covariance and correlation statistics.
+
+     It returns distace correlation (DCOR), distance covariance (DCOV),
+     diatance variace on x (DVARX) and distance variance on y (DVARY).
+
+     Reference: https://en.wikipedia.org/wiki/Distance_correlation
+
+     See also: corr, cov.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 60
+Distance correlation, covariance and correlation statistics.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 10
+dendrogram
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 581
+ -- Function File: P = dendrogram (TREE)
+ -- Function File: P, T = dendrogram (TREE)
+ -- Function File: P, T, PERM = dendrogram (TREE)
+     Plots a dendrogram using the output of function 'linkage'.
+
+     t is a vector containing the leaf node number for each object in
+     the original dataset.  For now, all objects are leaf nodes.
+
+     perm is the permutation of the input objects used to display the
+     dendrogram, in left-to-right order.
+
+     TODO: Return handle to lines to set properties TODO: Rescale the
+     plot automatically based on data.
+
+     See also: linkage.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 58
+Plots a dendrogram using the output of function 'linkage'.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+expstat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 844
+ -- Function File: [M, V] = expstat (L)
+     Compute mean and variance of the exponential distribution.
+
+     Arguments
+     ---------
+
+        * L is the parameter of the exponential distribution.  The
+          elements of L must be positive
+
+     Return values
+     -------------
+
+        * M is the mean of the exponential distribution
+
+        * V is the variance of the exponential distribution
+
+     Example
+     -------
+
+          l = 1:6;
+          [m, v] = expstat (l)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  McGraw-Hill, New York, second edition,
+          1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 58
+Compute mean and variance of the exponential distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 4
+ff2n
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 98
+ -- Function File: ff2n (N)
+     Full-factor design with n binary terms.
+
+     See also: fullfact.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 39
+Full-factor design with n binary terms.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 9
+fitgmdist
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2895
+ -- Function File: GMDIST = fitgmdist (DATA, K, PARAM1, VALUE1, ...)
+     Fit a Gaussian mixture model with K components to DATA.  Each row
+     of DATA is a data sample.  Each column is a variable.
+
+     Optional parameters are:
+        * 'start': initialization conditions.  Possible values are:
+             * 'randSample' (default) takes means uniformly from rows of
+               data
+             * 'plus' use k-means++ to initialize means
+             * 'cluster' Performs an initial clustering with 10% of the
+               data
+             * vector A vector whose length is the number of rows in
+               data, and whose values are 1 to k specify the components
+               each row is initially allocated to.  The mean, variance
+               and weight of each component is calculated from that
+             * structure with elements mu, Sigma ComponentProportion
+          For 'randSample', 'plus' and 'cluster', the initial variance
+          of each component is the variance of the entire data sample.
+
+        * 'Replicates' Number of random restarts to perform
+
+        * 'RegularizationValue'
+        * 'Regularize' A small number added to the diagonal entries of
+          the covariance to prevent singular covariances
+
+        * 'SharedCovariance'
+        * 'SharedCov' (logical) True if all components must share the
+          same variance, to reduce the number of free parameters
+
+        * 'CovarianceType'
+        * 'CovType' (string).  Possible values are:
+             * 'full' (default) Allow arbitrary covariance matrices
+             * 'diagonal' Force covariances to be diagonal, to reduce
+               the number of free parameters.
+
+        * 'Option' A structure with all of the following fields:
+             * 'MaxIter' Maximum number of EM iterations (default 100)
+             * 'TolFun' Threshold increase in likelihood to terminate EM
+               (default 1e-6)
+             * 'Display'
+                  * 'off' (default): display nothing
+                  * 'final': display the number of iterations and
+                    likelihood once execution completes
+                  * 'iter': display the above after each iteration
+        * 'Weight' A column vector or n-by-2 matrix.  The first column
+          consists of non-negative weights given to the samples.  If
+          these are all integers, this is equivalent to specifying
+          WEIGHT(i) copies of row i of DATA, but potentially faster.
+
+          If a row of DATA is used to represent samples that are similar
+          but not identical, then the second column of WEIGHT indicates
+          the variance of those original samples.  Specifically, in the
+          EM algorithm, the contribution of row i towards the variance
+          is set to at least WEIGHT(i,2), to prevent spurious components
+          with zero variance.
+
+     See also: gmdistribution, kmeans.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 55
+Fit a Gaussian mixture model with K components to DATA.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+fstat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1165
+ -- Function File: [MN, V] = fstat (M, N)
+     Compute mean and variance of the F distribution.
+
+     Arguments
+     ---------
+
+        * M is the first parameter of the F distribution.  The elements
+          of M must be positive
+
+        * N is the second parameter of the F distribution.  The elements
+          of N must be positive
+     M and N must be of common size or one of them must be scalar
+
+     Return values
+     -------------
+
+        * MN is the mean of the F distribution.  The mean is undefined
+          for N not greater than 2
+
+        * V is the variance of the F distribution.  The variance is
+          undefined for N not greater than 4
+
+     Examples
+     --------
+
+          m = 1:6;
+          n = 5:10;
+          [mn, v] = fstat (m, n)
+
+          [mn, v] = fstat (m, 5)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  McGraw-Hill, New York, second edition,
+          1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 48
+Compute mean and variance of the F distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+fullfact
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 261
+ -- Function File: fullfact (N)
+     Full factorial design.
+
+     If N is a scalar, return the full factorial design with N binary
+     choices, 0 and 1.
+
+     If N is a vector, return the full factorial design with choices 1
+     through N_I for each factor I.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 22
+Full factorial design.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+gamfit
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 297
+ -- Function File: MLE = gamfit (DATA)
+     Calculate gamma distribution parameters.
+
+     Find the maximum likelihood estimate parameters of the Gamma
+     distribution of DATA.  MLE is a two element vector with shape
+     parameter A and scale B.
+
+     See also: gampdf, gaminv, gamrnd, gamlike.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 40
+Calculate gamma distribution parameters.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+gamlike
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 224
+ -- Function File: X = gamlike ([A B], R)
+     Calculates the negative log-likelihood function for the Gamma
+     distribution over vector R, with the given parameters A and B.
+
+     See also: gampdf, gaminv, gamrnd, gamfit.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Calculates the negative log-likelihood function for the Gamma
+distribution ov...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+gamstat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1038
+ -- Function File: [M, V] = gamstat (A, B)
+     Compute mean and variance of the gamma distribution.
+
+     Arguments
+     ---------
+
+        * A is the first parameter of the gamma distribution.  A must be
+          positive
+
+        * B is the second parameter of the gamma distribution.  B must
+          be positive
+     A and B must be of common size or one of them must be scalar
+
+     Return values
+     -------------
+
+        * M is the mean of the gamma distribution
+
+        * V is the variance of the gamma distribution
+
+     Examples
+     --------
+
+          a = 1:6;
+          b = 1:0.2:2;
+          [m, v] = gamstat (a, b)
+
+          [m, v] = gamstat (a, 1.5)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  McGraw-Hill, New York, second edition,
+          1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 52
+Compute mean and variance of the gamma distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+geomean
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 175
+ -- Function File: geomean (X)
+ -- Function File: geomean (X, DIM)
+     Compute the geometric mean.
+
+     This function does the same as 'mean (x, "g")'.
+
+     See also: mean.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 27
+Compute the geometric mean.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+geostat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 853
+ -- Function File: [M, V] = geostat (P)
+     Compute mean and variance of the geometric distribution.
+
+     Arguments
+     ---------
+
+        * P is the rate parameter of the geometric distribution.  The
+          elements of P must be probabilities
+
+     Return values
+     -------------
+
+        * M is the mean of the geometric distribution
+
+        * V is the variance of the geometric distribution
+
+     Example
+     -------
+
+          p = 1 ./ (1:6);
+          [m, v] = geostat (p)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  McGraw-Hill, New York, second edition,
+          1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 56
+Compute mean and variance of the geometric distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+gevcdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1260
+ -- Function File: P = gevcdf (X, K, SIGMA, MU)
+     Compute the cumulative distribution function of the generalized
+     extreme value (GEV) distribution.
+
+     Arguments
+     ---------
+
+        * X is the support.
+
+        * K is the shape parameter of the GEV distribution.  (Also
+          denoted gamma or xi.)
+        * SIGMA is the scale parameter of the GEV distribution.  The
+          elements of SIGMA must be positive.
+        * MU is the location parameter of the GEV distribution.
+     The inputs must be of common size, or some of them must be scalar.
+
+     Return values
+     -------------
+
+        * P is the cumulative distribution of the GEV distribution at
+          each element of X and corresponding parameter values.
+
+     Examples
+     --------
+
+          x = 0:0.5:2.5;
+          sigma = 1:6;
+          k = 1;
+          mu = 0;
+          y = gevcdf (x, k, sigma, mu)
+
+          y = gevcdf (x, k, 0.5, mu)
+
+     References
+     ----------
+
+       1. Rolf-Dieter Reiss and Michael Thomas.  'Statistical Analysis
+          of Extreme Values with Applications to Insurance, Finance,
+          Hydrology and Other Fields'.  Chapter 1, pages 16-17,
+          Springer, 2007.
+
+     See also: gevfit, gevinv, gevlike, gevpdf, gevrnd, gevstat.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute the cumulative distribution function of the generalized extreme
+value...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+gevfit
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1271
+ -- Function File: PARAMHAT, PARAMCI = gevfit (DATA, PARMGUESS)
+     Find the maximum likelihood estimator (PARAMHAT) of the generalized
+     extreme value (GEV) distribution to fit DATA.
+
+     Arguments
+     ---------
+
+        * DATA is the vector of given values.
+        * PARMGUESS is an initial guess for the maximum likelihood
+          parameter vector.  If not given, this defaults to K=0 and
+          SIGMA, MU determined by matching the data mean and standard
+          deviation to their expected values.
+
+     Return values
+     -------------
+
+        * PARMHAT is the 3-parameter maximum-likelihood parameter vector
+          [K; SIGMA; MU], where K is the shape parameter of the GEV
+          distribution, SIGMA is the scale parameter of the GEV
+          distribution, and MU is the location parameter of the GEV
+          distribution.
+        * PARAMCI has the approximate 95% confidence intervals of the
+          parameter values based on the Fisher information matrix at the
+          maximum-likelihood position.
+
+     Examples
+     --------
+
+          data = 1:50;
+          [pfit, pci] = gevfit (data);
+          p1 = gevcdf(data,pfit(1),pfit(2),pfit(3));
+          plot(data, p1)
+
+     See also: gevcdf, gevinv, gevlike, gevpdf, gevrnd, gevstat.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Find the maximum likelihood estimator (PARAMHAT) of the generalized
+extreme v...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 11
+gevfit_lmom
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1193
+ -- Function File: PARAMHAT, PARAMCI = gevfit_lmom (DATA)
+     Find an estimator (PARAMHAT) of the generalized extreme value (GEV)
+     distribution fitting DATA using the method of L-moments.
+
+     Arguments
+     ---------
+
+        * DATA is the vector of given values.
+
+     Return values
+     -------------
+
+        * PARMHAT is the 3-parameter maximum-likelihood parameter vector
+          [K; SIGMA; MU], where K is the shape parameter of the GEV
+          distribution, SIGMA is the scale parameter of the GEV
+          distribution, and MU is the location parameter of the GEV
+          distribution.
+        * PARAMCI has the approximate 95% confidence intervals of the
+          parameter values (currently not implemented).
+
+     Examples
+     --------
+
+          data = gevrnd (0.1, 1, 0, 100, 1);
+          [pfit, pci] = gevfit_lmom (data);
+          p1 = gevcdf (data,pfit(1),pfit(2),pfit(3));
+          [f, x] = ecdf (data);
+          plot(data, p1, 's', x, f)
+
+     See also: gevfit.
+
+     References
+     ----------
+
+       1. Ailliot, P.; Thompson, C. & Thomson, P. Mixed methods for
+          fitting the GEV distribution, Water Resources Research, 2011,
+          47, W05551
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Find an estimator (PARAMHAT) of the generalized extreme value (GEV)
+distribut...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+gevinv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1214
+ -- Function File: X = gevinv (P, K, SIGMA, MU)
+     Compute a desired quantile (inverse CDF) of the generalized extreme
+     value (GEV) distribution.
+
+     Arguments
+     ---------
+
+        * P is the desired quantile of the GEV distribution.  (Between 0
+          and 1.)
+        * K is the shape parameter of the GEV distribution.  (Also
+          denoted gamma or xi.)
+        * SIGMA is the scale parameter of the GEV distribution.  The
+          elements of SIGMA must be positive.
+        * MU is the location parameter of the GEV distribution.
+     The inputs must be of common size, or some of them must be scalar.
+
+     Return values
+     -------------
+
+        * X is the value corresponding to each quantile of the GEV
+          distribution
+
+     References
+     ----------
+
+       1. Rolf-Dieter Reiss and Michael Thomas.  'Statistical Analysis
+          of Extreme Values with Applications to Insurance, Finance,
+          Hydrology and Other Fields'.  Chapter 1, pages 16-17,
+          Springer, 2007.
+       2. J. R. M. Hosking (2012).  'L-moments'.  R package, version
+          1.6.  URL: http://CRAN.R-project.org/package=lmom.
+
+     See also: gevcdf, gevfit, gevlike, gevpdf, gevrnd, gevstat.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute a desired quantile (inverse CDF) of the generalized extreme
+value (GE...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+gevlike
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1419
+ -- Function File: NLOGL, GRAD, ACOV = gevlike (PARAMS, DATA)
+     Compute the negative log-likelihood of data under the generalized
+     extreme value (GEV) distribution with given parameter values.
+
+     Arguments
+     ---------
+
+        * PARAMS is the 3-parameter vector [K, SIGMA, MU], where K is
+          the shape parameter of the GEV distribution, SIGMA is the
+          scale parameter of the GEV distribution, and MU is the
+          location parameter of the GEV distribution.
+        * DATA is the vector of given values.
+
+     Return values
+     -------------
+
+        * NLOGL is the negative log-likelihood.
+        * GRAD is the 3 by 1 gradient vector (first derivative of the
+          negative log likelihood with respect to the parameter values)
+        * ACOV is the 3 by 3 Fisher information matrix (second
+          derivative of the negative log likelihood with respect to the
+          parameter values)
+
+     Examples
+     --------
+
+          x = -5:-1;
+          k = -0.2;
+          sigma = 0.3;
+          mu = 0.5;
+          [L, ~, C] = gevlike ([k sigma mu], x);
+
+     References
+     ----------
+
+       1. Rolf-Dieter Reiss and Michael Thomas.  'Statistical Analysis
+          of Extreme Values with Applications to Insurance, Finance,
+          Hydrology and Other Fields'.  Chapter 1, pages 16-17,
+          Springer, 2007.
+
+     See also: gevcdf, gevfit, gevinv, gevpdf, gevrnd, gevstat.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute the negative log-likelihood of data under the generalized
+extreme val...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+gevpdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1252
+ -- Function File: Y = gevpdf (X, K, SIGMA, MU)
+     Compute the probability density function of the generalized extreme
+     value (GEV) distribution.
+
+     Arguments
+     ---------
+
+        * X is the support.
+
+        * K is the shape parameter of the GEV distribution.  (Also
+          denoted gamma or xi.)
+        * SIGMA is the scale parameter of the GEV distribution.  The
+          elements of SIGMA must be positive.
+        * MU is the location parameter of the GEV distribution.
+     The inputs must be of common size, or some of them must be scalar.
+
+     Return values
+     -------------
+
+        * Y is the probability density of the GEV distribution at each
+          element of X and corresponding parameter values.
+
+     Examples
+     --------
+
+          x = 0:0.5:2.5;
+          sigma = 1:6;
+          k = 1;
+          mu = 0;
+          y = gevpdf (x, k, sigma, mu)
+
+          y = gevpdf (x, k, 0.5, mu)
+
+     References
+     ----------
+
+       1. Rolf-Dieter Reiss and Michael Thomas.  'Statistical Analysis
+          of Extreme Values with Applications to Insurance, Finance,
+          Hydrology and Other Fields'.  Chapter 1, pages 16-17,
+          Springer, 2007.
+
+     See also: gevcdf, gevfit, gevinv, gevlike, gevrnd, gevstat.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute the probability density function of the generalized extreme
+value (GE...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+gevrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 857
+ -- Function File: gevrnd (K, SIGMA, MU)
+ -- Function File: gevrnd (K, SIGMA, MU, R)
+ -- Function File: gevrnd (K, SIGMA, MU, R, C, ...)
+ -- Function File: gevrnd (K, SIGMA, MU, [SZ])
+     Return a matrix of random samples from the generalized extreme
+     value (GEV) distribution with parameters K, SIGMA, MU.
+
+     When called with a single size argument, returns a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector SZ
+     of dimensions.
+
+     If no size arguments are given, then the result matrix is the
+     common size of the input parameters.
+
+     See also: gevcdf, gevfit, gevinv, gevlike, gevpdf, gevstat.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the generalized extreme value
+(GEV) di...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+gevstat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 731
+ -- Function File: [M, V] = gevstat (K, SIGMA, MU)
+     Compute the mean and variance of the generalized extreme value
+     (GEV) distribution.
+
+     Arguments
+     ---------
+
+        * K is the shape parameter of the GEV distribution.  (Also
+          denoted gamma or xi.)
+        * SIGMA is the scale parameter of the GEV distribution.  The
+          elements of SIGMA must be positive.
+        * MU is the location parameter of the GEV distribution.
+     The inputs must be of common size, or some of them must be scalar.
+
+     Return values
+     -------------
+
+        * M is the mean of the GEV distribution
+
+        * V is the variance of the GEV distribution
+
+     See also: gevcdf, gevfit, gevinv, gevlike, gevpdf, gevrnd.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute the mean and variance of the generalized extreme value (GEV)
+distribu...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+gpcdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 191
+ -- gpcdf (X, SHAPE, SCALE, LOCATION)
+     Compute the cumulative distribution function (CDF) at X of the
+     generalized Pareto distribution with parameters LOCATION, SCALE,
+     and SHAPE.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute the cumulative distribution function (CDF) at X of the
+generalized Pa...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+gpinv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 209
+ -- gpinv (X, SHAPE, SCALE, LOCATION)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the generalized Pareto distribution with parameters
+     LOCATION, SCALE, and SHAPE.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+gppdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 187
+ -- gppdf (X, SHAPE, SCALE, LOCATION)
+     Compute the probability density function (PDF) at X of the
+     generalized Pareto distribution with parameters LOCATION, SCALE,
+     and SHAPE.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute the probability density function (PDF) at X of the generalized
+Pareto...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+gprnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 770
+ -- gprnd (SHAPE, SCALE, LOCATION)
+ -- gprnd (SHAPE, SCALE, LOCATION, R)
+ -- gprnd (SHAPE, SCALE, LOCATION, R, C, ...)
+ -- gprnd (SHAPE, SCALE, LOCATION, [SZ])
+     Return a matrix of random samples from the generalized Pareto
+     distribution with parameters LOCATION, SCALE and SHAPE.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the common
+     size of LOCATION, SCALE and SHAPE.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the generalized Pareto
+distribution wi...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+grp2idx
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 404
+ -- Function File: [G, GN, GL] = grp2idx (S)
+     Get index for group variables.
+
+     For variable S, returns the indices G, into the variable groups GN
+     and GL.  The first has a string representation of the groups while
+     the later has its actual values.
+
+     NaNs and empty strings in S appear as NaN in G and are not present
+     on either GN and GL.
+
+     See also: cellstr, num2str, unique.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 30
+Get index for group variables.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+harmmean
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 176
+ -- Function File: harmmean (X)
+ -- Function File: harmmean (X, DIM)
+     Compute the harmonic mean.
+
+     This function does the same as 'mean (x, "h")'.
+
+     See also: mean.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 26
+Compute the harmonic mean.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+hist3
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2159
+ -- Function File: hist3 (X)
+ -- Function File: hist3 (X, NBINS)
+ -- Function File: hist3 (X, "Nbins", NBINS)
+ -- Function File: hist3 (X, CENTERS)
+ -- Function File: hist3 (X, "Ctrs", CENTERS)
+ -- Function File: hist3 (X, "Edges", EDGES)
+ -- Function File: [N, C] = hist3 (...)
+ -- Function File: hist3 (..., PROP, VAL, ...)
+ -- Function File: hist3 (HAX, ...)
+     Produce bivariate (2D) histogram counts or plots.
+
+     The elements to produce the histogram are taken from the Nx2 matrix
+     X.  Any row with NaN values are ignored.  The actual bins can be
+     configured in 3 different: number, centers, or edges of the bins:
+
+     Number of bins (default)
+          Produces equally spaced bins between the minimum and maximum
+          values of X.  Defined as a 2 element vector, NBINS, one for
+          each dimension.  Defaults to '[10 10]'.
+
+     Center of bins
+          Defined as a cell array of 2 monotonically increasing vectors,
+          CENTERS.  The width of each bin is determined from the
+          adjacent values in the vector with the initial and final bin,
+          extending to Infinity.
+
+     Edge of bins
+          Defined as a cell array of 2 monotonically increasing vectors,
+          EDGES.  'N(i,j)' contains the number of elements in X for
+          which:
+
+               EDGES{1}(i) <= X(:,1) < EDGES{1}(i+1)
+               EDGES{2}(j) <= X(:,2) < EDGES{2}(j+1)
+
+          The consequence of this definition is that values outside the
+          initial and final edge values are ignored, and that the final
+          bin only contains the number of elements exactly equal to the
+          final edge.
+
+     The return values, N and C, are the bin counts and centers
+     respectively.  These are specially useful to produce intensity
+     maps:
+
+          [counts, centers] = hist3 (data);
+          imagesc (centers{1}, centers{2}, counts)
+
+     If there is no output argument, or if the axes graphics handle HAX
+     is defined, the function will plot a 3 dimensional bar graph.  Any
+     extra property/value pairs are passed directly to the underlying
+     surface object.
+
+     See also: hist, histc, lookup, mesh.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 49
+Produce bivariate (2D) histogram counts or plots.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+histfit
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 410
+ -- Function File: histfit (DATA, NBINS)
+
+     Plot histogram with superimposed fitted normal density.
+
+     'histfit (DATA, NBINS)' plots a histogram of the values in the
+     vector DATA using NBINS bars in the histogram.  With one input
+     argument, NBINS is set to the square root of the number of elements
+     in data.
+
+     Example
+
+          histfit (randn (100, 1))
+
+     See also: bar,hist, pareto.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 55
+Plot histogram with superimposed fitted normal density.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 11
+hmmestimate
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 4212
+ -- Function File: [TRANSPROBEST, OUTPROBEST] = hmmestimate (SEQUENCE,
+          STATES)
+ -- Function File: hmmestimate (..., 'statenames', STATENAMES)
+ -- Function File: hmmestimate (..., 'symbols', SYMBOLS)
+ -- Function File: hmmestimate (..., 'pseudotransitions',
+          PSEUDOTRANSITIONS)
+ -- Function File: hmmestimate (..., 'pseudoemissions', PSEUDOEMISSIONS)
+     Estimate the matrix of transition probabilities and the matrix of
+     output probabilities of a given sequence of outputs and states
+     generated by a hidden Markov model.  The model assumes that the
+     generation starts in state '1' at step '0' but does not include
+     step '0' in the generated states and sequence.
+
+     Arguments
+     ---------
+
+        * SEQUENCE is a vector of a sequence of given outputs.  The
+          outputs must be integers ranging from '1' to the number of
+          outputs of the hidden Markov model.
+
+        * STATES is a vector of the same length as SEQUENCE of given
+          states.  The states must be integers ranging from '1' to the
+          number of states of the hidden Markov model.
+
+     Return values
+     -------------
+
+        * TRANSPROBEST is the matrix of the estimated transition
+          probabilities of the states.  'transprobest(i, j)' is the
+          estimated probability of a transition to state 'j' given state
+          'i'.
+
+        * OUTPROBEST is the matrix of the estimated output
+          probabilities.  'outprobest(i, j)' is the estimated
+          probability of generating output 'j' given state 'i'.
+
+     If ''symbols'' is specified, then SEQUENCE is expected to be a
+     sequence of the elements of SYMBOLS instead of integers.  SYMBOLS
+     can be a cell array.
+
+     If ''statenames'' is specified, then STATES is expected to be a
+     sequence of the elements of STATENAMES instead of integers.
+     STATENAMES can be a cell array.
+
+     If ''pseudotransitions'' is specified then the integer matrix
+     PSEUDOTRANSITIONS is used as an initial number of counted
+     transitions.  'pseudotransitions(i, j)' is the initial number of
+     counted transitions from state 'i' to state 'j'.  TRANSPROBEST will
+     have the same size as PSEUDOTRANSITIONS.  Use this if you have
+     transitions that are very unlikely to occur.
+
+     If ''pseudoemissions'' is specified then the integer matrix
+     PSEUDOEMISSIONS is used as an initial number of counted outputs.
+     'pseudoemissions(i, j)' is the initial number of counted outputs
+     'j' given state 'i'.  If ''pseudoemissions'' is also specified then
+     the number of rows of PSEUDOEMISSIONS must be the same as the
+     number of rows of PSEUDOTRANSITIONS.  OUTPROBEST will have the same
+     size as PSEUDOEMISSIONS.  Use this if you have outputs or states
+     that are very unlikely to occur.
+
+     Examples
+     --------
+
+          transprob = [0.8, 0.2; 0.4, 0.6];
+          outprob = [0.2, 0.4, 0.4; 0.7, 0.2, 0.1];
+          [sequence, states] = hmmgenerate (25, transprob, outprob);
+          [transprobest, outprobest] = hmmestimate (sequence, states)
+
+          symbols = {'A', 'B', 'C'};
+          statenames = {'One', 'Two'};
+          [sequence, states] = hmmgenerate (25, transprob, outprob,
+                               'symbols', symbols, 'statenames', statenames);
+          [transprobest, outprobest] = hmmestimate (sequence, states,
+                                       'symbols', symbols,
+                                       'statenames', statenames)
+
+          pseudotransitions = [8, 2; 4, 6];
+          pseudoemissions = [2, 4, 4; 7, 2, 1];
+          [sequence, states] = hmmgenerate (25, transprob, outprob);
+          [transprobest, outprobest] = hmmestimate (sequence, states, 'pseudotransitions', pseudotransitions, 'pseudoemissions', pseudoemissions)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Lawrence R. Rabiner.  A Tutorial on Hidden Markov Models and
+          Selected Applications in Speech Recognition.  'Proceedings of
+          the IEEE', 77(2), pages 257-286, February 1989.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Estimate the matrix of transition probabilities and the matrix of output
+prob...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 11
+hmmgenerate
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2469
+ -- Function File: [SEQUENCE, STATES] = hmmgenerate (LEN, TRANSPROB,
+          OUTPROB)
+ -- Function File: hmmgenerate (..., 'symbols', SYMBOLS)
+ -- Function File: hmmgenerate (..., 'statenames', STATENAMES)
+     Generate an output sequence and hidden states of a hidden Markov
+     model.  The model starts in state '1' at step '0' but will not
+     include step '0' in the generated states and sequence.
+
+     Arguments
+     ---------
+
+        * LEN is the number of steps to generate.  SEQUENCE and STATES
+          will have LEN entries each.
+
+        * TRANSPROB is the matrix of transition probabilities of the
+          states.  'transprob(i, j)' is the probability of a transition
+          to state 'j' given state 'i'.
+
+        * OUTPROB is the matrix of output probabilities.  'outprob(i,
+          j)' is the probability of generating output 'j' given state
+          'i'.
+
+     Return values
+     -------------
+
+        * SEQUENCE is a vector of length LEN of the generated outputs.
+          The outputs are integers ranging from '1' to 'columns
+          (outprob)'.
+
+        * STATES is a vector of length LEN of the generated hidden
+          states.  The states are integers ranging from '1' to 'columns
+          (transprob)'.
+
+     If ''symbols'' is specified, then the elements of SYMBOLS are used
+     for the output sequence instead of integers ranging from '1' to
+     'columns (outprob)'.  SYMBOLS can be a cell array.
+
+     If ''statenames'' is specified, then the elements of STATENAMES are
+     used for the states instead of integers ranging from '1' to
+     'columns (transprob)'.  STATENAMES can be a cell array.
+
+     Examples
+     --------
+
+          transprob = [0.8, 0.2; 0.4, 0.6];
+          outprob = [0.2, 0.4, 0.4; 0.7, 0.2, 0.1];
+          [sequence, states] = hmmgenerate (25, transprob, outprob)
+
+          symbols = {'A', 'B', 'C'};
+          statenames = {'One', 'Two'};
+          [sequence, states] = hmmgenerate (25, transprob, outprob,
+                               'symbols', symbols, 'statenames', statenames)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Lawrence R. Rabiner.  A Tutorial on Hidden Markov Models and
+          Selected Applications in Speech Recognition.  'Proceedings of
+          the IEEE', 77(2), pages 257-286, February 1989.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 71
+Generate an output sequence and hidden states of a hidden Markov model.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 10
+hmmviterbi
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2622
+ -- Function File: VPATH = hmmviterbi (SEQUENCE, TRANSPROB, OUTPROB)
+ -- Function File: hmmviterbi (..., 'symbols', SYMBOLS)
+ -- Function File: hmmviterbi (..., 'statenames', STATENAMES)
+     Use the Viterbi algorithm to find the Viterbi path of a hidden
+     Markov model given a sequence of outputs.  The model assumes that
+     the generation starts in state '1' at step '0' but does not include
+     step '0' in the generated states and sequence.
+
+     Arguments
+     ---------
+
+        * SEQUENCE is the vector of length LEN of given outputs.  The
+          outputs must be integers ranging from '1' to 'columns
+          (outprob)'.
+
+        * TRANSPROB is the matrix of transition probabilities of the
+          states.  'transprob(i, j)' is the probability of a transition
+          to state 'j' given state 'i'.
+
+        * OUTPROB is the matrix of output probabilities.  'outprob(i,
+          j)' is the probability of generating output 'j' given state
+          'i'.
+
+     Return values
+     -------------
+
+        * VPATH is the vector of the same length as SEQUENCE of the
+          estimated hidden states.  The states are integers ranging from
+          '1' to 'columns (transprob)'.
+
+     If ''symbols'' is specified, then SEQUENCE is expected to be a
+     sequence of the elements of SYMBOLS instead of integers ranging
+     from '1' to 'columns (outprob)'.  SYMBOLS can be a cell array.
+
+     If ''statenames'' is specified, then the elements of STATENAMES are
+     used for the states in VPATH instead of integers ranging from '1'
+     to 'columns (transprob)'.  STATENAMES can be a cell array.
+
+     Examples
+     --------
+
+          transprob = [0.8, 0.2; 0.4, 0.6];
+          outprob = [0.2, 0.4, 0.4; 0.7, 0.2, 0.1];
+          [sequence, states] = hmmgenerate (25, transprob, outprob)
+          vpath = hmmviterbi (sequence, transprob, outprob)
+
+          symbols = {'A', 'B', 'C'};
+          statenames = {'One', 'Two'};
+          [sequence, states] = hmmgenerate (25, transprob, outprob,
+                               'symbols', symbols, 'statenames', statenames)
+          vpath = hmmviterbi (sequence, transprob, outprob,
+                  'symbols', symbols, 'statenames', statenames)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Lawrence R. Rabiner.  A Tutorial on Hidden Markov Models and
+          Selected Applications in Speech Recognition.  'Proceedings of
+          the IEEE', 77(2), pages 257-286, February 1989.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Use the Viterbi algorithm to find the Viterbi path of a hidden Markov
+model g...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+hygestat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1333
+ -- Function File: [MN, V] = hygestat (T, M, N)
+     Compute mean and variance of the hypergeometric distribution.
+
+     Arguments
+     ---------
+
+        * T is the total size of the population of the hypergeometric
+          distribution.  The elements of T must be positive natural
+          numbers
+
+        * M is the number of marked items of the hypergeometric
+          distribution.  The elements of M must be natural numbers
+
+        * N is the size of the drawn sample of the hypergeometric
+          distribution.  The elements of N must be positive natural
+          numbers
+     T, M, and N must be of common size or scalar
+
+     Return values
+     -------------
+
+        * MN is the mean of the hypergeometric distribution
+
+        * V is the variance of the hypergeometric distribution
+
+     Examples
+     --------
+
+          t = 4:9;
+          m = 0:5;
+          n = 1:6;
+          [mn, v] = hygestat (t, m, n)
+
+          [mn, v] = hygestat (t, m, 2)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  McGraw-Hill, New York, second edition,
+          1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 61
+Compute mean and variance of the hypergeometric distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+iwishpdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 658
+ -- Function File: Y = iwishpdf (W, TAU, DF, LOG_Y=false)
+     Compute the probability density function of the Wishart
+     distribution
+
+     Inputs: A P x P matrix W where to find the PDF and the P x P
+     positive definite scale matrix TAU and scalar degrees of freedom
+     parameter DF characterizing the inverse Wishart distribution.  (For
+     the density to be finite, need DF > (P - 1).)  If the flag LOG_Y is
+     set, return the log probability density - this helps avoid
+     underflow when the numerical value of the density is very small
+
+     Output: Y is the probability density of Wishart(SIGMA, DF) at W.
+
+     See also: iwishrnd, wishpdf.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 68
+Compute the probability density function of the Wishart distribution
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+iwishrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1041
+ -- Function File: [W[, DI]] = iwishrnd (PSI, DF[, DI][, N=1])
+     Return a random matrix sampled from the inverse Wishart
+     distribution with given parameters
+
+     Inputs: the P x P positive definite matrix TAU and scalar degrees
+     of freedom parameter DF (and optionally the transposed Cholesky
+     factor DI of SIGMA = 'inv(Tau)').  DF can be non-integer as long as
+     DF > D
+
+     Output: a random P x P matrix W from the inverse Wishart(TAU, DF)
+     distribution.  ('inv(W)' is from the Wishart('inv(Tau)', DF)
+     distribution.)  If N > 1, then W is P x P x N and holds N such
+     random matrices.  (Optionally, the transposed Cholesky factor DI of
+     SIGMA is also returned.)
+
+     Averaged across many samples, the mean of W should approach TAU /
+     (DF - P - 1).
+
+     Reference: Yu-Cheng Ku and Peter Bloomfield (2010), Generating
+     Random Wishart Matrices with Fractional Degrees of Freedom in OX,
+     http://www.gwu.edu/~forcpgm/YuChengKu-030510final-WishartYu-ChengKu.pdf
+
+     See also: wishrnd, iwishpdf.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a random matrix sampled from the inverse Wishart distribution
+with giv...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 9
+jackknife
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2008
+ -- Function File: JACKSTAT = jackknife (E, X, ...)
+     Compute jackknife estimates of a parameter taking one or more given
+     samples as parameters.  In particular, E is the estimator to be
+     jackknifed as a function name, handle, or inline function, and X is
+     the sample for which the estimate is to be taken.  The I-th entry
+     of JACKSTAT will contain the value of the estimator on the sample X
+     with its I-th row omitted.
+
+          jackstat(I) = E(X(1 : I - 1, I + 1 : length(X)))
+
+     Depending on the number of samples to be used, the estimator must
+     have the appropriate form: If only one sample is used, then the
+     estimator need not be concerned with cell arrays, for example
+     jackknifing the standard deviation of a sample can be performed
+     with 'JACKSTAT = jackknife (@std, rand (100, 1))'.  If, however,
+     more than one sample is to be used, the samples must all be of
+     equal size, and the estimator must address them as elements of a
+     cell-array, in which they are aggregated in their order of
+     appearance:
+
+          JACKSTAT = jackknife(@(x) std(x{1})/var(x{2}), rand (100, 1), randn (100, 1)
+
+     If all goes well, a theoretical value P for the parameter is
+     already known, N is the sample size, 'T = N * E(X) - (N - 1) *
+     mean(JACKSTAT)', and 'V = sumsq(N * E(X) - (N - 1) * JACKSTAT - T)
+     / (N * (N - 1))', then '(T-P)/sqrt(V)' should follow a
+     t-distribution with N-1 degrees of freedom.
+
+     Jackknifing is a well known method to reduce bias; further details
+     can be found in:
+        * Rupert G. Miller: The jackknife-a review; Biometrika (1974)
+          61(1): 1-15; doi:10.1093/biomet/61.1.1
+        * Rupert G. Miller: Jackknifing Variances; Ann.  Math.  Statist.
+          Volume 39, Number 2 (1968), 567-582;
+          doi:10.1214/aoms/1177698418
+        * M. H. Quenouille: Notes on Bias in Estimation; Biometrika Vol.
+          43, No.  3/4 (Dec., 1956), pp.  353-360;
+          doi:10.1093/biomet/43.3-4.353
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute jackknife estimates of a parameter taking one or more given
+samples a...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+jsucdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 260
+ -- Function File: jsucdf (X, ALPHA1, ALPHA2)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the Johnson SU distribution with shape parameters
+     ALPHA1 and ALPHA2.
+
+     Default values are ALPHA1 = 1, ALPHA2 = 1.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+jsupdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 256
+ -- Function File: jsupdf (X, ALPHA1, ALPHA2)
+     For each element of X, compute the probability density function
+     (PDF) at X of the Johnson SU distribution with shape parameters
+     ALPHA1 and ALPHA2.
+
+     Default values are ALPHA1 = 1, ALPHA2 = 1.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+kmeans
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 4055
+ -- [IDX, CENTERS, SUMD, DIST] = kmeans (DATA, K, PARAM1, VALUE1, ...)
+     Perform a K-means clustering of the NxD table DATA.  If parameter
+     start is specified, then K may be empty in which case K is set to
+     the number of rows of START.
+
+     The outputs are:
+     'IDX'
+          An Nx1 vector whose Ith element is the class to which row I of
+          DATA is assigned.
+
+     'CENTERS'
+          A KxD array whose Ith row is the centroid of cluster I.
+
+     'SUMD'
+          A Kx1 vector whose Ith entry is the sum of the distances from
+          samples in cluster I to centroid I.
+
+     'DIST'
+          An NxK matrix whose IJth element is the distance from sample I
+          to centroid J.
+
+     The following parameters may be placed in any order.  Each
+     parameter must be followed by its value.
+     'START'
+          The initialization method for the centroids.
+          'plus'
+               (Default) The k-means++ algorithm.
+          'sample'
+               A subset of K rows from DATA, sampled uniformly without
+               replacement.
+          'cluster'
+               Perform a pilot clustering on 10% of the rows of DATA.
+          'uniform'
+               Each component of each centroid is drawn uniformly from
+               the interval between the maximum and minimum values of
+               that component within DATA.  This performs poorly and is
+               implemented only for Matlab compatibility.
+          'A'
+               A KxDxR matrix, where R is the number of replicates.
+
+     'REPLICATES'
+          An positive integer specifying the number of independent
+          clusterings to perform.  The output values are the values for
+          the best clustering, i.e., the one with the smallest value of
+          SUMD.  If START is numeric, then REPLICATES defaults to (and
+          must equal) the size of the third dimension of START.
+          Otherwise it defaults to 1.
+
+     'MAXITER'
+          The maximum number of iterations to perform for each
+          replicate.  If the maximum change of any centroid is less than
+          0.001, then the replicate terminates even if MAXITER
+          iterations have no occurred.  The default is 100.
+
+     'DISTANCE'
+          The distance measure used for partitioning and calculating
+          centroids.
+          'sqeuclidean'
+               The squared Euclidean distance, i.e., the sum of the
+               squares of the differences between corresponding
+               components.  In this case, the centroid is the arithmetic
+               mean of all samples in its cluster.  This is the only
+               distance for which this algorithm is truly "k-means".
+
+          'cityblock'
+               The sum metric, or L1 distance, i.e., the sum of the
+               absolute differences between corresponding components.
+               In this case, the centroid is the median of all samples
+               in its cluster.  This gives the k-medians algorithm.
+
+          'cosine'
+               (Documentation incomplete.)
+
+          'correlation'
+               (Documentation incomplete.)
+
+          'hamming'
+               The number of components in which the sample and the
+               centroid differ.  In this case, the centroid is the
+               median of all samples in its cluster.  Unlike Matlab,
+               Octave allows non-logical DATA.
+
+     'EMPTYACTION'
+          What to do when a centroid is not the closest to any data
+          sample.
+          'error'
+               (Default) Throw an error.
+          'singleton'
+               Select the row of DATA that has the highest error and use
+               that as the new centroid.
+          'drop'
+               Remove the centroid, and continue computation with one
+               fewer centroid.  The dimensions of the outputs CENTROIDS
+               and D are unchanged, with values for omitted centroids
+               replaced by NA.
+
+     Example:
+
+     [~,c] = kmeans (rand(10, 3), 2, "emptyaction", "singleton");
+
+     See also: linkage.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 51
+Perform a K-means clustering of the NxD table DATA.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+linkage
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2930
+ -- Function File: Y = linkage (D)
+ -- Function File: Y = linkage (D, METHOD)
+ -- Function File: Y = linkage (X, METHOD, METRIC)
+ -- Function File: Y = linkage (X, METHOD, ARGLIST)
+
+     Produce a hierarchical clustering dendrogram
+
+     D is the dissimilarity matrix relative to n observations, formatted
+     as a (n-1)*n/2x1 vector as produced by 'pdist'.  Alternatively, X
+     contains data formatted for input to 'pdist', METRIC is a metric
+     for 'pdist' and ARGLIST is a cell array containing arguments that
+     are passed to 'pdist'.
+
+     'linkage' starts by putting each observation into a singleton
+     cluster and numbering those from 1 to n.  Then it merges two
+     clusters, chosen according to METHOD, to create a new cluster
+     numbered n+1, and so on until all observations are grouped into a
+     single cluster numbered 2(n-1).  Row k of the (m-1)x3 output matrix
+     relates to cluster n+k: the first two columns are the numbers of
+     the two component clusters and column 3 contains their distance.
+
+     METHOD defines the way the distance between two clusters is
+     computed and how they are recomputed when two clusters are merged:
+
+     '"single" (default)'
+          Distance between two clusters is the minimum distance between
+          two elements belonging each to one cluster.  Produces a
+          cluster tree known as minimum spanning tree.
+
+     '"complete"'
+          Furthest distance between two elements belonging each to one
+          cluster.
+
+     '"average"'
+          Unweighted pair group method with averaging (UPGMA). The mean
+          distance between all pair of elements each belonging to one
+          cluster.
+
+     '"weighted"'
+          Weighted pair group method with averaging (WPGMA). When two
+          clusters A and B are joined together, the new distance to a
+          cluster C is the mean between distances A-C and B-C.
+
+     '"centroid"'
+          Unweighted Pair-Group Method using Centroids (UPGMC). Assumes
+          Euclidean metric.  The distance between cluster centroids,
+          each centroid being the center of mass of a cluster.
+
+     '"median"'
+          Weighted pair-group method using centroids (WPGMC). Assumes
+          Euclidean metric.  Distance between cluster centroids.  When
+          two clusters are joined together, the new centroid is the
+          midpoint between the joined centroids.
+
+     '"ward"'
+          Ward's sum of squared deviations about the group mean (ESS).
+          Also known as minimum variance or inner squared distance.
+          Assumes Euclidean metric.  How much the moment of inertia of
+          the merged cluster exceeds the sum of those of the individual
+          clusters.
+
+     *Reference* Ward, J. H. Hierarchical Grouping to Optimize an
+     Objective Function J. Am.  Statist.  Assoc.  1963, 58, 236-244,
+     <http://iv.slis.indiana.edu/sw/data/ward.pdf>.
+
+See also: pdist,squareform.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 44
+Produce a hierarchical clustering dendrogram
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+lognstat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1076
+ -- Function File: [M, V] = lognstat (MU, SIGMA)
+     Compute mean and variance of the lognormal distribution.
+
+     Arguments
+     ---------
+
+        * MU is the first parameter of the lognormal distribution
+
+        * SIGMA is the second parameter of the lognormal distribution.
+          SIGMA must be positive or zero
+     MU and SIGMA must be of common size or one of them must be scalar
+
+     Return values
+     -------------
+
+        * M is the mean of the lognormal distribution
+
+        * V is the variance of the lognormal distribution
+
+     Examples
+     --------
+
+          mu = 0:0.2:1;
+          sigma = 0.2:0.2:1.2;
+          [m, v] = lognstat (mu, sigma)
+
+          [m, v] = lognstat (0, sigma)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  McGraw-Hill, New York, second edition,
+          1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 56
+Compute mean and variance of the lognormal distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+mahal
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 491
+ -- Function File: mahal (Y, X)
+     Mahalanobis' D-square distance.
+
+     Return the Mahalanobis' D-square distance of the points in Y from
+     the distribution implied by points X.
+
+     Specifically, it uses a Cholesky decomposition to set
+
+           answer(i) = (Y(i,:) - mean (X)) * inv (A) * (Y(i,:)-mean (X))'
+
+     where A is the covariance of X.
+
+     The data X and Y must have the same number of components (columns),
+     but may have a different number of observations (rows).
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 31
+Mahalanobis' D-square distance.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+mnpdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1686
+ -- Function File: Y = mnpdf (X, P)
+     Compute the probability density function of the multinomial
+     distribution.
+
+     Arguments
+     ---------
+
+        * X is vector with a single sample of a multinomial distribution
+          with parameter P or a matrix of random samples from
+          multinomial distributions.  In the latter case, each row of X
+          is a sample from a multinomial distribution with the
+          corresponding row of P being its parameter.
+
+        * P is a vector with the probabilities of the categories or a
+          matrix with each row containing the probabilities of a
+          multinomial sample.
+
+     Return values
+     -------------
+
+        * Y is a vector of probabilites of the random samples X from the
+          multinomial distribution with corresponding parameter P.  The
+          parameter N of the multinomial distribution is the sum of the
+          elements of each row of X.  The length of Y is the number of
+          columns of X.  If a row of P does not sum to '1', then the
+          corresponding element of Y will be 'NaN'.
+
+     Examples
+     --------
+
+          x = [1, 4, 2];
+          p = [0.2, 0.5, 0.3];
+          y = mnpdf (x, p);
+
+          x = [1, 4, 2; 1, 0, 9];
+          p = [0.2, 0.5, 0.3; 0.1, 0.1, 0.8];
+          y = mnpdf (x, p);
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Merran Evans, Nicholas Hastings and Brian Peacock.
+          'Statistical Distributions'.  pages 134-136, Wiley, New York,
+          third edition, 2000.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 73
+Compute the probability density function of the multinomial
+distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+mnrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2222
+ -- Function File: X = mnrnd (N, P)
+ -- Function File: X = mnrnd (N, P, S)
+     Generate random samples from the multinomial distribution.
+
+     Arguments
+     ---------
+
+        * N is the first parameter of the multinomial distribution.  N
+          can be scalar or a vector containing the number of trials of
+          each multinomial sample.  The elements of N must be
+          non-negative integers.
+
+        * P is the second parameter of the multinomial distribution.  P
+          can be a vector with the probabilities of the categories or a
+          matrix with each row containing the probabilities of a
+          multinomial sample.  If P has more than one row and N is
+          non-scalar, then the number of rows of P must match the number
+          of elements of N.
+
+        * S is the number of multinomial samples to be generated.  S
+          must be a non-negative integer.  If S is specified, then N
+          must be scalar and P must be a vector.
+
+     Return values
+     -------------
+
+        * X is a matrix of random samples from the multinomial
+          distribution with corresponding parameters N and P.  Each row
+          corresponds to one multinomial sample.  The number of columns,
+          therefore, corresponds to the number of columns of P.  If S is
+          not specified, then the number of rows of X is the maximum of
+          the number of elements of N and the number of rows of P.  If a
+          row of P does not sum to '1', then the corresponding row of X
+          will contain only 'NaN' values.
+
+     Examples
+     --------
+
+          n = 10;
+          p = [0.2, 0.5, 0.3];
+          x = mnrnd (n, p);
+
+          n = 10 * ones (3, 1);
+          p = [0.2, 0.5, 0.3];
+          x = mnrnd (n, p);
+
+          n = (1:2)';
+          p = [0.2, 0.5, 0.3; 0.1, 0.1, 0.8];
+          x = mnrnd (n, p);
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Merran Evans, Nicholas Hastings and Brian Peacock.
+          'Statistical Distributions'.  pages 134-136, Wiley, New York,
+          third edition, 2000.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 58
+Generate random samples from the multinomial distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 15
+monotone_smooth
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1786
+ -- Function File: YY = monotone_smooth (X, Y, H)
+     Produce a smooth monotone increasing approximation to a sampled
+     functional dependence
+
+     A kernel method is used (an Epanechnikov smoothing kernel is
+     applied to y(x); this is integrated to yield the monotone
+     increasing form.  See Reference 1 for details.)
+
+     Arguments
+     ---------
+
+        * X is a vector of values of the independent variable.
+
+        * Y is a vector of values of the dependent variable, of the same
+          size as X.  For best performance, it is recommended that the Y
+          already be fairly smooth, e.g.  by applying a kernel smoothing
+          to the original values if they are noisy.
+
+        * H is the kernel bandwidth to use.  If H is not given, a
+          "reasonable" value is computed.
+
+     Return values
+     -------------
+
+        * YY is the vector of smooth monotone increasing function values
+          at X.
+
+     Examples
+     --------
+
+          x = 0:0.1:10;
+          y = (x .^ 2) + 3 * randn(size(x)); %typically non-monotonic from the added noise
+          ys = ([y(1) y(1:(end-1))] + y + [y(2:end) y(end)])/3; %crudely smoothed via
+          moving average, but still typically non-monotonic
+          yy = monotone_smooth(x, ys); %yy is monotone increasing in x
+          plot(x, y, '+', x, ys, x, yy)
+
+     References
+     ----------
+
+       1. Holger Dette, Natalie Neumeyer and Kay F. Pilz (2006), A
+          simple nonparametric estimator of a strictly monotone
+          regression function, 'Bernoulli', 12:469-490
+       2. Regine Scheder (2007), R Package 'monoProc', Version 1.0-6,
+          <http://cran.r-project.org/web/packages/monoProc/monoProc.pdf>
+          (The implementation here is based on the monoProc function
+          mono.1d)
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Produce a smooth monotone increasing approximation to a sampled
+functional de...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+mvncdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1238
+ -- Function File: P = mvncdf (X, MU, SIGMA)
+ -- Function File: mvncdf (A, X, MU, SIGMA)
+ -- Function File: [P, ERR] = mvncdf (...)
+     Compute the cumulative distribution function of the multivariate
+     normal distribution.
+
+     Arguments
+     ---------
+
+        * X is the upper limit for integration where each row
+          corresponds to an observation.
+
+        * MU is the mean.
+
+        * SIGMA is the correlation matrix.
+
+        * A is the lower limit for integration where each row
+          corresponds to an observation.  A must have the same size as
+          X.
+
+     Return values
+     -------------
+
+        * P is the cumulative distribution at each row of X and A.
+
+        * ERR is the estimated error.
+
+     Examples
+     --------
+
+          x = [1 2];
+          mu = [0.5 1.5];
+          sigma = [1.0 0.5; 0.5 1.0];
+          p = mvncdf (x, mu, sigma)
+
+          a = [-inf 0];
+          p = mvncdf (a, x, mu, sigma)
+
+     References
+     ----------
+
+       1. Alan Genz and Frank Bretz.  Numerical Computation of
+          Multivariate t-Probabilities with Application to Power
+          Calculation of Multiple Constrasts.  'Journal of Statistical
+          Computation and Simulation', 63, pages 361-378, 1999.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute the cumulative distribution function of the multivariate normal
+distr...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+mvnpdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1599
+ -- Function File: Y = mvnpdf (X)
+ -- Function File: Y = mvnpdf (X, MU)
+ -- Function File: Y = mvnpdf (X, MU, SIGMA)
+     Compute multivariate normal pdf for X given mean MU and covariance
+     matrix SIGMA.  The dimension of X is D x P, MU is 1 x P and SIGMA
+     is P x P.  The normal pdf is defined as
+
+          1/Y^2 = (2 pi)^P |SIGMA| exp { (X-MU)' inv(SIGMA) (X-MU) }
+
+     *References*
+
+     NIST Engineering Statistics Handbook 6.5.4.2
+     http://www.itl.nist.gov/div898/handbook/pmc/section5/pmc542.htm
+
+     *Algorithm*
+
+     Using Cholesky factorization on the positive definite covariance
+     matrix:
+
+          R = chol (SIGMA);
+
+     where R'*R = SIGMA.  Being upper triangular, the determinant of R
+     is trivially the product of the diagonal, and the determinant of
+     SIGMA is the square of this:
+
+          DET = prod (diag (R))^2;
+
+     The formula asks for the square root of the determinant, so no need
+     to square it.
+
+     The exponential argument A = X' * inv (SIGMA) * X
+
+          A = X' * inv (SIGMA) * X
+            = X' * inv (R' * R) * X
+            = X' * inv (R) * inv(R') * X
+
+     Given that inv (R') == inv(R)', at least in theory if not
+     numerically,
+
+          A  = (X' / R) * (X'/R)' = sumsq (X'/R)
+
+     The interface takes the parameters to the multivariate normal in
+     columns rather than rows, so we are actually dealing with the
+     transpose:
+
+          A = sumsq (X/r)
+
+     and the final result is:
+
+          R = chol (SIGMA)
+          Y = (2*pi)^(-P/2) * exp (-sumsq ((X-MU)/R, 2)/2) / prod (diag (R))
+
+     See also: mvncdf, mvnrnd.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute multivariate normal pdf for X given mean MU and covariance
+matrix SIG...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+mvnrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 501
+ -- Function File: S = mvnrnd (MU, SIGMA)
+ -- Function File: S = mvnrnd (MU, SIGMA, N)
+ -- Function File: S = mvnrnd (..., TOL)
+     Draw N random D-dimensional vectors from a multivariate Gaussian
+     distribution with mean MU(NxD) and covariance matrix SIGMA(DxD).
+
+     MU must be N-by-D (or 1-by-D if N is given) or a scalar.
+
+     If the argument TOL is given the eigenvalues of SIGMA are checked
+     for positivity against -100*tol.  The default value of tol is
+     'eps*norm (Sigma, "fro")'.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Draw N random D-dimensional vectors from a multivariate Gaussian
+distribution...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+mvtcdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1249
+ -- Function File: P = mvtcdf (X, SIGMA, NU)
+ -- Function File: mvtcdf (A, X, SIGMA, NU)
+ -- Function File: [P, ERR] = mvtcdf (...)
+     Compute the cumulative distribution function of the multivariate
+     Student's t distribution.
+
+     Arguments
+     ---------
+
+        * X is the upper limit for integration where each row
+          corresponds to an observation.
+
+        * SIGMA is the correlation matrix.
+
+        * NU is the degrees of freedom.
+
+        * A is the lower limit for integration where each row
+          corresponds to an observation.  A must have the same size as
+          X.
+
+     Return values
+     -------------
+
+        * P is the cumulative distribution at each row of X and A.
+
+        * ERR is the estimated error.
+
+     Examples
+     --------
+
+          x = [1 2];
+          sigma = [1.0 0.5; 0.5 1.0];
+          nu = 4;
+          p = mvtcdf (x, sigma, nu)
+
+          a = [-inf 0];
+          p = mvtcdf (a, x, sigma, nu)
+
+     References
+     ----------
+
+       1. Alan Genz and Frank Bretz.  Numerical Computation of
+          Multivariate t-Probabilities with Application to Power
+          Calculation of Multiple Constrasts.  'Journal of Statistical
+          Computation and Simulation', 63, pages 361-378, 1999.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute the cumulative distribution function of the multivariate
+Student's t ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+mvtpdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1024
+ -- Function File: P = mvtpdf (X, SIGMA, NU)
+     Compute the probability density function of the multivariate
+     Student's t distribution.
+
+     Arguments
+     ---------
+
+        * X are the points at which to find the probability, where each
+          row corresponds to an observation.  (N by D matrix)
+
+        * SIGMA is the scale matrix.  (D by D symmetric positive
+          definite matrix)
+
+        * NU is the degrees of freedom.  (scalar or N vector)
+
+     The distribution is assumed to be centered (zero mean).
+
+     Return values
+     -------------
+
+        * P is the probability density for each row of X.  (N by 1
+          vector)
+
+     Examples
+     --------
+
+          x = [1 2];
+          sigma = [1.0 0.5; 0.5 1.0];
+          nu = 4;
+          p = mvtpdf (x, sigma, nu)
+
+     References
+     ----------
+
+       1. Michael Roth, On the Multivariate t Distribution, Technical
+          report from Automatic Control at Linkoepings universitet,
+          <http://users.isy.liu.se/en/rt/roth/student.pdf>
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute the probability density function of the multivariate Student's t
+dist...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+mvtrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2021
+ -- Function File: X = mvtrnd (SIGMA, NU)
+ -- Function File: X = mvtrnd (SIGMA, NU, N)
+     Generate random samples from the multivariate t-distribution.
+
+     Arguments
+     ---------
+
+        * SIGMA is the matrix of correlation coefficients.  If there are
+          any non-unit diagonal elements then SIGMA will be normalized,
+          so that the resulting covariance of the obtained samples X
+          follows: 'cov (x) = nu/(nu-2) * sigma ./ (sqrt (diag (sigma) *
+          diag (sigma)))'.  In order to obtain samples distributed
+          according to a standard multivariate t-distribution, SIGMA
+          must be equal to the identity matrix.  To generate
+          multivariate t-distribution samples X with arbitrary
+          covariance matrix SIGMA, the following scaling might be used:
+          'x = mvtrnd (sigma, nu, n) * diag (sqrt (diag (sigma)))'.
+
+        * NU is the degrees of freedom for the multivariate
+          t-distribution.  NU must be a vector with the same number of
+          elements as samples to be generated or be scalar.
+
+        * N is the number of rows of the matrix to be generated.  N must
+          be a non-negative integer and corresponds to the number of
+          samples to be generated.
+
+     Return values
+     -------------
+
+        * X is a matrix of random samples from the multivariate
+          t-distribution with N row samples.
+
+     Examples
+     --------
+
+          sigma = [1, 0.5; 0.5, 1];
+          nu = 3;
+          n = 10;
+          x = mvtrnd (sigma, nu, n);
+
+          sigma = [1, 0.5; 0.5, 1];
+          nu = [2; 3];
+          n = 2;
+          x = mvtrnd (sigma, nu, 2);
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Samuel Kotz and Saralees Nadarajah.  'Multivariate t
+          Distributions and Their Applications'.  Cambridge University
+          Press, Cambridge, 2004.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 61
+Generate random samples from the multivariate t-distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+nakacdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 190
+ -- nakacdf (X, M, W)
+     For each element of X, compute the cumulative distribution function
+     (CDF) at X of the Nakagami distribution with shape parameter M and
+     scale parameter W.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the cumulative distribution function
+(CDF) at ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+nakainv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 185
+ -- nakainv (X, M, W)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the Nakagami distribution with shape parameter M and
+     scale parameter W.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+nakapdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 186
+ -- nakapdf (X, M, W)
+     For each element of X, compute the probability density function
+     (PDF) at X of the Nakagami distribution with shape parameter M and
+     scale parameter W.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the probability density function (PDF) at
+X of...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+nakarnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 671
+ -- nakarnd (M, W)
+ -- nakarnd (M, W, R)
+ -- nakarnd (M, W, R, C, ...)
+ -- nakarnd (M, W, [SZ])
+     Return a matrix of random samples from the Nakagami distribution
+     with shape parameter M and scale W.
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the common
+     size of M and W.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the Nakagami distribution with
+shape p...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+nanmax
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 377
+ -- Function File: [V, IDX] = nanmax (X)
+ -- Function File: [V, IDX] = nanmax (X, Y)
+     Find the maximal element while ignoring NaN values.
+
+     'nanmax' is identical to the 'max' function except that NaN values
+     are ignored.  If all values in a column are NaN, the maximum is
+     returned as NaN rather than [].
+
+     See also: max, nansum, nanmin, nanmean, nanmedian.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 51
+Find the maximal element while ignoring NaN values.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+nanmean
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 337
+ -- Function File: V = nanmean (X)
+ -- Function File: V = nanmean (X, DIM)
+     Compute the mean value while ignoring NaN values.
+
+     'nanmean' is identical to the 'mean' function except that NaN
+     values are ignored.  If all values are NaN, the mean is returned as
+     NaN.
+
+     See also: mean, nanmin, nanmax, nansum, nanmedian.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 49
+Compute the mean value while ignoring NaN values.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 9
+nanmedian
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 353
+ -- Function File: V = nanmedian (X)
+ -- Function File: V = nanmedian (X, DIM)
+     Compute the median of data while ignoring NaN values.
+
+     This function is identical to the 'median' function except that NaN
+     values are ignored.  If all values are NaN, the median is returned
+     as NaN.
+
+     See also: median, nanmin, nanmax, nansum, nanmean.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 53
+Compute the median of data while ignoring NaN values.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+nanmin
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 377
+ -- Function File: [V, IDX] = nanmin (X)
+ -- Function File: [V, IDX] = nanmin (X, Y)
+     Find the minimal element while ignoring NaN values.
+
+     'nanmin' is identical to the 'min' function except that NaN values
+     are ignored.  If all values in a column are NaN, the minimum is
+     returned as NaN rather than [].
+
+     See also: min, nansum, nanmax, nanmean, nanmedian.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 51
+Find the minimal element while ignoring NaN values.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+nanstd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 926
+ -- Function File: V = nanstd (X)
+ -- Function File: V = nanstd (X, OPT)
+ -- Function File: V = nanstd (X, OPT, DIM)
+     Compute the standard deviation while ignoring NaN values.
+
+     'nanstd' is identical to the 'std' function except that NaN values
+     are ignored.  If all values are NaN, the standard deviation is
+     returned as NaN. If there is only a single non-NaN value, the
+     deviation is returned as 0.
+
+     The argument OPT determines the type of normalization to use.
+     Valid values are
+
+     0:
+          normalizes with N-1, provides the square root of best unbiased
+          estimator of the variance [default]
+     1:
+          normalizes with N, this provides the square root of the second
+          moment around the mean
+
+     The third argument DIM determines the dimension along which the
+     standard deviation is calculated.
+
+     See also: std, nanmin, nanmax, nansum, nanmedian, nanmean.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 57
+Compute the standard deviation while ignoring NaN values.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+nansum
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 537
+ -- Built-in Function: nansum (X)
+ -- Built-in Function: nansum (X, DIM)
+ -- Built-in Function: nansum (..., "native")
+ -- Built-in Function: nansum (..., "double")
+ -- Built-in Function: nansum (..., "extra")
+     Compute the sum while ignoring NaN values.
+
+     'nansum' is identical to the 'sum' function except that NaN values
+     are treated as 0 and so ignored.  If all values are NaN, the sum is
+     returned as 0.
+
+     See help text of 'sum' for details on the options.
+
+     See also: sum, nanmin, nanmax, nanmean, nanmedian.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 42
+Compute the sum while ignoring NaN values.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+nanvar
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 781
+ -- Function File: nanvar (X)
+ -- Function File: V = nanvar (X, OPT)
+ -- Function File: V = nanvar (X, OPT, DIM)
+     Compute the variance while ignoring NaN values.
+
+     For vector arguments, return the (real) variance of the values.
+     For matrix arguments, return a row vector containing the variance
+     for each column.
+
+     The argument OPT determines the type of normalization to use.
+     Valid values are
+
+     0:
+          Normalizes with N-1, provides the best unbiased estimator of
+          the variance [default].
+     1:
+          Normalizes with N, this provides the second moment around the
+          mean.
+
+     The third argument DIM determines the dimension along which the
+     variance is calculated.
+
+     See also: var, nanmean, nanstd, nanmax, nanmin.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 47
+Compute the variance while ignoring NaN values.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+nbinstat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1149
+ -- Function File: [M, V] = nbinstat (N, P)
+     Compute mean and variance of the negative binomial distribution.
+
+     Arguments
+     ---------
+
+        * N is the first parameter of the negative binomial
+          distribution.  The elements of N must be natural numbers
+
+        * P is the second parameter of the negative binomial
+          distribution.  The elements of P must be probabilities
+     N and P must be of common size or one of them must be scalar
+
+     Return values
+     -------------
+
+        * M is the mean of the negative binomial distribution
+
+        * V is the variance of the negative binomial distribution
+
+     Examples
+     --------
+
+          n = 1:4;
+          p = 0.2:0.2:0.8;
+          [m, v] = nbinstat (n, p)
+
+          [m, v] = nbinstat (n, 0.5)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  McGraw-Hill, New York, second edition,
+          1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 64
+Compute mean and variance of the negative binomial distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 22
+normalise_distribution
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2092
+ -- Function File: NORMALISED = normalise_distribution (DATA)
+ -- Function File: NORMALISED = normalise_distribution (DATA,
+          DISTRIBUTION)
+ -- Function File: NORMALISED = normalise_distribution (DATA,
+          DISTRIBUTION, DIMENSION)
+
+     Transform a set of data so as to be N(0,1) distributed according to
+     an idea by van Albada and Robinson.  This is achieved by first
+     passing it through its own cumulative distribution function (CDF)
+     in order to get a uniform distribution, and then mapping the
+     uniform to a normal distribution.  The data must be passed as a
+     vector or matrix in DATA.  If the CDF is unknown, then [] can be
+     passed in DISTRIBUTION, and in this case the empirical CDF will be
+     used.  Otherwise, if the CDFs for all data are known, they can be
+     passed in DISTRIBUTION, either in the form of a single function
+     name as a string, or a single function handle, or a cell array
+     consisting of either all function names as strings, or all function
+     handles.  In the latter case, the number of CDFs passed must match
+     the number of rows, or columns respectively, to normalise.  If the
+     data are passed as a matrix, then the transformation will operate
+     either along the first non-singleton dimension, or along DIMENSION
+     if present.
+
+     Notes: The empirical CDF will map any two sets of data having the
+     same size and their ties in the same places after sorting to some
+     permutation of the same normalised data:
+          normalise_distribution([1 2 2 3 4])
+          => -1.28  0.00  0.00  0.52  1.28
+
+          normalise_distribution([1 10 100 10 1000])
+          => -1.28  0.00  0.52  0.00  1.28
+
+     Original source: S.J. van Albada, P.A. Robinson "Transformation of
+     arbitrary distributions to the normal distribution with application
+     to EEG test-retest reliability" Journal of Neuroscience Methods,
+     Volume 161, Issue 2, 15 April 2007, Pages 205-211 ISSN 0165-0270,
+     10.1016/j.jneumeth.2006.11.004.
+     (http://www.sciencedirect.com/science/article/pii/S0165027006005668)
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Transform a set of data so as to be N(0,1) distributed according to an
+idea b...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+normplot
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 441
+ -- Function File: normplot (X)
+     Produce normal probability plot for each column of X.
+
+     The line joing the 1st and 3rd quantile is drawn on the graph.  If
+     the underlying distribution is normal, the points will cluster
+     around this line.
+
+     Note that this function sets the title, xlabel, ylabel, axis, grid,
+     tics and hold properties of the graph.  These need to be cleared
+     before subsequent graphs using 'clf'.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 53
+Produce normal probability plot for each column of X.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+normstat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1008
+ -- Function File: [MN, V] = normstat (M, S)
+     Compute mean and variance of the normal distribution.
+
+     Arguments
+     ---------
+
+        * M is the mean of the normal distribution
+
+        * S is the standard deviation of the normal distribution.  S
+          must be positive
+     M and S must be of common size or one of them must be scalar
+
+     Return values
+     -------------
+
+        * MN is the mean of the normal distribution
+
+        * V is the variance of the normal distribution
+
+     Examples
+     --------
+
+          m = 1:6;
+          s = 0:0.2:1;
+          [mn, v] = normstat (m, s)
+
+          [mn, v] = normstat (0, s)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  McGraw-Hill, New York, second edition,
+          1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 53
+Compute mean and variance of the normal distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+pcacov
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 645
+ -- Function File: [COEFF] = pcacov(X)
+ -- Function File: [COEFF,LATENT] = pcacov(X)
+ -- Function File: [COEFF,LATENT,EXPLAINED] = pcacov(X)
+     Perform principal component analysis on the nxn covariance matrix X
+
+        * COEFF : a nxn matrix with columns containing the principal
+          component coefficients
+        * LATENT : a vector containing the principal component variances
+        * EXPLAINED : a vector containing the percentage of the total
+          variance explained by each principal component
+
+     References
+     ----------
+
+       1. Jolliffe, I. T., Principal Component Analysis, 2nd Edition,
+          Springer, 2002
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 67
+Perform principal component analysis on the nxn covariance matrix X
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+pcares
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 470
+ -- Function File: [RESIDUALS,RECONSTRUCTED] =pcares(X, NDIM)
+     Calulate residuals from principal component analysis
+
+        * X : N x P Matrix with N observations and P variables, the
+          variables will be mean centered
+        * NDIM : Is a scalar indicating the number of principal
+          components to use and should be <= P
+
+     References
+     ----------
+
+       1. Jolliffe, I. T., Principal Component Analysis, 2nd Edition,
+          Springer, 2002
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 52
+Calulate residuals from principal component analysis
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 3
+pdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2095
+ -- Function File: RETVAL = pdf (NAME, X, ...)
+     Return probability density function of NAME function for value X.
+     This is a wrapper around various NAMEpdf and NAME_pdf functions.
+     See the individual functions help to learn the signification of the
+     arguments after X.  Supported functions and corresponding number of
+     additional arguments are:
+
+       function               alternative                      args
+     -------------------------------------------------------------------------
+       "beta"                 "beta"                           2
+       "bino"                 "binomial"                       2
+       "cauchy"                                                2
+       "chi2"                 "chisquare"                      1
+       "discrete"                                              2
+       "exp"                  "exponential"                    1
+       "f"                                                     2
+       "gam"                  "gamma"                          2
+       "geo"                  "geometric"                      1
+       "gev"                  "generalized extreme value"      3
+       "hyge"                 "hypergeometric"                 3
+       "kolmogorov_smirnov"                                    1
+       "laplace"                                               2
+       "logistic"                                              0
+       "logn"                 "lognormal"                      2
+       "norm"                 "normal"                         2
+       "poiss"                "poisson"                        1
+       "rayl"                 "rayleigh"                       1
+       "t"                                                     1
+       "unif"                 "uniform"                        2
+       "wbl"                  "weibull"                        2
+
+     See also: betapdf, binopdf, cauchy_pdf, chi2pdf, discrete_pdf,
+     exppdf, fpdf, gampdf, geopdf, gevpdf, hygepdf, laplace_pdf,
+     logistic_pdf, lognpdf, normpdf, poisspdf, raylpdf, tpdf, unifpdf,
+     wblpdf.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 65
+Return probability density function of NAME function for value X.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+pdist
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2498
+ -- Function File: Y = pdist (X)
+ -- Function File: Y = pdist (X, METRIC)
+ -- Function File: Y = pdist (X, METRIC, METRICARG, ...)
+
+     Return the distance between any two rows in X.
+
+     X is the NxD matrix representing Q row vectors of size D.
+
+     The output is a dissimilarity matrix formatted as a row vector Y,
+     (n-1)*n/2 long, where the distances are in the order [(1, 2) (1, 3)
+     ... (2, 3) ... (n-1, n)].  You can use the 'squareform' function to
+     display the distances between the vectors arranged into an NxN
+     matrix.
+
+     'metric' is an optional argument specifying how the distance is
+     computed.  It can be any of the following ones, defaulting to
+     "euclidean", or a user defined function that takes two arguments X
+     and Y plus any number of optional arguments, where X is a row
+     vector and and Y is a matrix having the same number of columns as
+     X.  'metric' returns a column vector where row I is the distance
+     between X and row I of Y.  Any additional arguments after the
+     'metric' are passed as metric (X, Y, METRICARG1, METRICARG2 ...).
+
+     Predefined distance functions are:
+
+     '"euclidean"'
+          Euclidean distance (default).
+
+     '"seuclidean"'
+          Standardized Euclidean distance.  Each coordinate in the sum
+          of squares is inverse weighted by the sample variance of that
+          coordinate.
+
+     '"mahalanobis"'
+          Mahalanobis distance: see the function mahalanobis.
+
+     '"cityblock"'
+          City Block metric, aka Manhattan distance.
+
+     '"minkowski"'
+          Minkowski metric.  Accepts a numeric parameter P: for P=1 this
+          is the same as the cityblock metric, with P=2 (default) it is
+          equal to the euclidean metric.
+
+     '"cosine"'
+          One minus the cosine of the included angle between rows, seen
+          as vectors.
+
+     '"correlation"'
+          One minus the sample correlation between points (treated as
+          sequences of values).
+
+     '"spearman"'
+          One minus the sample Spearman's rank correlation between
+          observations, treated as sequences of values.
+
+     '"hamming"'
+          Hamming distance: the quote of the number of coordinates that
+          differ.
+
+     '"jaccard"'
+          One minus the Jaccard coefficient, the quote of nonzero
+          coordinates that differ.
+
+     '"chebychev"'
+          Chebychev distance: the maximum coordinate difference.
+
+     See also: linkage, mahalanobis, squareform, pdist2.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 46
+Return the distance between any two rows in X.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+pdist2
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1734
+ -- Function File: pdist2 (X, Y)
+ -- Function File: pdist2 (X, Y, METRIC)
+     Compute pairwise distance between two sets of vectors.
+
+     Let X be an MxP matrix representing m points in P-dimensional space
+     and Y be an NxP matrix representing another set of points in the
+     same space.  This function computes the M-by-N distance matrix D
+     where 'D(i,j)' is the distance between 'X(i,:)' and 'Y(j,:)'.
+
+     The optional argument METRIC can be used to select different
+     distances:
+
+     "euclidean" (default)
+
+     "sqeuclidean"
+          Compute the squared euclidean distance, i.e., the euclidean
+          distance before computing square root.  This is ideal when the
+          interest is on the order of the euclidean distances rather
+          than the actual distance value because it performs
+          significantly faster while preserving the order.
+
+     "chisq'"
+          The chi-squared distance between two vectors is defined as:
+          'd(x, y) = sum ((xi-yi)^2 / (xi+yi)) / 2'.  The chi-squared
+          distance is useful when comparing histograms.
+
+     "cosine"
+          Distance is defined as the cosine of the angle between two
+          vectors.
+
+     "emd"
+          Earth Mover's Distance (EMD) between positive vectors
+          (histograms).  Note for 1D, with all histograms having equal
+          weight, there is a simple closed form for the calculation of
+          the EMD. The EMD between histograms X and Y is given by 'sum
+          (abs (cdf (x) - cdf (y)))', where 'cdf' is the cumulative
+          distribution function (computed simply by 'cumsum').
+
+     "L1"
+          The L1 distance between two vectors is defined as: 'sum (abs
+          (x-y))'
+
+     See also: pdist.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 54
+Compute pairwise distance between two sets of vectors.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 10
+plsregress
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 561
+ -- Function File:
+          [XLOADINGS,YLOADINGS,XSCORES,YSCORES,COEFFICIENTS,FITTED] =
+          plsregress(X, Y, NCOMP)
+     Calculate partial least squares regression
+
+        * X: Matrix of observations
+        * Y: Is a vector or matrix of responses
+        * NCOMP: number of components used for modelling
+        * X and Y will be mean centered to improve accuracy
+
+     References
+     ----------
+
+       1. SIMPLS: An alternative approach to partial least squares
+          regression.  Chemometrics and Intelligent Laboratory Systems
+          (1993)
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 42
+Calculate partial least squares regression
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+poisstat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 862
+ -- Function File: [M, V] = poisstat (LAMBDA)
+     Compute mean and variance of the Poisson distribution.
+
+     Arguments
+     ---------
+
+        * LAMBDA is the parameter of the Poisson distribution.  The
+          elements of LAMBDA must be positive
+
+     Return values
+     -------------
+
+        * M is the mean of the Poisson distribution
+
+        * V is the variance of the Poisson distribution
+
+     Example
+     -------
+
+          lambda = 1 ./ (1:6);
+          [m, v] = poisstat (lambda)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  McGraw-Hill, New York, second edition,
+          1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 54
+Compute mean and variance of the Poisson distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+princomp
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1240
+ -- Function File: [COEFF] = princomp(X)
+ -- Function File: [COEFF,SCORE] = princomp(X)
+ -- Function File: [COEFF,SCORE,LATENT] = princomp(X)
+ -- Function File: [COEFF,SCORE,LATENT,TSQUARE] = princomp(X)
+ -- Function File: [...] = princomp(X,'econ')
+     Performs a principal component analysis on a NxP data matrix X
+
+        * COEFF : returns the principal component coefficients
+        * SCORE : returns the principal component scores, the
+          representation of X in the principal component space
+        * LATENT : returns the principal component variances, i.e., the
+          eigenvalues of the covariance matrix X.
+        * TSQUARE : returns Hotelling's T-squared Statistic for each
+          observation in X
+        * [...]  = princomp(X,'econ') returns only the elements of
+          latent that are not necessarily zero, and the corresponding
+          columns of COEFF and SCORE, that is, when n <= p, only the
+          first n-1.  This can be significantly faster when p is much
+          larger than n.  In this case the svd will be applied on the
+          transpose of the data matrix X
+
+     References
+     ----------
+
+       1. Jolliffe, I. T., Principal Component Analysis, 2nd Edition,
+          Springer, 2002
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 62
+Performs a principal component analysis on a NxP data matrix X
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+qrandn
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 505
+ -- Function File: Z = qrandn (Q, R,C)
+ -- Function File: Z = qrandn (Q, [R,C])
+     Returns random deviates drawn from a q-Gaussian distribution.
+
+     Parameter Q charcterizes the q-Gaussian distribution.  The result
+     has the size indicated by S.
+
+     Reference: W. Thistleton, J. A. Marsh, K. Nelson, C. Tsallis (2006)
+     "Generalized Box-Muller method for generating q-Gaussian random
+     deviates" arXiv:cond-mat/0605570
+     http://arxiv.org/abs/cond-mat/0605570
+
+     See also: rand, randn.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 61
+Returns random deviates drawn from a q-Gaussian distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+random
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 3137
+ -- Function File: R = random(NAME, ARG1)
+ -- Function File: R = random(NAME, ARG1, ARG2)
+ -- Function File: R = random(NAME, ARG1, ARG2, ARG3)
+ -- Function File: R = random(NAME, ..., S1, ...)
+     Generates pseudo-random numbers from a given one-, two-, or
+     three-parameter distribution.
+
+     The variable NAME must be a string that names the distribution from
+     which to sample.  If this distribution is a one-parameter
+     distribution ARG1 should be supplied, if it is a two-paramter
+     distribution ARG2 must also be supplied, and if it is a
+     three-parameter distribution ARG3 must also be present.  Any
+     arguments following the distribution paramters will determine the
+     size of the result.
+
+     As an example, the following code generates a 10 by 20 matrix
+     containing random numbers from a normal distribution with mean 5
+     and standard deviation 2.
+          R = random("normal", 5, 2, [10, 20]);
+
+     The variable NAME can be one of the following strings
+
+     "beta"
+     "beta distribution"
+          Samples are drawn from the Beta distribution.
+     "bino"
+     "binomial"
+     "binomial distribution"
+          Samples are drawn from the Binomial distribution.
+     "chi2"
+     "chi-square"
+     "chi-square distribution"
+          Samples are drawn from the Chi-Square distribution.
+     "exp"
+     "exponential"
+     "exponential distribution"
+          Samples are drawn from the Exponential distribution.
+     "f"
+     "f distribution"
+          Samples are drawn from the F distribution.
+     "gam"
+     "gamma"
+     "gamma distribution"
+          Samples are drawn from the Gamma distribution.
+     "geo"
+     "geometric"
+     "geometric distribution"
+          Samples are drawn from the Geometric distribution.
+     "hyge"
+     "hypergeometric"
+     "hypergeometric distribution"
+          Samples are drawn from the Hypergeometric distribution.
+     "logn"
+     "lognormal"
+     "lognormal distribution"
+          Samples are drawn from the Log-Normal distribution.
+     "nbin"
+     "negative binomial"
+     "negative binomial distribution"
+          Samples are drawn from the Negative Binomial distribution.
+     "norm"
+     "normal"
+     "normal distribution"
+          Samples are drawn from the Normal distribution.
+     "poiss"
+     "poisson"
+     "poisson distribution"
+          Samples are drawn from the Poisson distribution.
+     "rayl"
+     "rayleigh"
+     "rayleigh distribution"
+          Samples are drawn from the Rayleigh distribution.
+     "t"
+     "t distribution"
+          Samples are drawn from the T distribution.
+     "unif"
+     "uniform"
+     "uniform distribution"
+          Samples are drawn from the Uniform distribution.
+     "unid"
+     "discrete uniform"
+     "discrete uniform distribution"
+          Samples are drawn from the Uniform Discrete distribution.
+     "wbl"
+     "weibull"
+     "weibull distribution"
+          Samples are drawn from the Weibull distribution.
+
+     See also: rand, betarnd, binornd, chi2rnd, exprnd, frnd, gamrnd,
+     geornd, hygernd, lognrnd, nbinrnd, normrnd, poissrnd, raylrnd,
+     trnd, unifrnd, unidrnd, wblrnd.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Generates pseudo-random numbers from a given one-, two-, or
+three-parameter d...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 10
+randsample
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 573
+ -- Function File: Y = randsample (V, K, REPLACEMENT=false [, W])
+     Elements sampled from a vector.
+
+     Returns K random elements from a vector V with N elements, sampled
+     without or with REPLACEMENT.
+
+     If V is a scalar, samples from 1:V.
+
+     If a weight vector W of the same size as V is specified, the
+     probablility of each element being sampled is proportional to W.
+     Unlike Matlab's function of the same name, this can be done for
+     sampling with or without replacement.
+
+     Randomization is performed using rand().
+
+     See also: randperm.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 31
+Elements sampled from a vector.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+raylcdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1119
+ -- Function File: P = raylcdf (X, SIGMA)
+     Compute the cumulative distribution function of the Rayleigh
+     distribution.
+
+     Arguments
+     ---------
+
+        * X is the support.  The elements of X must be non-negative.
+
+        * SIGMA is the parameter of the Rayleigh distribution.  The
+          elements of SIGMA must be positive.
+     X and SIGMA must be of common size or one of them must be scalar.
+
+     Return values
+     -------------
+
+        * P is the cumulative distribution of the Rayleigh distribution
+          at each element of X and corresponding parameter SIGMA.
+
+     Examples
+     --------
+
+          x = 0:0.5:2.5;
+          sigma = 1:6;
+          p = raylcdf (x, sigma)
+
+          p = raylcdf (x, 0.5)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  pages 104 and 148, McGraw-Hill, New
+          York, second edition, 1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 74
+Compute the cumulative distribution function of the Rayleigh
+distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+raylinv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1177
+ -- Function File: X = raylinv (P, SIGMA)
+     Compute the quantile of the Rayleigh distribution.  The quantile is
+     the inverse of the cumulative distribution function.
+
+     Arguments
+     ---------
+
+        * P is the cumulative distribution.  The elements of P must be
+          probabilities.
+
+        * SIGMA is the parameter of the Rayleigh distribution.  The
+          elements of SIGMA must be positive.
+     P and SIGMA must be of common size or one of them must be scalar.
+
+     Return values
+     -------------
+
+        * X is the quantile of the Rayleigh distribution at each element
+          of P and corresponding parameter SIGMA.
+
+     Examples
+     --------
+
+          p = 0:0.1:0.5;
+          sigma = 1:6;
+          x = raylinv (p, sigma)
+
+          x = raylinv (p, 0.5)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  pages 104 and 148, McGraw-Hill, New
+          York, second edition, 1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 50
+Compute the quantile of the Rayleigh distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+raylpdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1111
+ -- Function File: Y = raylpdf (X, SIGMA)
+     Compute the probability density function of the Rayleigh
+     distribution.
+
+     Arguments
+     ---------
+
+        * X is the support.  The elements of X must be non-negative.
+
+        * SIGMA is the parameter of the Rayleigh distribution.  The
+          elements of SIGMA must be positive.
+     X and SIGMA must be of common size or one of them must be scalar.
+
+     Return values
+     -------------
+
+        * Y is the probability density of the Rayleigh distribution at
+          each element of X and corresponding parameter SIGMA.
+
+     Examples
+     --------
+
+          x = 0:0.5:2.5;
+          sigma = 1:6;
+          y = raylpdf (x, sigma)
+
+          y = raylpdf (x, 0.5)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  pages 104 and 148, McGraw-Hill, New
+          York, second edition, 1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 70
+Compute the probability density function of the Rayleigh distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+raylrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1525
+ -- Function File: X = raylrnd (SIGMA)
+ -- Function File: X = raylrnd (SIGMA, SZ)
+ -- Function File: X = raylrnd (SIGMA, R, C)
+     Generate a matrix of random samples from the Rayleigh distribution.
+
+     Arguments
+     ---------
+
+        * SIGMA is the parameter of the Rayleigh distribution.  The
+          elements of SIGMA must be positive.
+
+        * SZ is the size of the matrix to be generated.  SZ must be a
+          vector of non-negative integers.
+
+        * R is the number of rows of the matrix to be generated.  R must
+          be a non-negative integer.
+
+        * C is the number of columns of the matrix to be generated.  C
+          must be a non-negative integer.
+
+     Return values
+     -------------
+
+        * X is a matrix of random samples from the Rayleigh distribution
+          with corresponding parameter SIGMA.  If neither SZ nor R and C
+          are specified, then X is of the same size as SIGMA.
+
+     Examples
+     --------
+
+          sigma = 1:6;
+          x = raylrnd (sigma)
+
+          sz = [2, 3];
+          x = raylrnd (0.5, sz)
+
+          r = 2;
+          c = 3;
+          x = raylrnd (0.5, r, c)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  pages 104 and 148, McGraw-Hill, New
+          York, second edition, 1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 67
+Generate a matrix of random samples from the Rayleigh distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+raylstat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 857
+ -- Function File: [M, V] = raylstat (SIGMA)
+     Compute mean and variance of the Rayleigh distribution.
+
+     Arguments
+     ---------
+
+        * SIGMA is the parameter of the Rayleigh distribution.  The
+          elements of SIGMA must be positive.
+
+     Return values
+     -------------
+
+        * M is the mean of the Rayleigh distribution.
+
+        * V is the variance of the Rayleigh distribution.
+
+     Example
+     -------
+
+          sigma = 1:6;
+          [m, v] = raylstat (sigma)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  McGraw-Hill, New York, second edition,
+          1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 55
+Compute mean and variance of the Rayleigh distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+regress
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1319
+ -- Function File: [B, BINT, R, RINT, STATS] = regress (Y, X, [ALPHA])
+     Multiple Linear Regression using Least Squares Fit of Y on X with
+     the model 'y = X * beta + e'.
+
+     Here,
+
+        * 'y' is a column vector of observed values
+        * 'X' is a matrix of regressors, with the first column filled
+          with the constant value 1
+        * 'beta' is a column vector of regression parameters
+        * 'e' is a column vector of random errors
+
+     Arguments are
+
+        * Y is the 'y' in the model
+        * X is the 'X' in the model
+        * ALPHA is the significance level used to calculate the
+          confidence intervals BINT and RINT (see 'Return values'
+          below).  If not specified, ALPHA defaults to 0.05
+
+     Return values are
+
+        * B is the 'beta' in the model
+        * BINT is the confidence interval for B
+        * R is a column vector of residuals
+        * RINT is the confidence interval for R
+        * STATS is a row vector containing:
+
+             * The R^2 statistic
+             * The F statistic
+             * The p value for the full model
+             * The estimated error variance
+
+     R and RINT can be passed to 'rcoplot' to visualize the residual
+     intervals and identify outliers.
+
+     NaN values in Y and X are removed before calculation begins.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Multiple Linear Regression using Least Squares Fit of Y on X with the
+model '...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 10
+regress_gp
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1125
+ -- Function File: [M, K] = regress_gp (X, Y, SP)
+ -- Function File: [... YI DY] = regress_gp (..., XI)
+     Linear scalar regression using gaussian processes.
+
+     It estimates the model Y = X'*m for X R^D and Y in R. The
+     information about errors of the predictions
+     (interpolation/extrapolation) is given by the covarianve matrix K.
+     If D==1 the inputs must be column vectors, if D>1 then X is n-by-D,
+     with n the number of data points.  SP defines the prior covariance
+     of M, it should be a (D+1)-by-(D+1) positive definite matrix, if it
+     is empty, the default is 'Sp = 100*eye(size(x,2)+1)'.
+
+     If XI inputs are provided, the model is evaluated and returned in
+     YI.  The estimation of the variation of YI are given in DY.
+
+     Run 'demo regress_gp' to see an examples.
+
+     The function is a direc implementation of the formulae in pages
+     11-12 of Gaussian Processes for Machine Learning.  Carl Edward
+     Rasmussen and  Christopher K. I. Williams.  The MIT Press, 2006.
+     ISBN 0-262-18253-X. available online at
+     <http://gaussianprocess.org/gpml/>.
+
+     See also: regress.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 50
+Linear scalar regression using gaussian processes.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+repanova
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 694
+ -- Function File: [PVAL, TABLE, ST] = repanova (X, COND)
+ -- Function File: [PVAL, TABLE, ST] = repanova (X, COND, ['string' |
+          'cell'])
+     Perform a repeated measures analysis of variance (Repeated ANOVA).
+     X is formated such that each row is a subject and each column is a
+     condition.
+
+     condition is typically a point in time, say t=1 then t=2, etc
+     condition can also be thought of as groups.
+
+     The optional flag can be either 'cell' or 'string' and reflects the
+     format of the table returned.  Cell is the default.
+
+     NaNs are ignored using nanmean and nanstd.
+
+     This fuction does not currently support multiple columns of the
+     same condition!
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 66
+Perform a repeated measures analysis of variance (Repeated ANOVA).
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+runstest
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1123
+ -- Function File: H, P, STATS = runstest (X, V)
+     Runs test for detecting serial correlation in the vector X.
+
+     Arguments
+     ---------
+
+        * X is the vector of given values.
+        * V is the value to subtract from X to get runs (defaults to
+          'median(x)')
+
+     Return values
+     -------------
+
+        * H is true if serial correlation is detected at the 95%
+          confidence level (two-tailed), false otherwise.
+        * P is the probablity of obtaining a test statistic of the
+          magnitude found under the null hypothesis of no serial
+          correlation.
+        * STATS is the structure containing as fields the number of runs
+          NRUNS; the numbers of positive and negative values of 'x - v',
+          N1 and N0; and the test statistic Z.
+
+     Note: the large-sample normal approximation is used to find H and
+     P.  This is accurate if N1, N0 are both greater than 10.
+
+     Reference: NIST Engineering Statistics Handbook, 1.3.5.13.  Runs
+     Test for Detecting Non-randomness,
+     http://www.itl.nist.gov/div898/handbook/eda/section3/eda35d.htm
+
+     See also: .
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 59
+Runs test for detecting serial correlation in the vector X.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 9
+sigma_pts
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1064
+ -- PTS = sigma_pts (N)
+ -- PTS =: sigma_pts (N, M)
+ -- PTS =: sigma_pts (N, M, K)
+ -- PTS =: sigma_pts (N, M, K, L)
+     Calculates 2*N+1 sigma points in N dimensions.
+
+     Sigma points are used in the unscented transfrom to estimate the
+     result of applying a given nonlinear transformation to a
+     probability distribution that is characterized only in terms of a
+     finite set of statistics.
+
+     If only the dimension N is given the resulting points have zero
+     mean and identity covariance matrix.  If the mean M or the
+     covaraince matrix K are given, then the resulting points will have
+     those statistics.  The factor L scaled the points away from the
+     mean.  It is useful to tune the accuracy of the unscented
+     transfrom.
+
+     There is no unique way of computing sigma points, this function
+     implements the algorithm described in section 2.6 "The New Filter"
+     pages 40-41 of
+
+     Uhlmann, Jeffrey (1995).  "Dynamic Map Building and Localization:
+     New Theoretical Foundations".  Ph.D. thesis.  University of Oxford.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 46
+Calculates 2*N+1 sigma points in N dimensions.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+signtest
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1584
+ -- Function File: [PVAL, H, STATS] = signtest (X)
+ -- Function File: [PVAL, H, STATS] = signtest (X, M)
+ -- Function File: [PVAL, H, STATS] = signtest (X, Y)
+ -- Function File: [PVAL, H, STATS] = signtest (X, Y, NAME, VALUE)
+     Test for median.
+
+     Perform a signtest of the null hypothesis that X is from a
+     distribution that has a zero median.
+
+     If the second argument M is a scalar, the null hypothesis is that X
+     has median m.
+
+     If the second argument Y is a vector, the null hypothesis is that
+     the distribution of 'X - Y' has zero median.
+
+     The argument "alpha" can be used to specify the significance level
+     of the test (the default value is 0.05).  The string argument
+     "tail", can be used to select the desired alternative hypotheses.
+     If "alt" is "both" (default) the null is tested against the
+     two-sided alternative 'median (X) != M'.  If "alt" is "right" the
+     one-sided alternative 'median (X) > M' is considered.  Similarly
+     for "left", the one-sided alternative 'median (X) < M' is
+     considered.  When "method" is "exact" the p-value is computed using
+     an exact method (this is the default).  When "method" is
+     "approximate" a normal approximation is used for the test
+     statistic.
+
+     The p-value of the test is returned in PVAL.  If H is 0 the null
+     hypothesis is accepted, if it is 1 the null hypothesis is rejected.
+     STATS is a structure containing the value of the test statistic
+     (SIGN) and the value of the z statistic (ZVAL) (only computed when
+     the 'method' is 'approximate'.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 16
+Test for median.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 10
+squareform
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1150
+ -- Function File: Z = squareform (Y)
+ -- Function File: Y = squareform (Z)
+ -- Function File: Z = squareform (Y, "tovector")
+ -- Function File: Y = squareform (Z, "tomatrix")
+     Interchange between distance matrix and distance vector formats.
+
+     Converts between an hollow (diagonal filled with zeros), square,
+     and symmetric matrix and a vector with of the lower triangular
+     part.
+
+     Its target application is the conversion of the vector returned by
+     'pdist' into a distance matrix.  It performs the opposite operation
+     if input is a matrix.
+
+     If X is a vector, its number of elements must fit into the
+     triangular part of a matrix (main diagonal excluded).  In other
+     words, 'numel (X) = N * (N - 1) / 2' for some integer N.  The
+     resulting matrix will be N by N.
+
+     If X is a distance matrix, it must be square and the diagonal
+     entries of X must all be zeros.  'squareform' will generate a
+     warning if X is not symmetric.
+
+     The second argument is used to specify the output type in case
+     there is a single element.  It will defaults to "tomatrix"
+     otherwise.
+
+     See also: pdist.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 64
+Interchange between distance matrix and distance vector formats.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 11
+stepwisefit
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1254
+ -- Function File: X_USE, B, BINT, R, RINT, STATS = stepwisefit (Y, X,
+          PENTER = 0.05, PREMOVE = 0.1)
+     Linear regression with stepwise variable selection.
+
+     Arguments
+     ---------
+
+        * Y is an N by 1 vector of data to fit.
+        * X is an N by K matrix containing the values of K potential
+          predictors.  No constant term should be included (one will
+          always be added to the regression automatically).
+        * PENTER is the maximum p-value to enter a new variable into the
+          regression (default: 0.05).
+        * PREMOVE is the minimum p-value to remove a variable from the
+          regression (default: 0.1).
+
+     Return values
+     -------------
+
+        * X_USE contains the indices of the predictors included in the
+          final regression model.  The predictors are listed in the
+          order they were added, so typically the first ones listed are
+          the most significant.
+        * B, BINT, R, RINT, STATS are the results of '[b, bint, r, rint,
+          stats] = regress(y, [ones(size(y)) X(:, X_use)], penter);'
+
+     References
+     ----------
+
+       1. N. R. Draper and H. Smith (1966).  'Applied Regression
+          Analysis'.  Wiley.  Chapter 6.
+
+     See also: regress.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 51
+Linear regression with stepwise variable selection.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+tabulate
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1885
+ -- Function File: TABLE = tabulate (DATA, EDGES)
+
+     Compute a frequency table.
+
+     For vector data, the function counts the number of values in data
+     that fall between the elements in the edges vector (which must
+     contain monotonically non-decreasing values).  TABLE is a matrix.
+     The first column of TABLE is the number of bin, the second is the
+     number of instances in each class (absolute frequency).  The third
+     column contains the percentage of each value (relative frequency)
+     and the fourth column contains the cumulative frequency.
+
+     If EDGES is missed the width of each class is unitary, if EDGES is
+     a scalar then represent the number of classes, or you can define
+     the width of each bin.  TABLE(K, 2) will count the value DATA (I)
+     if EDGES (K) <= DATA (I) < EDGES (K+1).  The last bin will count
+     the value of DATA (I) if EDGES(K) <= DATA (I) <= EDGES (K+1).
+     Values outside the values in EDGES are not counted.  Use -inf and
+     inf in EDGES to include all values.  Tabulate with no output
+     arguments returns a formatted table in the command window.
+
+     Example
+
+          sphere_radius = [1:0.05:2.5];
+          tabulate (sphere_radius)
+
+     Tabulate returns 2 bins, the first contains the sphere with radius
+     between 1 and 2 mm excluded, and the second one contains the sphere
+     with radius between 2 and 3 mm.
+
+          tabulate (sphere_radius, 10)
+
+     Tabulate returns ten bins.
+
+          tabulate (sphere_radius, [1, 1.5, 2, 2.5])
+
+     Tabulate returns three bins, the first contains the sphere with
+     radius between 1 and 1.5 mm excluded, the second one contains the
+     sphere with radius between 1.5 and 2 mm excluded, and the third
+     contains the sphere with radius between 2 and 2.5 mm.
+
+          bar (table (:, 1), table (:, 2))
+
+     draw histogram.
+
+     See also: bar, pareto.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 26
+Compute a frequency table.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+tblread
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 770
+ -- Function File: [DATA, VARNAMES, CASENAMES] = tblread (FILENAME)
+ -- Function File: [DATA, VARNAMES, CASENAMES] = tblread (FILENAME,
+          DELIMETER)
+     Read tabular data from an ascii file.
+
+     DATA is read from an ascii data file named FILENAME with an
+     optional DELIMETER.  The delimeter may be any single character or
+        * "space" " " (default)
+        * "tab" "\t"
+        * "comma" ","
+        * "semi" ";"
+        * "bar" "|"
+
+     The DATA is read starting at cell (2,2) where the VARNAMES form a
+     char matrix from the first row (starting at (1,2)) vertically
+     concatenated, and the CASENAMES form a char matrix read from the
+     first column (starting at (2,1)) vertically concatenated.
+
+     See also: tblwrite, csv2cell, cell2csv.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 37
+Read tabular data from an ascii file.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+tblwrite
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 757
+ -- Function File: tblwrite (DATA, VARNAMES, CASENAMES, FILENAME)
+ -- Function File: tblwrite (DATA, VARNAMES, CASENAMES, FILENAME,
+          DELIMETER)
+     Write tabular data to an ascii file.
+
+     DATA is written to an ascii data file named FILENAME with an
+     optional DELIMETER.  The delimeter may be any single character or
+        * "space" " " (default)
+        * "tab" "\t"
+        * "comma" ","
+        * "semi" ";"
+        * "bar" "|"
+
+     The DATA is written starting at cell (2,2) where the VARNAMES are a
+     char matrix or cell vector written to the first row (starting at
+     (1,2)), and the CASENAMES are a char matrix (or cell vector)
+     written to the first column (starting at (2,1)).
+
+     See also: tblread, csv2cell, cell2csv.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 36
+Write tabular data to an ascii file.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+tricdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 177
+ -- tricdf (X, A, B, C)
+     Compute the cumulative distribution function (CDF) at X of the
+     triangular distribution with parameters A, B, and C on the interval
+     [A, B].
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute the cumulative distribution function (CDF) at X of the
+triangular dis...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+triinv
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 195
+ -- triinv (X, A, B, C)
+     For each element of X, compute the quantile (the inverse of the
+     CDF) at X of the triangular distribution with parameters A, B, and
+     C on the interval [A, B].
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For each element of X, compute the quantile (the inverse of the CDF) at
+X of ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+trimmean
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 386
+ -- Function File: A = trimmean (X, P)
+
+     Compute the trimmed mean.
+
+     The trimmed mean of X is defined as the mean of X excluding the
+     highest and lowest P percent of the data.
+
+     For example
+
+          mean ([-inf, 1:9, inf])
+
+     is NaN, while
+
+          trimmean ([-inf, 1:9, inf], 10)
+
+     excludes the infinite values, which make the result 5.
+
+     See also: mean.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 25
+Compute the trimmed mean.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+tripdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 173
+ -- tripdf (X, A, B, C)
+     Compute the probability density function (PDF) at X of the
+     triangular distribution with parameters A, B, and C on the interval
+     [A, B].
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Compute the probability density function (PDF) at X of the triangular
+distrib...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+trirnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 701
+ -- trirnd (A, B, C)
+ -- trirnd (A, B, C, R)
+ -- trirnd (A, B, C, R, C, ...)
+ -- trirnd (A, B, C, [SZ])
+     Return a matrix of random samples from the rectangular distribution
+     with parameters A, B, and C on the interval [A, B].
+
+     When called with a single size argument, return a square matrix
+     with the dimension specified.  When called with more than one
+     scalar argument the first two arguments are taken as the number of
+     rows and columns and any further arguments specify additional
+     matrix dimensions.  The size may also be specified with a vector of
+     dimensions SZ.
+
+     If no size arguments are given then the result matrix is the common
+     size of A, B and C.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a matrix of random samples from the rectangular distribution with
+para...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+tstat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 840
+ -- Function File: [M, V] = tstat (N)
+     Compute mean and variance of the t (Student) distribution.
+
+     Arguments
+     ---------
+
+        * N is the parameter of the t (Student) distribution.  The
+          elements of N must be positive
+
+     Return values
+     -------------
+
+        * M is the mean of the t (Student) distribution
+
+        * V is the variance of the t (Student) distribution
+
+     Example
+     -------
+
+          n = 3:8;
+          [m, v] = tstat (n)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  McGraw-Hill, New York, second edition,
+          1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 58
+Compute mean and variance of the t (Student) distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+ttest
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1793
+ -- Function File: [H, PVAL, CI, STATS] = ttest (X)
+ -- Function File: [H, PVAL, CI, STATS] = ttest (X, M)
+ -- Function File: [H, PVAL, CI, STATS] = ttest (X, Y)
+ -- Function File: [H, PVAL, CI, STATS] = ttest (X, M, NAME, VALUE)
+ -- Function File: [H, PVAL, CI, STATS] = ttest (X, Y, NAME, VALUE)
+     Test for mean of a normal sample with unknown variance.
+
+     Perform a T-test of the null hypothesis 'mean (X) == M' for a
+     sample X from a normal distribution with unknown mean and unknown
+     std deviation.  Under the null, the test statistic T has a
+     Student's t distribution.  The default value of M is 0.
+
+     If the second argument Y is a vector, a paired-t test of the
+     hypothesis 'mean (X) = mean (Y)' is performed.
+
+     Name-Value pair arguments can be used to set various options.
+     "alpha" can be used to specify the significance level of the test
+     (the default value is 0.05).  "tail", can be used to select the
+     desired alternative hypotheses.  If the value is "both" (default)
+     the null is tested against the two-sided alternative 'mean (X) !=
+     M'.  If it is "right" the one-sided alternative 'mean (X) > M' is
+     considered.  Similarly for "left", the one-sided alternative 'mean
+     (X) < M' is considered.  When argument X is a matrix, "dim" can be
+     used to selection the dimension over which to perform the test.
+     (The default is the first non-singleton dimension).
+
+     If H is 0 the null hypothesis is accepted, if it is 1 the null
+     hypothesis is rejected.  The p-value of the test is returned in
+     PVAL.  A 100(1-alpha)% confidence interval is returned in CI.
+     STATS is a structure containing the value of the test statistic
+     (TSTAT), the degrees of freedom (DF) and the sample standard
+     deviation (SD).
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 55
+Test for mean of a normal sample with unknown variance.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+ttest2
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1738
+ -- Function File: [H, PVAL, CI, STATS] = ttest2 (X, Y)
+ -- Function File: [H, PVAL, CI, STATS] = ttest2 (X, Y, NAME, VALUE)
+     Test for mean of a normal sample with known variance.
+
+     Perform a T-test of the null hypothesis 'mean (X) == M' for a
+     sample X from a normal distribution with unknown mean and unknown
+     std deviation.  Under the null, the test statistic T has a
+     Student's t distribution.
+
+     If the second argument Y is a vector, a paired-t test of the
+     hypothesis 'mean (X) = mean (Y)' is performed.
+
+     The argument "alpha" can be used to specify the significance level
+     of the test (the default value is 0.05).  The string argument
+     "tail", can be used to select the desired alternative hypotheses.
+     If "alt" is "both" (default) the null is tested against the
+     two-sided alternative 'mean (X) != M'.  If "alt" is "right" the
+     one-sided alternative 'mean (X) > M' is considered.  Similarly for
+     "left", the one-sided alternative 'mean (X) < M' is considered.
+     When "vartype" is "equal" the variances are assumed to be equal
+     (this is the default).  When "vartype" is "unequal" the variances
+     are not assumed equal.  When argument X is a matrix the "dim"
+     argument can be used to selection the dimension over which to
+     perform the test.  (The default is the first non-singleton
+     dimension.)
+
+     If H is 0 the null hypothesis is accepted, if it is 1 the null
+     hypothesis is rejected.  The p-value of the test is returned in
+     PVAL.  A 100(1-alpha)% confidence interval is returned in CI.
+     STATS is a structure containing the value of the test statistic
+     (TSTAT), the degrees of freedom (DF) and the sample standard
+     deviation (SD).
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 53
+Test for mean of a normal sample with known variance.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+unidstat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 882
+ -- Function File: [M, V] = unidstat (N)
+     Compute mean and variance of the discrete uniform distribution.
+
+     Arguments
+     ---------
+
+        * N is the parameter of the discrete uniform distribution.  The
+          elements of N must be positive natural numbers
+
+     Return values
+     -------------
+
+        * M is the mean of the discrete uniform distribution
+
+        * V is the variance of the discrete uniform distribution
+
+     Example
+     -------
+
+          n = 1:6;
+          [m, v] = unidstat (n)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  McGraw-Hill, New York, second edition,
+          1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 63
+Compute mean and variance of the discrete uniform distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+unifstat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1093
+ -- Function File: [M, V] = unifstat (A, B)
+     Compute mean and variance of the continuous uniform distribution.
+
+     Arguments
+     ---------
+
+        * A is the first parameter of the continuous uniform
+          distribution
+
+        * B is the second parameter of the continuous uniform
+          distribution
+     A and B must be of common size or one of them must be scalar and A
+     must be less than B
+
+     Return values
+     -------------
+
+        * M is the mean of the continuous uniform distribution
+
+        * V is the variance of the continuous uniform distribution
+
+     Examples
+     --------
+
+          a = 1:6;
+          b = 2:2:12;
+          [m, v] = unifstat (a, b)
+
+          [m, v] = unifstat (a, 10)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  McGraw-Hill, New York, second edition,
+          1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 65
+Compute mean and variance of the continuous uniform distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+vartest
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1490
+ -- Function File: [H, PVAL, CI, STATS] = vartest (X, Y)
+ -- Function File: [H, PVAL, CI, STATS] = vartest (X, Y, NAME, VALUE)
+     Perform a F-test for equal variances.
+
+     If the second argument Y is a vector, a paired-t test of the
+     hypothesis 'mean (X) = mean (Y)' is performed.
+
+     The argument "alpha" can be used to specify the significance level
+     of the test (the default value is 0.05).  The string argument
+     "tail", can be used to select the desired alternative hypotheses.
+     If "alt" is "both" (default) the null is tested against the
+     two-sided alternative 'mean (X) != M'.  If "alt" is "right" the
+     one-sided alternative 'mean (X) > M' is considered.  Similarly for
+     "left", the one-sided alternative 'mean (X) < M' is considered.
+     When "vartype" is "equal" the variances are assumed to be equal
+     (this is the default).  When "vartype" is "unequal" the variances
+     are not assumed equal.  When argument X is a matrix the "dim"
+     argument can be used to selection the dimension over which to
+     perform the test.  (The default is the first non-singleton
+     dimension.)
+
+     If H is 0 the null hypothesis is accepted, if it is 1 the null
+     hypothesis is rejected.  The p-value of the test is returned in
+     PVAL.  A 100(1-alpha)% confidence interval is returned in CI.
+     STATS is a structure containing the value of the test statistic
+     (TSTAT), the degrees of freedom (DF) and the sample standard
+     deviation (SD).
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 37
+Perform a F-test for equal variances.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+vartest2
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1492
+ -- Function File: [H, PVAL, CI, STATS] = vartest2 (X, Y)
+ -- Function File: [H, PVAL, CI, STATS] = vartest2 (X, Y, NAME, VALUE)
+     Perform a F-test for equal variances.
+
+     If the second argument Y is a vector, a paired-t test of the
+     hypothesis 'mean (X) = mean (Y)' is performed.
+
+     The argument "alpha" can be used to specify the significance level
+     of the test (the default value is 0.05).  The string argument
+     "tail", can be used to select the desired alternative hypotheses.
+     If "alt" is "both" (default) the null is tested against the
+     two-sided alternative 'mean (X) != M'.  If "alt" is "right" the
+     one-sided alternative 'mean (X) > M' is considered.  Similarly for
+     "left", the one-sided alternative 'mean (X) < M' is considered.
+     When "vartype" is "equal" the variances are assumed to be equal
+     (this is the default).  When "vartype" is "unequal" the variances
+     are not assumed equal.  When argument X is a matrix the "dim"
+     argument can be used to selection the dimension over which to
+     perform the test.  (The default is the first non-singleton
+     dimension.)
+
+     If H is 0 the null hypothesis is accepted, if it is 1 the null
+     hypothesis is rejected.  The p-value of the test is returned in
+     PVAL.  A 100(1-alpha)% confidence interval is returned in CI.
+     STATS is a structure containing the value of the test statistic
+     (TSTAT), the degrees of freedom (DF) and the sample standard
+     deviation (SD).
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 37
+Perform a F-test for equal variances.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+violin
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 2627
+ -- Function: H = violin (X)
+ -- Function: H = violin (..., PROPERTY, VALUE, ...)
+ -- Function: H = violin (HAX, ...)
+ -- Function: H = violin (..., "horizontal")
+     Produce a Violin plot of the data X.
+
+     The input data X can be a N-by-m array containg N observations of m
+     variables.  It can also be a cell with m elements, for the case in
+     which the varibales are not uniformly sampled.
+
+     The following PROPERTY can be set using PROPERTY/VALUE pairs
+     (default values in parenthesis).  The value of the property can be
+     a scalar indicating that it applies to all the variables in the
+     data.  It can also be a cell/array, indicating the property for
+     each variable.  In this case it should have m columns (as many as
+     variables).
+
+     Color
+          ("y") Indicates the filling color of the violins.
+
+     Nbins
+          (50) Internally, the function calls 'hist' to compute the
+          histogram of the data.  This property indicates how many bins
+          to use.  See 'help hist' for more details.
+
+     SmoothFactor
+          (4) The fuction performs simple kernel density estimation and
+          automatically finds the bandwith of the kernel function that
+          best approximates the histogram using optimization ('sqp').
+          The result is in general very noisy.  To smooth the result the
+          bandwidth is multiplied by the value of this property.  The
+          higher the value the smoother the violings, but values too
+          high might remove features from the data distribution.
+
+     Bandwidth
+          (NA) If this property is given a value other than NA, it sets
+          the bandwith of the kernel function.  No optimization is
+          peformed and the property SmoothFactor is ignored.
+
+     Width
+          (0.5) Sets the maximum width of the violins.  Violins are
+          centered at integer axis values.  The distance between two
+          violin middle axis is 1.  Setting a value higher thna 1 in
+          this property will cause the violins to overlap.
+
+     If the string "Horizontal" is among the input arguments, the violin
+     plot is rendered along the x axis with the variables in the y axis.
+
+     The returned structure H has handles to the plot elements, allowing
+     customization of the visualization using set/get functions.
+
+     Example:
+
+          title ("Grade 3 heights");
+          axis ([0,3]);
+          set (gca, "xtick", 1:2, "xticklabel", {"girls"; "boys"});
+          h = violin ({randn(100,1)*5+140, randn(130,1)*8+135}, "Nbins", 10);
+          set (h.violin, "linewidth", 2)
+
+     See also: boxplot, hist.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 36
+Produce a Violin plot of the data X.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+vmpdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 318
+ -- Function File: THETA = vmpdf (X, MU, K)
+     Evaluates the Von Mises probability density function.
+
+     The Von Mises distribution has probability density function
+          f (X) = exp (K * cos (X - MU)) / Z ,
+     where Z is a normalisation constant.  By default, MU is 0 and K is
+     1.
+
+     See also: vmrnd.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 53
+Evaluates the Von Mises probability density function.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+vmrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 517
+ -- Function File: THETA = vmrnd (MU, K)
+ -- Function File: THETA = vmrnd (MU, K, SZ)
+     Draw random angles from a Von Mises distribution with mean MU and
+     concentration K.
+
+     The Von Mises distribution has probability density function
+          f (X) = exp (K * cos (X - MU)) / Z ,
+     where Z is a normalisation constant.
+
+     The output, THETA, is a matrix of size SZ containing random angles
+     drawn from the given Von Mises distribution.  By default, MU is 0
+     and K is 1.
+
+     See also: vmpdf.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Draw random angles from a Von Mises distribution with mean MU and
+concentrati...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+wblstat
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1096
+ -- Function File: [M, V] = wblstat (SCALE, SHAPE)
+     Compute mean and variance of the Weibull distribution.
+
+     Arguments
+     ---------
+
+        * SCALE is the scale parameter of the Weibull distribution.
+          SCALE must be positive
+
+        * SHAPE is the shape parameter of the Weibull distribution.
+          SHAPE must be positive
+     SCALE and SHAPE must be of common size or one of them must be
+     scalar
+
+     Return values
+     -------------
+
+        * M is the mean of the Weibull distribution
+
+        * V is the variance of the Weibull distribution
+
+     Examples
+     --------
+
+          scale = 3:8;
+          shape = 1:6;
+          [m, v] = wblstat (scale, shape)
+
+          [m, v] = wblstat (6, shape)
+
+     References
+     ----------
+
+       1. Wendy L. Martinez and Angel R. Martinez.  'Computational
+          Statistics Handbook with MATLAB'. Appendix E, pages 547-557,
+          Chapman & Hall/CRC, 2001.
+
+       2. Athanasios Papoulis.  'Probability, Random Variables, and
+          Stochastic Processes'.  McGraw-Hill, New York, second edition,
+          1984.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 54
+Compute mean and variance of the Weibull distribution.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+wishpdf
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 644
+ -- Function File: Y = wishpdf (W, SIGMA, DF, LOG_Y=false)
+     Compute the probability density function of the Wishart
+     distribution
+
+     Inputs: A P x P matrix W where to find the PDF. The P x P positive
+     definite matrix SIGMA and scalar degrees of freedom parameter DF
+     characterizing the Wishart distribution.  (For the density to be
+     finite, need DF > (P - 1).)  If the flag LOG_Y is set, return the
+     log probability density - this helps avoid underflow when the
+     numerical value of the density is very small
+
+     Output: Y is the probability density of Wishart(SIGMA, DF) at W.
+
+     See also: wishrnd, iwishpdf.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 68
+Compute the probability density function of the Wishart distribution
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 7
+wishrnd
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1026
+ -- Function File: [W[, D]] = wishrnd (SIGMA, DF[, D][, N=1])
+     Return a random matrix sampled from the Wishart distribution with
+     given parameters
+
+     Inputs: the P x P positive definite matrix SIGMA (or the
+     lower-triangular Cholesky factor D of SIGMA) and scalar degrees of
+     freedom parameter DF.  DF can be non-integer as long as DF > P
+
+     Output: a random P x P matrix W from the Wishart(SIGMA, DF)
+     distribution.  If N > 1, then W is P x P x N and holds N such
+     random matrices.  (Optionally, the lower-triangular Cholesky factor
+     D of SIGMA is also returned.)
+
+     Averaged across many samples, the mean of W should approach
+     DF*SIGMA, and the variance of each element W_ij should approach
+     DF*(SIGMA_ij^2 + SIGMA_ii*SIGMA_jj)
+
+     Reference: Yu-Cheng Ku and Peter Bloomfield (2010), Generating
+     Random Wishart Matrices with Fractional Degrees of Freedom in OX,
+     http://www.gwu.edu/~forcpgm/YuChengKu-030510final-WishartYu-ChengKu.pdf
+
+     See also: iwishrnd, wishpdf.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Return a random matrix sampled from the Wishart distribution with given
+param...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+ztest
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1429
+ -- Function File: [H, PVAL, CI, Z, ZCRIT] = ztest (X, M, S)
+ -- Function File: [H, PVAL, CI, Z, ZCRIT] = ztest (X, M, S, NAME,
+          VALUE)
+     Test for mean of a normal sample with known variance.
+
+     Perform a Z-test of the null hypothesis 'mean (X) == M' for a
+     sample X from a normal distribution with unknown mean and known std
+     deviation S.  Under the null, the test statistic Z follows a
+     standard normal distribution.
+
+     Name-Value pair arguments can be used to set various options.
+     "alpha" can be used to specify the significance level of the test
+     (the default value is 0.05).  "tail", can be used to select the
+     desired alternative hypotheses.  If the value is "both" (default)
+     the null is tested against the two-sided alternative 'mean (X) !=
+     M'.  If it is "right" the one-sided alternative 'mean (X) > M' is
+     considered.  Similarly for "left", the one-sided alternative 'mean
+     (X) < M' is considered.  When argument X is a matrix, "dim" can be
+     used to selection the dimension over which to perform the test.
+     (The default is the first non-singleton dimension.)
+
+     If H is 0 the null hypothesis is accepted, if it is 1 the null
+     hypothesis is rejected.  The p-value of the test is returned in
+     PVAL.  A 100(1-alpha)% confidence interval is returned in CI.  The
+     test statistic value is returned in Z and the z critical value in
+     ZCRIT.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 53
+Test for mean of a normal sample with known variance.
+
+
+
+
+

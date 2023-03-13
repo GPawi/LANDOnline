@@ -1,0 +1,1029 @@
+# doc-cache created by Octave 6.4.0
+# name: cache
+# type: cell
+# rows: 3
+# columns: 25
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 5
+anova
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1011
+ -- [PVAL, F, DF_B, DF_W] = anova (Y, G)
+     Perform a one-way analysis of variance (ANOVA).
+
+     The goal is to test whether the population means of data taken from
+     K different groups are all equal.
+
+     Data may be given in a single vector Y with groups specified by a
+     corresponding vector of group labels G (e.g., numbers from 1 to K).
+     This is the general form which does not impose any restriction on
+     the number of data in each group or the group labels.
+
+     If Y is a matrix and G is omitted, each column of Y is treated as a
+     group.  This form is only appropriate for balanced ANOVA in which
+     the numbers of samples from each group are all equal.
+
+     Under the null of constant means, the statistic F follows an F
+     distribution with DF_B and DF_W degrees of freedom.
+
+     The p-value (1 minus the CDF of this distribution at F) is returned
+     in PVAL.
+
+     If no output argument is given, the standard one-way ANOVA table is
+     printed.
+
+     See also: manova.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 47
+Perform a one-way analysis of variance (ANOVA).
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 13
+bartlett_test
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 472
+ -- [PVAL, CHISQ, DF] = bartlett_test (X1, ...)
+     Perform a Bartlett test for the homogeneity of variances in the
+     data vectors X1, X2, ..., XK, where K > 1.
+
+     Under the null of equal variances, the test statistic CHISQ
+     approximately follows a chi-square distribution with DF degrees of
+     freedom.
+
+     The p-value (1 minus the CDF of this distribution at CHISQ) is
+     returned in PVAL.
+
+     If no output argument is given, the p-value is displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Perform a Bartlett test for the homogeneity of variances in the data
+vectors ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 26
+chisquare_test_homogeneity
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 592
+ -- [PVAL, CHISQ, DF] = chisquare_test_homogeneity (X, Y, C)
+     Given two samples X and Y, perform a chisquare test for homogeneity
+     of the null hypothesis that X and Y come from the same
+     distribution, based on the partition induced by the (strictly
+     increasing) entries of C.
+
+     For large samples, the test statistic CHISQ approximately follows a
+     chisquare distribution with DF = 'length (C)' degrees of freedom.
+
+     The p-value (1 minus the CDF of this distribution at CHISQ) is
+     returned in PVAL.
+
+     If no output argument is given, the p-value is displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Given two samples X and Y, perform a chisquare test for homogeneity of
+the nu...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 27
+chisquare_test_independence
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 442
+ -- [PVAL, CHISQ, DF] = chisquare_test_independence (X)
+     Perform a chi-square test for independence based on the contingency
+     table X.
+
+     Under the null hypothesis of independence, CHISQ approximately has
+     a chi-square distribution with DF degrees of freedom.
+
+     The p-value (1 minus the CDF of this distribution at chisq) of the
+     test is returned in PVAL.
+
+     If no output argument is given, the p-value is displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 76
+Perform a chi-square test for independence based on the contingency
+table X.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+cor_test
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1364
+ -- cor_test (X, Y, ALT, METHOD)
+     Test whether two samples X and Y come from uncorrelated
+     populations.
+
+     The optional argument string ALT describes the alternative
+     hypothesis, and can be "!=" or "<>" (nonzero), ">" (greater than
+     0), or "<" (less than 0).  The default is the two-sided case.
+
+     The optional argument string METHOD specifies which correlation
+     coefficient to use for testing.  If METHOD is "pearson" (default),
+     the (usual) Pearson's product moment correlation coefficient is
+     used.  In this case, the data should come from a bivariate normal
+     distribution.  Otherwise, the other two methods offer nonparametric
+     alternatives.  If METHOD is "kendall", then Kendall's rank
+     correlation tau is used.  If METHOD is "spearman", then Spearman's
+     rank correlation rho is used.  Only the first character is
+     necessary.
+
+     The output is a structure with the following elements:
+
+     PVAL
+          The p-value of the test.
+
+     STAT
+          The value of the test statistic.
+
+     DIST
+          The distribution of the test statistic.
+
+     PARAMS
+          The parameters of the null distribution of the test statistic.
+
+     ALTERNATIVE
+          The alternative hypothesis.
+
+     METHOD
+          The method used for testing.
+
+     If no output argument is given, the p-value is displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 68
+Test whether two samples X and Y come from uncorrelated populations.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 17
+f_test_regression
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 487
+ -- [PVAL, F, DF_NUM, DF_DEN] = f_test_regression (Y, X, RR, R)
+     Perform an F test for the null hypothesis rr * b = r in a classical
+     normal regression model y = X * b + e.
+
+     Under the null, the test statistic F follows an F distribution with
+     DF_NUM and DF_DEN degrees of freedom.
+
+     The p-value (1 minus the CDF of this distribution at F) is returned
+     in PVAL.
+
+     If not given explicitly, R = 0.
+
+     If no output argument is given, the p-value is displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Perform an F test for the null hypothesis rr * b = r in a classical
+normal re...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 14
+hotelling_test
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 551
+ -- [PVAL, TSQ] = hotelling_test (X, M)
+     For a sample X from a multivariate normal distribution with unknown
+     mean and covariance matrix, test the null hypothesis that 'mean (X)
+     == M'.
+
+     Hotelling's T^2 is returned in TSQ.  Under the null, (n-p) T^2 /
+     (p(n-1)) has an F distribution with p and n-p degrees of freedom,
+     where n and p are the numbers of samples and variables,
+     respectively.
+
+     The p-value of the test is returned in PVAL.
+
+     If no output argument is given, the p-value of the test is
+     displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For a sample X from a multivariate normal distribution with unknown mean
+and ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 16
+hotelling_test_2
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 667
+ -- [PVAL, TSQ] = hotelling_test_2 (X, Y)
+     For two samples X from multivariate normal distributions with the
+     same number of variables (columns), unknown means and unknown equal
+     covariance matrices, test the null hypothesis 'mean (X) == mean
+     (Y)'.
+
+     Hotelling's two-sample T^2 is returned in TSQ.  Under the null,
+
+          (n_x+n_y-p-1) T^2 / (p(n_x+n_y-2))
+
+     has an F distribution with p and n_x+n_y-p-1 degrees of freedom,
+     where n_x and n_y are the sample sizes and p is the number of
+     variables.
+
+     The p-value of the test is returned in PVAL.
+
+     If no output argument is given, the p-value of the test is
+     displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For two samples X from multivariate normal distributions with the same
+number...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 23
+kolmogorov_smirnov_test
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1323
+ -- [PVAL, KS] = kolmogorov_smirnov_test (X, DIST, PARAMS, ALT)
+     Perform a Kolmogorov-Smirnov test of the null hypothesis that the
+     sample X comes from the (continuous) distribution DIST.
+
+     if F and G are the CDFs corresponding to the sample and dist,
+     respectively, then the null is that F == G.
+
+     The optional argument PARAMS contains a list of parameters of DIST.
+     For example, to test whether a sample X comes from a uniform
+     distribution on [2,4], use
+
+          kolmogorov_smirnov_test (x, "unif", 2, 4)
+
+     DIST can be any string for which a function DISTCDF that calculates
+     the CDF of distribution DIST exists.
+
+     With the optional argument string ALT, the alternative of interest
+     can be selected.  If ALT is "!=" or "<>", the null is tested
+     against the two-sided alternative F != G.  In this case, the test
+     statistic KS follows a two-sided Kolmogorov-Smirnov distribution.
+     If ALT is ">", the one-sided alternative F > G is considered.
+     Similarly for "<", the one-sided alternative F > G is considered.
+     In this case, the test statistic KS has a one-sided
+     Kolmogorov-Smirnov distribution.  The default is the two-sided
+     case.
+
+     The p-value of the test is returned in PVAL.
+
+     If no output argument is given, the p-value is displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Perform a Kolmogorov-Smirnov test of the null hypothesis that the sample
+X co...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 25
+kolmogorov_smirnov_test_2
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1145
+ -- [PVAL, KS, D] = kolmogorov_smirnov_test_2 (X, Y, ALT)
+     Perform a 2-sample Kolmogorov-Smirnov test of the null hypothesis
+     that the samples X and Y come from the same (continuous)
+     distribution.
+
+     If F and G are the CDFs corresponding to the X and Y samples,
+     respectively, then the null is that F == G.
+
+     With the optional argument string ALT, the alternative of interest
+     can be selected.  If ALT is "!=" or "<>", the null is tested
+     against the two-sided alternative F != G.  In this case, the test
+     statistic KS follows a two-sided Kolmogorov-Smirnov distribution.
+     If ALT is ">", the one-sided alternative F > G is considered.
+     Similarly for "<", the one-sided alternative F < G is considered.
+     In this case, the test statistic KS has a one-sided
+     Kolmogorov-Smirnov distribution.  The default is the two-sided
+     case.
+
+     The p-value of the test is returned in PVAL.
+
+     The third returned value, D, is the test statistic, the maximum
+     vertical distance between the two cumulative distribution
+     functions.
+
+     If no output argument is given, the p-value is displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Perform a 2-sample Kolmogorov-Smirnov test of the null hypothesis that
+the sa...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 19
+kruskal_wallis_test
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 1114
+ -- [PVAL, K, DF] = kruskal_wallis_test (X1, ...)
+     Perform a Kruskal-Wallis one-factor analysis of variance.
+
+     Suppose a variable is observed for K > 1 different groups, and let
+     X1, ..., XK be the corresponding data vectors.
+
+     Under the null hypothesis that the ranks in the pooled sample are
+     not affected by the group memberships, the test statistic K is
+     approximately chi-square with DF = K - 1 degrees of freedom.
+
+     If the data contains ties (some value appears more than once) K is
+     divided by
+
+     1 - SUM_TIES / (N^3 - N)
+
+     where SUM_TIES is the sum of T^2 - T over each group of ties where
+     T is the number of ties in the group and N is the total number of
+     values in the input data.  For more info on this adjustment see
+     William H. Kruskal and W. Allen Wallis, 'Use of Ranks in
+     One-Criterion Variance Analysis', Journal of the American
+     Statistical Association, Vol.  47, No.  260 (Dec 1952).
+
+     The p-value (1 minus the CDF of this distribution at K) is returned
+     in PVAL.
+
+     If no output argument is given, the p-value is displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 57
+Perform a Kruskal-Wallis one-factor analysis of variance.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+manova
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 652
+ -- manova (X, G)
+     Perform a one-way multivariate analysis of variance (MANOVA).
+
+     The goal is to test whether the p-dimensional population means of
+     data taken from K different groups are all equal.  All data are
+     assumed drawn independently from p-dimensional normal distributions
+     with the same covariance matrix.
+
+     The data matrix is given by X.  As usual, rows are observations and
+     columns are variables.  The vector G specifies the corresponding
+     group labels (e.g., numbers from 1 to K).
+
+     The LR test statistic (Wilks' Lambda) and approximate p-values are
+     computed and displayed.
+
+     See also: anova.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 61
+Perform a one-way multivariate analysis of variance (MANOVA).
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 12
+mcnemar_test
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 535
+ -- [PVAL, CHISQ, DF] = mcnemar_test (X)
+     For a square contingency table X of data cross-classified on the
+     row and column variables, McNemar's test can be used for testing
+     the null hypothesis of symmetry of the classification
+     probabilities.
+
+     Under the null, CHISQ is approximately distributed as chisquare
+     with DF degrees of freedom.
+
+     The p-value (1 minus the CDF of this distribution at CHISQ) is
+     returned in PVAL.
+
+     If no output argument is given, the p-value of the test is
+     displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For a square contingency table X of data cross-classified on the row and
+colu...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 11
+prop_test_2
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 843
+ -- [PVAL, Z] = prop_test_2 (X1, N1, X2, N2, ALT)
+     If X1 and N1 are the counts of successes and trials in one sample,
+     and X2 and N2 those in a second one, test the null hypothesis that
+     the success probabilities P1 and P2 are the same.
+
+     Under the null, the test statistic Z approximately follows a
+     standard normal distribution.
+
+     With the optional argument string ALT, the alternative of interest
+     can be selected.  If ALT is "!=" or "<>", the null is tested
+     against the two-sided alternative P1 != P2.  If ALT is ">", the
+     one-sided alternative P1 > P2 is used.  Similarly for "<", the
+     one-sided alternative P1 < P2 is used.  The default is the
+     two-sided case.
+
+     The p-value of the test is returned in PVAL.
+
+     If no output argument is given, the p-value of the test is
+     displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+If X1 and N1 are the counts of successes and trials in one sample, and
+X2 and...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+run_test
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 336
+ -- [PVAL, CHISQ] = run_test (X)
+     Perform a chi-square test with 6 degrees of freedom based on the
+     upward runs in the columns of X.
+
+     'run_test' can be used to decide whether X contains independent
+     data.
+
+     The p-value of the test is returned in PVAL.
+
+     If no output argument is given, the p-value is displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Perform a chi-square test with 6 degrees of freedom based on the upward
+runs ...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 9
+sign_test
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 928
+ -- [PVAL, B, N] = sign_test (X, Y, ALT)
+     For two matched-pair samples X and Y, perform a sign test of the
+     null hypothesis PROB (X > Y) == PROB (X < Y) == 1/2.
+
+     Under the null, the test statistic B roughly follows a binomial
+     distribution with parameters 'N = sum (X != Y)' and P = 1/2.
+
+     With the optional argument 'alt', the alternative of interest can
+     be selected.  If ALT is "!=" or "<>", the null hypothesis is tested
+     against the two-sided alternative PROB (X < Y) != 1/2.  If ALT is
+     ">", the one-sided alternative PROB (X > Y) > 1/2 ("x is
+     stochastically greater than y") is considered.  Similarly for "<",
+     the one-sided alternative PROB (X > Y) < 1/2 ("x is stochastically
+     less than y") is considered.  The default is the two-sided case.
+
+     The p-value of the test is returned in PVAL.
+
+     If no output argument is given, the p-value of the test is
+     displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For two matched-pair samples X and Y, perform a sign test of the null
+hypothe...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+t_test
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 830
+ -- [PVAL, T, DF] = t_test (X, M, ALT)
+     For a sample X from a normal distribution with unknown mean and
+     variance, perform a t-test of the null hypothesis 'mean (X) == M'.
+
+     Under the null, the test statistic T follows a Student distribution
+     with 'DF = length (X) - 1' degrees of freedom.
+
+     With the optional argument string ALT, the alternative of interest
+     can be selected.  If ALT is "!=" or "<>", the null is tested
+     against the two-sided alternative 'mean (X) != M'.  If ALT is ">",
+     the one-sided alternative 'mean (X) > M' is considered.  Similarly
+     for "<", the one-sided alternative 'mean (X) < M' is considered.
+     The default is the two-sided case.
+
+     The p-value of the test is returned in PVAL.
+
+     If no output argument is given, the p-value of the test is
+     displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For a sample X from a normal distribution with unknown mean and
+variance, per...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+t_test_2
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 861
+ -- [PVAL, T, DF] = t_test_2 (X, Y, ALT)
+     For two samples x and y from normal distributions with unknown
+     means and unknown equal variances, perform a two-sample t-test of
+     the null hypothesis of equal means.
+
+     Under the null, the test statistic T follows a Student distribution
+     with DF degrees of freedom.
+
+     With the optional argument string ALT, the alternative of interest
+     can be selected.  If ALT is "!=" or "<>", the null is tested
+     against the two-sided alternative 'mean (X) != mean (Y)'.  If ALT
+     is ">", the one-sided alternative 'mean (X) > mean (Y)' is used.
+     Similarly for "<", the one-sided alternative 'mean (X) < mean (Y)'
+     is used.  The default is the two-sided case.
+
+     The p-value of the test is returned in PVAL.
+
+     If no output argument is given, the p-value of the test is
+     displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For two samples x and y from normal distributions with unknown means and
+unkn...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 17
+t_test_regression
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 833
+ -- [PVAL, T, DF] = t_test_regression (Y, X, RR, R, ALT)
+     Perform a t test for the null hypothesis 'RR * B = R' in a
+     classical normal regression model 'Y = X * B + E'.
+
+     Under the null, the test statistic T follows a T distribution with
+     DF degrees of freedom.
+
+     If R is omitted, a value of 0 is assumed.
+
+     With the optional argument string ALT, the alternative of interest
+     can be selected.  If ALT is "!=" or "<>", the null is tested
+     against the two-sided alternative 'RR * B != R'.  If ALT is ">",
+     the one-sided alternative 'RR * B > R' is used.  Similarly for "<",
+     the one-sided alternative 'RR * B < R' is used.  The default is the
+     two-sided case.
+
+     The p-value of the test is returned in PVAL.
+
+     If no output argument is given, the p-value of the test is
+     displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Perform a t test for the null hypothesis 'RR * B = R' in a classical
+normal r...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+u_test
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 869
+ -- [PVAL, Z] = u_test (X, Y, ALT)
+     For two samples X and Y, perform a Mann-Whitney U-test of the null
+     hypothesis PROB (X > Y) == 1/2 == PROB (X < Y).
+
+     Under the null, the test statistic Z approximately follows a
+     standard normal distribution.  Note that this test is equivalent to
+     the Wilcoxon rank-sum test.
+
+     With the optional argument string ALT, the alternative of interest
+     can be selected.  If ALT is "!=" or "<>", the null is tested
+     against the two-sided alternative PROB (X > Y) != 1/2.  If ALT is
+     ">", the one-sided alternative PROB (X > Y) > 1/2 is considered.
+     Similarly for "<", the one-sided alternative PROB (X > Y) < 1/2 is
+     considered.  The default is the two-sided case.
+
+     The p-value of the test is returned in PVAL.
+
+     If no output argument is given, the p-value of the test is
+     displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For two samples X and Y, perform a Mann-Whitney U-test of the null
+hypothesis...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+var_test
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 865
+ -- [PVAL, F, DF_NUM, DF_DEN] = var_test (X, Y, ALT)
+     For two samples X and Y from normal distributions with unknown
+     means and unknown variances, perform an F-test of the null
+     hypothesis of equal variances.
+
+     Under the null, the test statistic F follows an F-distribution with
+     DF_NUM and DF_DEN degrees of freedom.
+
+     With the optional argument string ALT, the alternative of interest
+     can be selected.  If ALT is "!=" or "<>", the null is tested
+     against the two-sided alternative 'var (X) != var (Y)'.  If ALT is
+     ">", the one-sided alternative 'var (X) > var (Y)' is used.
+     Similarly for "<", the one-sided alternative 'var (X) > var (Y)' is
+     used.  The default is the two-sided case.
+
+     The p-value of the test is returned in PVAL.
+
+     If no output argument is given, the p-value of the test is
+     displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For two samples X and Y from normal distributions with unknown means and
+unkn...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 10
+welch_test
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 876
+ -- [PVAL, T, DF] = welch_test (X, Y, ALT)
+     For two samples X and Y from normal distributions with unknown
+     means and unknown and not necessarily equal variances, perform a
+     Welch test of the null hypothesis of equal means.
+
+     Under the null, the test statistic T approximately follows a
+     Student distribution with DF degrees of freedom.
+
+     With the optional argument string ALT, the alternative of interest
+     can be selected.  If ALT is "!=" or "<>", the null is tested
+     against the two-sided alternative 'mean (X) != M'.  If ALT is ">",
+     the one-sided alternative mean(x) > M is considered.  Similarly for
+     "<", the one-sided alternative mean(x) < M is considered.  The
+     default is the two-sided case.
+
+     The p-value of the test is returned in PVAL.
+
+     If no output argument is given, the p-value of the test is
+     displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For two samples X and Y from normal distributions with unknown means and
+unkn...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 13
+wilcoxon_test
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 932
+ -- [PVAL, Z] = wilcoxon_test (X, Y, ALT)
+     For two matched-pair sample vectors X and Y, perform a Wilcoxon
+     signed-rank test of the null hypothesis PROB (X > Y) == 1/2.
+
+     Under the null, the test statistic Z approximately follows a
+     standard normal distribution when N > 25.
+
+     *Caution:* This function assumes a normal distribution for Z and
+     thus is invalid for N <= 25.
+
+     With the optional argument string ALT, the alternative of interest
+     can be selected.  If ALT is "!=" or "<>", the null is tested
+     against the two-sided alternative PROB (X > Y) != 1/2.  If alt is
+     ">", the one-sided alternative PROB (X > Y) > 1/2 is considered.
+     Similarly for "<", the one-sided alternative PROB (X > Y) < 1/2 is
+     considered.  The default is the two-sided case.
+
+     The p-value of the test is returned in PVAL.
+
+     If no output argument is given, the p-value of the test is
+     displayed.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For two matched-pair sample vectors X and Y, perform a Wilcoxon
+signed-rank t...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+z_test
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 831
+ -- [PVAL, Z] = z_test (X, M, V, ALT)
+     Perform a Z-test of the null hypothesis 'mean (X) == M' for a
+     sample X from a normal distribution with unknown mean and known
+     variance V.
+
+     Under the null, the test statistic Z follows a standard normal
+     distribution.
+
+     With the optional argument string ALT, the alternative of interest
+     can be selected.  If ALT is "!=" or "<>", the null is tested
+     against the two-sided alternative 'mean (X) != M'.  If ALT is ">",
+     the one-sided alternative 'mean (X) > M' is considered.  Similarly
+     for "<", the one-sided alternative 'mean (X) < M' is considered.
+     The default is the two-sided case.
+
+     The p-value of the test is returned in PVAL.
+
+     If no output argument is given, the p-value of the test is
+     displayed along with some information.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+Perform a Z-test of the null hypothesis 'mean (X) == M' for a sample X
+from a...
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+z_test_2
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 864
+ -- [PVAL, Z] = z_test_2 (X, Y, V_X, V_Y, ALT)
+     For two samples X and Y from normal distributions with unknown
+     means and known variances V_X and V_Y, perform a Z-test of the
+     hypothesis of equal means.
+
+     Under the null, the test statistic Z follows a standard normal
+     distribution.
+
+     With the optional argument string ALT, the alternative of interest
+     can be selected.  If ALT is "!=" or "<>", the null is tested
+     against the two-sided alternative 'mean (X) != mean (Y)'.  If alt
+     is ">", the one-sided alternative 'mean (X) > mean (Y)' is used.
+     Similarly for "<", the one-sided alternative 'mean (X) < mean (Y)'
+     is used.  The default is the two-sided case.
+
+     The p-value of the test is returned in PVAL.
+
+     If no output argument is given, the p-value of the test is
+     displayed along with some information.
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 80
+For two samples X and Y from normal distributions with unknown means and
+know...
+
+
+
+
+
