@@ -8,6 +8,7 @@ libjpeg-dev
 # according to plasmabio/template-octave
 libglu1
 libtbb2
+liboctave-dev
 # for rstan accoding to their wiki
 r-base
 r-base-dev
@@ -15,3 +16,10 @@ libcurl4-openssl-dev
 htop
 # according to rocker-binder
 libgsl0-dev
+# check if octave forge packages are installed
+octave-pkg-dev
+octave-io
+octave-statistics
+octave-dataframe
+octave-struct
+octave-parallel
