@@ -1,6 +1,7 @@
 name: LANDO
 channels:
   - conda-forge
+  - HCC
 dependencies:
   - cmake
   - gdal

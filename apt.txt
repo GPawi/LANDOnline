@@ -8,7 +8,6 @@ libjpeg-dev
 # according to plasmabio/template-octave
 libglu1
 libtbb2
-liboctave-dev
 # for rstan accoding to their wiki
 r-base
 r-base-dev
