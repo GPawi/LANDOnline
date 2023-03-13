@@ -1,7 +1,6 @@
 name: LANDO
 channels:
   - conda-forge
-  - HCC
 dependencies:
   - cmake
   - gdal
@@ -54,9 +53,6 @@ dependencies:
   - r-raster
   - r-rstan
   - r-usethis
-  - octave-io
-  - octave-struct
-  - octave-statistics
   - pip:
       - sos==0.24.0
       - sos-python==0.20.0
