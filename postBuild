@@ -1,4 +1,5 @@
 python -m sos_notebook.install
 which octave
-octave --no-gui
+octave
+pkg list
 #Rscript install.R
