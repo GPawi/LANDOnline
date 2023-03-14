@@ -1,5 +1,6 @@
 function [] = run_Undatable(CoreID_array,xfactor,bootpc)
-%Test for Undatable in Octave
+%Rebuild library
+pkg rebuild
 %Load packages
 pkg load statistics
 pkg load dataframe
